@@ -336,8 +336,6 @@ namespace FFEditor
 
 			EditorUtility.SetDirty( gameSettings );
 			AssetDatabase.SaveAssets();
-
-            Debug.Log( "Game Settings max level count: " + gameSettings.maxLevelCount );
 		}
     }
 }
