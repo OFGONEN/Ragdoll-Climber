@@ -32,7 +32,7 @@ public class Test_RectangularPlatform : PlatformBase
 		}
 
 		/* Shuffle indices array. */
-		var rand = new System.Random();
+		var rand = new System.Random( gameObject.GetInstanceID() );
 		resetSlotIndicesByID = resetSlotIndicesByID.OrderBy( item => rand.Next() ).ToArray();
 	}
 #endregion
