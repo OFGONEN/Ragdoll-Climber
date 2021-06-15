@@ -15,11 +15,17 @@ namespace FFStudio
 
 		[ ShowNonSerializedField ] public const int actorCount = 4;
         
-        [ Foldout( "Platform Settings" ), Range( 1, 100 ), Label( "Rand. point inside: % Margin" ) ]
+        [ Foldout( "Rectangular Platform Settings" ), Range( 1, 100 ), Label( "Rand. point inside: % Margin" ) ]
 		public int randomPointInside_MarginPercentage = 15;
-        [ Foldout( "Platform Settings" ), Range( 1, 100 ), Label( "Rand. point outside: % Max Offset" ) ]
+        [ Foldout( "Rectangular Platform Settings" ), Range( 1, 100 ), Label( "Rand. point outside: % Max Offset" ) ]
 		public int randomPointOutside_MaxOffsetPercentage = 45;
-		
+        
+        [ Foldout( "Circular Platform Settings" ), MinMaxSlider( 1, 100 ), Label( "Rand. point inside is between (% Radius)" ) ]
+		public Vector2 randomPointInside_betweenRadii = new Vector2( 10, 90 );
+		public float RandomPointInside_Radius => Random.Range( randomPointInside_betweenRadii.x / 100.0f, randomPointInside_betweenRadii.y / 100.0f );
+		[ Foldout( "Circular Platform Settings" ), MinMaxSlider( 100, 300 ), Label( "Rand. point outside is between (% Radius)" ) ]
+		public Vector2 randomPointOutside_betweenRadii = new Vector2( 100, 150 );
+		public float RandomPointOutside_Radius => Random.Range( randomPointOutside_betweenRadii.x / 100.0f, randomPointOutside_betweenRadii.y / 100.0f );
 #endregion
 
 #region Singleton Fields

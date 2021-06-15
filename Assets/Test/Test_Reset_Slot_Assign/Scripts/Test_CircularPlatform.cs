@@ -1,6 +1,7 @@
 /* Created by and for usage of FF Studios (2021). */
 
 using UnityEngine;
+using UnityEditor;
 using FFStudio;
 
 public class Test_CircularPlatform : PlatformBase
@@ -17,12 +18,16 @@ public class Test_CircularPlatform : PlatformBase
 #region PlatformBase Overrides
 	public override Vector2 GetRandomPositionInsidePlatform()
 	{
-		throw new System.NotImplementedException();
+		Vector3 randomPointInsideCircle = Random.insideUnitCircle;
+		randomPointInsideCircle.Scale( bounds.extents * GameSettings.Instance.RandomPointInside_Radius );
+		return randomPointInsideCircle + bounds.center;
 	}
 
 	public override Vector2 GetRandomPositionOutsidePlatform()
 	{
-		throw new System.NotImplementedException();
+		Vector3 randomPointOutsideCircle = Random.insideUnitCircle.normalized;
+		randomPointOutsideCircle.Scale( bounds.extents * GameSettings.Instance.RandomPointOutside_Radius );
+		return randomPointOutsideCircle + bounds.center;
 	}
 
 	protected override void AssignResetSlots()
@@ -56,6 +61,20 @@ public class Test_CircularPlatform : PlatformBase
 
 #region Editor Only
 #if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+		Handles.color = Color.green;
+		Handles.CircleHandleCap( 0, bounds.center, Quaternion.identity, 
+                                bounds.extents.x * GameSettings.Instance.randomPointInside_betweenRadii.x / 100.0f, EventType.Repaint );
+		Handles.CircleHandleCap( 0, bounds.center, Quaternion.identity,
+                                 bounds.extents.x * GameSettings.Instance.randomPointInside_betweenRadii.y / 100.0f, EventType.Repaint );
+		
+        Handles.color = Color.red;
+		Handles.CircleHandleCap( 0, bounds.center, Quaternion.identity,
+                                 bounds.extents.x * GameSettings.Instance.randomPointOutside_betweenRadii.x / 100.0f, EventType.Repaint );
+		Handles.CircleHandleCap( 0, bounds.center, Quaternion.identity,
+                                 bounds.extents.x * GameSettings.Instance.randomPointOutside_betweenRadii.y / 100.0f, EventType.Repaint );
+	}
 #endif
 #endregion
 }

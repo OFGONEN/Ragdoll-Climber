@@ -20,3 +20,5 @@ MonoBehaviour:
   swipeThreshold: 2
   randomPointInside_MarginPercentage: 15
   randomPointOutside_MaxOffsetPercentage: 45
+  randomPointInside_betweenRadii: {x: 10, y: 80}
+  randomPointOutside_betweenRadii: {x: 110, y: 150}
