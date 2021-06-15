@@ -1,22 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using NaughtyAttributes;
+﻿using NaughtyAttributes;
 using UnityEngine;
 
 namespace FFStudio
 {
 	public class GameSettings : ScriptableObject
     {
-        #region Fields
+#region Fields
         public int maxLevelCount;
-        [Foldout("UI Settings"), Tooltip("Duration of the movement for ui element")] public float ui_Entity_Move_TweenDuration;
-        [Foldout("UI Settings"), Tooltip("Duration of the fading for ui element")] public float ui_Entity_Fade_TweenDuration;
-		[Foldout("UI Settings"), Tooltip("Duration of the scaling for ui element")] public float ui_Entity_Scale_TweenDuration;
-		[Foldout("UI Settings"), Tooltip("Duration of the movement for floating ui element")] public float ui_Entity_FloatingMove_TweenDuration;
-        [Foldout("UI Settings"), Tooltip("Percentage of the screen to register a swipe")] public int swipeThreshold;
+        [ Foldout( "UI Settings" ), Tooltip( "Duration of the movement for ui element" ) ] public float ui_Entity_Move_TweenDuration;
+        [ Foldout( "UI Settings" ), Tooltip( "Duration of the fading for ui element" ) ] public float ui_Entity_Fade_TweenDuration;
+		[ Foldout( "UI Settings" ), Tooltip( "Duration of the scaling for ui element" ) ] public float ui_Entity_Scale_TweenDuration;
+		[ Foldout( "UI Settings" ), Tooltip( "Duration of the movement for floating ui element" ) ] public float ui_Entity_FloatingMove_TweenDuration;
+        [ Foldout( "UI Settings" ), Tooltip( "Percentage of the screen to register a swipe" ) ] public int swipeThreshold;
 
+		[ ShowNonSerializedField ] public const int actorCount = 4;
+#endregion
 
-        private static GameSettings instance;
+#region Singleton Fields
+		private static GameSettings instance;
 
         private delegate GameSettings ReturnGameSettings();
         private static ReturnGameSettings returnInstance = LoadInstance;
@@ -28,9 +29,9 @@ namespace FFStudio
                 return returnInstance();
             }
         }
-        #endregion
+#endregion
 
-        #region Implementation
+#region Implementation
         static GameSettings LoadInstance()
         {
             if (instance == null)
@@ -45,6 +46,6 @@ namespace FFStudio
         {
             return instance;
         }
-        #endregion
+#endregion
     }
 }
