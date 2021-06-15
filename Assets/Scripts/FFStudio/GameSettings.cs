@@ -14,6 +14,12 @@ namespace FFStudio
         [ Foldout( "UI Settings" ), Tooltip( "Percentage of the screen to register a swipe" ) ] public int swipeThreshold;
 
 		[ ShowNonSerializedField ] public const int actorCount = 4;
+        
+        [ Foldout( "Platform Settings" ), Range( 1, 100 ), Label( "Rand. point inside: % Margin" ) ]
+		public int randomPointInside_MarginPercentage = 15;
+        [ Foldout( "Platform Settings" ), Range( 1, 100 ), Label( "Rand. point outside: % Max Offset" ) ]
+		public int randomPointOutside_MaxOffsetPercentage = 45;
+		
 #endregion
 
 #region Singleton Fields

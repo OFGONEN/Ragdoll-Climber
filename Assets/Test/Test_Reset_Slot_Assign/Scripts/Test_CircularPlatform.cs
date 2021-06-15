@@ -15,17 +15,25 @@ public class Test_CircularPlatform : PlatformBase
 #endregion
 
 #region PlatformBase Overrides
+	public override Vector2 GetRandomPositionInsidePlatform()
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public override Vector2 GetRandomPositionOutsidePlatform()
+	{
+		throw new System.NotImplementedException();
+	}
+
 	protected override void AssignResetSlots()
 	{
 		var actorCount = GameSettings.actorCount;
 
-		Random.InitState( System.DateTime.Now.Millisecond * gameObject.GetInstanceID() );
-
 		/* Start from 0 degrees on the unit circle and go counter-clockwise from there. */
-		var offsetFromCenter = bounds.extents.x * 2.0f / 3.0f;
-		Vector2 startingPos = bounds.center;
-		var deltaAngle = 2.0f * Mathf.PI / ( actorCount );
-		var randomOffset = Random.Range( 0.1f, 1.0f ) * 2.0f * Mathf.PI;
+		var     offsetFromCenter = bounds.extents.x * 2.0f / 3.0f;
+		Vector2 startingPos      = bounds.center;
+		var     deltaAngle       = 2.0f * Mathf.PI / ( actorCount );
+		var     randomOffset     = Random.Range( 0.1f, 1.0f ) * 2.0f * Mathf.PI;
 
 		resetSlots = new Vector2[ actorCount ];
 		resetSlotIndicesByID = new int[ actorCount ];
