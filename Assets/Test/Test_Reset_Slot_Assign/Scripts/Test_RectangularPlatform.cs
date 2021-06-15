@@ -1,6 +1,5 @@
 /* Created by and for usage of FF Studios (2021). */
 
-using System.Linq;
 using UnityEngine;
 using FFStudio;
 
@@ -31,9 +30,7 @@ public class Test_RectangularPlatform : PlatformBase
 			resetSlotIndicesByID[ i ] = i;
 		}
 
-		/* Shuffle indices array. */
-		var rand = new System.Random( gameObject.GetInstanceID() );
-		resetSlotIndicesByID = resetSlotIndicesByID.OrderBy( item => rand.Next() ).ToArray();
+		ShuffleResetSlots();
 	}
 #endregion
 

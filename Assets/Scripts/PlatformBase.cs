@@ -1,14 +1,15 @@
 /* Created by and for usage of FF Studios (2021). */
 
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
 public abstract class PlatformBase : MonoBehaviour
 {
 #region Fields
-    public Bounds bounds;
-    public Vector2[] resetSlots;
-    public int[] resetSlotIndicesByID;
+    protected Bounds bounds;
+    protected Vector2[] resetSlots;
+    protected int[] resetSlotIndicesByID;
 #endregion
 
 #region Properties
@@ -33,12 +34,21 @@ public abstract class PlatformBase : MonoBehaviour
 	{
 		return resetSlots[ resetSlotIndicesByID[ ID ] ];
 	}
+    
+    protected void ShuffleResetSlots()
+    {
+		var rand = new System.Random( System.DateTime.Now.Millisecond * gameObject.GetInstanceID() );
+		resetSlotIndicesByID = resetSlotIndicesByID.OrderBy( item => rand.Next() ).ToArray();
+    }
 #endregion
 
 #region Editor Only
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
+        if( !Application.isPlaying )
+			return;
+
 		GUIStyle style = new GUIStyle();
 		style.normal.textColor = Handles.color = Color.yellow;
 		var textOffset = new Vector2( -0.1f, 0.1f );
