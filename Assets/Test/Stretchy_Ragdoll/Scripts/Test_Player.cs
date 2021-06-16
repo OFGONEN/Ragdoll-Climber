@@ -18,11 +18,14 @@ public class Test_Player : MonoBehaviour
 
 	public FixedJoint hand_target_left;
 	public FixedJoint hand_target_right;
+
+	private Rigidbody[] limbs;
 #endregion
 
 #region Unity API
 	private void Awake()
 	{
+		limbs = parentRigidbody.GetComponentsInChildren< Rigidbody >();
 	}
 #endregion
 
@@ -30,11 +33,6 @@ public class Test_Player : MonoBehaviour
 #endregion
 
 #region Implementation
-	[ Button() ]
-	public void ZeroVelocity()
-	{
-		parentRigidbody.velocity = Vector3.zero;
-	}
 	[ Button() ]
 	private void StopRagdoll()
 	{
@@ -48,6 +46,7 @@ public class Test_Player : MonoBehaviour
 	[ Button() ]
 	private void AttachLeftHand()
 	{
+		ZeroVelocityRagdoll();
 		hand_target_left.transform.position = hand_optimal_left.position;
 		hand_left.transform.position 		= hand_optimal_left.position;
 		hand_target_left.connectedBody 		= hand_left;
@@ -56,9 +55,19 @@ public class Test_Player : MonoBehaviour
 	[ Button() ]
 	private void AttachRightHand()
 	{
+		ZeroVelocityRagdoll();
 		hand_target_right.transform.position = hand_optimal_right.position;
 		hand_right.transform.position        = hand_optimal_right.position;
 		hand_target_right.connectedBody      = hand_right;
+	}
+
+	private void ZeroVelocityRagdoll()
+	{
+		for( var i = 0; i < limbs.Length; i++ )
+		{
+			limbs[ i ].velocity 	   = Vector3.zero;
+			limbs[ i ].angularVelocity = Vector3.zero;
+		}
 	}
 
 	[ Button() ]
