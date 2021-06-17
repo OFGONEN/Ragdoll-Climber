@@ -24,10 +24,20 @@ public class Test_Player : MonoBehaviour
 	[Foldout("Hand")] public FixedJoint hand_target_left;
 	[Foldout("Hand")] public FixedJoint hand_target_right;
 
+	[Foldout( "Arm" )] public Transform[] arm_left_limbs;
+	[Foldout( "Arm" )] public Transform[] arm_right_limbs;
+	[Foldout( "Arm" )] public Rigidbody[] arm_left_rbs;
+	[Foldout( "Arm" )] public Rigidbody[] arm_right_rbs;
+
+	[SerializeField, HideInInspector] private TransformData[] arm_holdPositions_Left;
+	[SerializeField, HideInInspector] private TransformData[] arm_holdPositions_Right;
+
 	private Rigidbody[] limbs;
 	private TransformData[] rotatingLimbsData;
 
 	private Vector3 rotationOrigin;
+	private Vector3 offset;
+	private UnityMessage applyHandPosition;
 #endregion
 
 #region Unity API
@@ -41,6 +51,8 @@ public class Test_Player : MonoBehaviour
 		{
 			rotatingLimbsData[ i ] = rotationLimbs[ i ].transform.GetLocalTransformData();
 		}
+
+		applyHandPosition = ApplyLeftArmPosition;
 	}
 #endregion
 
@@ -67,6 +79,9 @@ public class Test_Player : MonoBehaviour
 		hand_target_left.connectedBody 		= hand_left;
 
 		rotationOrigin = hand_optimal_left.position;
+		applyHandPosition = ApplyLeftArmPosition;
+
+		offset = hand_target_left.transform.position - new Vector3( -0.3f, 0.2f, 0 );
 	}
 
 	[ Button() ]
@@ -77,8 +92,10 @@ public class Test_Player : MonoBehaviour
 		hand_right.transform.position        = hand_optimal_right.position;
 		hand_target_right.connectedBody      = hand_right;
 
+		rotationOrigin    = hand_optimal_right.position;
+		applyHandPosition = ApplyRightArmPosition;
 
-		rotationOrigin = hand_optimal_right.position;
+		offset = hand_target_right.transform.position - new Vector3( 0.3f, 0.2f, 0 );
 	}
 
 	private void ZeroVelocityRagdoll()
@@ -112,6 +129,8 @@ public class Test_Player : MonoBehaviour
 	[ Button() ]
 	private void StartRotate()
 	{
+		applyHandPosition();
+
 		parentRigidbody.isKinematic = true;
 		parentRigidbody.useGravity  = false;
 
@@ -121,6 +140,9 @@ public class Test_Player : MonoBehaviour
 		{
 			rotationLimbs[ i ].transform.SetLocalTransformData( rotatingLimbsData[ i ] );
 		}
+
+		parentRigidbody.transform.localEulerAngles = Vector3.zero;
+		parentRigidbody.transform.position = offset;
 	}
 
 	[ Button() ]
@@ -145,6 +167,41 @@ public class Test_Player : MonoBehaviour
 			limbs[ i ].isKinematic = isKinematic;
 			limbs[ i ].useGravity  = !isKinematic;
 		}
+	}
+
+	[ Button() ]
+	private void SeriliazeArmPosition()
+	{
+		arm_holdPositions_Left  = new TransformData[ arm_left_limbs.Length ];
+		arm_holdPositions_Right = new TransformData[ arm_right_limbs.Length ];
+
+		for( var i = 0; i < arm_left_limbs.Length; i++ )
+		{
+			arm_holdPositions_Left[ i ]  = arm_left_limbs[ i ].GetLocalTransformData();
+			arm_holdPositions_Right[ i ] = arm_right_limbs[ i ].GetLocalTransformData();
+		}
+	}
+
+	[ Button() ]
+	private void ApplyLeftArmPosition()
+	{
+		for( var i = 0; i < arm_left_limbs.Length; i++ )
+		{
+			arm_left_limbs[ i ].SetLocalTransformData( arm_holdPositions_Left[ i ] );
+		}
+
+		ChangeKinematicRigidbody( arm_left_rbs, true );
+	}
+
+	[ Button() ]
+	private void ApplyRightArmPosition()
+	{
+		for( var i = 0; i < arm_right_limbs.Length; i++ )
+		{
+			arm_right_limbs[ i ].SetLocalTransformData( arm_holdPositions_Right[ i ] );
+		}
+
+		ChangeKinematicRigidbody( arm_right_rbs, true );
 	}
 #endregion
 }
