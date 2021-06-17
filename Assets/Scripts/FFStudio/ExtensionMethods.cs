@@ -189,8 +189,27 @@ namespace FFStudio
 		public static void SetTransformData( this Transform transform, TransformData data ) // Global values
 		{
 			transform.position    = data.position;
-			transform.eulerAngles = data.position;
+			transform.eulerAngles = data.rotation;
 			transform.localScale  = data.scale;
+		}
+
+
+		public static TransformData GetLocalTransformData( this Transform transform ) // Local values
+		{
+			TransformData data;
+
+			data.position = transform.localPosition;
+			data.rotation = transform.localEulerAngles;
+			data.scale    = transform.localScale;
+
+			return data;
+		}
+
+		public static void SetLocalTransformData( this Transform transform, TransformData data ) // Global values
+		{
+			transform.localPosition    = data.position;
+			transform.localEulerAngles = data.rotation;
+			transform.localScale  	   = data.scale;
 		}
 	}
 }

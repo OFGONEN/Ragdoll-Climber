@@ -435,6 +435,11 @@ Rigidbody:
   m_CorrespondingSourceObject: {fileID: 4416407671600030244, guid: eca04933e7a31d5449fe14bc62e9865f, type: 3}
   m_PrefabInstance: {fileID: 1134756947}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &716439703 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 4416407671808263018, guid: eca04933e7a31d5449fe14bc62e9865f, type: 3}
+  m_PrefabInstance: {fileID: 1134756947}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &738649249
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,6 +584,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!54 &1065300917 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 4416407671838045662, guid: eca04933e7a31d5449fe14bc62e9865f, type: 3}
+  m_PrefabInstance: {fileID: 1134756947}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &1100271983 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 4416407670949315974, guid: eca04933e7a31d5449fe14bc62e9865f, type: 3}
+  m_PrefabInstance: {fileID: 1134756947}
+  m_PrefabAsset: {fileID: 0}
 --- !u!54 &1108294842 stripped
 Rigidbody:
   m_CorrespondingSourceObject: {fileID: 4416407670847015767, guid: eca04933e7a31d5449fe14bc62e9865f, type: 3}
@@ -932,6 +947,11 @@ Transform:
   m_Father: {fileID: 1134756951}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1830013335 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 4416407672109883315, guid: eca04933e7a31d5449fe14bc62e9865f, type: 3}
+  m_PrefabInstance: {fileID: 1134756947}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2037758151
 GameObject:
   m_ObjectHideFlags: 0
@@ -957,7 +977,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2037758151}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 738649250}
@@ -981,9 +1001,21 @@ MonoBehaviour:
   forceDirection: {x: -1, y: 1, z: 0}
   forceMagnitude: 10000
   parentRigidbody: {fileID: 1134756952}
+  rotationLimbs:
+  - {fileID: 1108294842}
+  - {fileID: 1830013335}
+  - {fileID: 1100271983}
+  - {fileID: 1065300917}
+  - {fileID: 2137524306}
+  - {fileID: 716439703}
   hand_left: {fileID: 1275768845}
   hand_right: {fileID: 780416974}
   hand_optimal_left: {fileID: 660849409}
   hand_optimal_right: {fileID: 1462576168}
   hand_target_left: {fileID: 738649252}
   hand_target_right: {fileID: 1429197275}
+--- !u!54 &2137524306 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 4416407671982792054, guid: eca04933e7a31d5449fe14bc62e9865f, type: 3}
+  m_PrefabInstance: {fileID: 1134756947}
+  m_PrefabAsset: {fileID: 0}
