@@ -424,7 +424,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 660849408}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.651, y: 1.75, z: 0}
+  m_LocalPosition: {x: -0.651, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1134756951}
@@ -591,6 +591,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2037758152}
     m_Modifications:
+    - target: {fileID: 906517322411670787, guid: eca04933e7a31d5449fe14bc62e9865f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.0000002
+      objectReference: {fileID: 0}
     - target: {fileID: 3570038051571671135, guid: eca04933e7a31d5449fe14bc62e9865f, type: 3}
       propertyPath: m_Name
       value: test_character_ragdoll
@@ -605,7 +609,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4233526714824588005, guid: eca04933e7a31d5449fe14bc62e9865f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4233526714824588005, guid: eca04933e7a31d5449fe14bc62e9865f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -702,6 +706,14 @@ PrefabInstance:
     - target: {fileID: 4416407672316690089, guid: eca04933e7a31d5449fe14bc62e9865f, type: 3}
       propertyPath: m_Center.z
       value: 5.621809e-10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5509340083607521010, guid: eca04933e7a31d5449fe14bc62e9865f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5509340083607521010, guid: eca04933e7a31d5449fe14bc62e9865f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eca04933e7a31d5449fe14bc62e9865f, type: 3}
@@ -914,7 +926,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1462576167}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.651, y: 1.75, z: 0}
+  m_LocalPosition: {x: 0.651, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1134756951}
@@ -966,6 +978,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 375f4bf96080467438517dd8f17540bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceDirection: {x: -1, y: 1, z: 0}
+  forceMagnitude: 10000
   parentRigidbody: {fileID: 1134756952}
   hand_left: {fileID: 1275768845}
   hand_right: {fileID: 780416974}

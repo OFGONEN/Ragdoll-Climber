@@ -7,7 +7,9 @@ using UnityEngine;
 
 public class Test_Player : MonoBehaviour
 {
-#region Fields
+	#region Fields
+	public Vector3 forceDirection;
+	public float forceMagnitude;
 	public Rigidbody parentRigidbody;
 
 	public Rigidbody hand_left;
@@ -67,6 +69,9 @@ public class Test_Player : MonoBehaviour
 		{
 			limbs[ i ].velocity 	   = Vector3.zero;
 			limbs[ i ].angularVelocity = Vector3.zero;
+
+			limbs[ i ].isKinematic = false;
+			limbs[ i ].useGravity  = true;
 		}
 	}
 
@@ -75,6 +80,14 @@ public class Test_Player : MonoBehaviour
 	{
 		hand_target_left.connectedBody 	= null;
 		hand_target_right.connectedBody = null;
+	}
+
+	[ Button() ]
+	private void GiveForce()
+	{
+		ZeroVelocityRagdoll();
+		ReleaseHand();
+		parentRigidbody.AddForce( forceDirection * forceMagnitude );
 	}
 #endregion
 }
