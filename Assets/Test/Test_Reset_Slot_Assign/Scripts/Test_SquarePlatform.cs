@@ -3,7 +3,7 @@
 using UnityEngine;
 using FFStudio;
 
-public class Test_SquarePlatform: PlatformBase
+public class Test_SquarePlatform: Test_PlatformBase
 {
 #region Fields
 	private static Vector2[] zoneIndexPairs = new[] { new Vector2( 0, 0 ), new Vector2( 1, 0 ), new Vector2( 2, 0 ),
