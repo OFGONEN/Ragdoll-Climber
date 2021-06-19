@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using NaughtyAttributes;
 
-public abstract class PlatformBase : MonoBehaviour
+public abstract class Test_PlatformBase : MonoBehaviour
 {
 #region Fields
     protected Bounds bounds;

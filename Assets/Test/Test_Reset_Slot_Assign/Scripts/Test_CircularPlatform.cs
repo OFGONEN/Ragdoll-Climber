@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using FFStudio;
 
-public class Test_CircularPlatform : PlatformBase
+public class Test_CircularPlatform : Test_PlatformBase
 {
 #region Fields
 #endregion

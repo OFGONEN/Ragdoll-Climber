@@ -3,7 +3,7 @@
 using UnityEngine;
 using FFStudio;
 
-public class Test_RectangularPlatform : Test_PlatformBase
+public class Test_SquarePlatform: Test_PlatformBase
 {
 #region Fields
 	private static Vector2[] zoneIndexPairs = new[] { new Vector2( 0, 0 ), new Vector2( 1, 0 ), new Vector2( 2, 0 ),
@@ -20,6 +20,9 @@ public class Test_RectangularPlatform : Test_PlatformBase
 #region PlatformBase Overrides
 	public override Vector2 GetRandomPositionInsidePlatform()
 	{
+		/* We could also abuse the symmetry of the square geometry (on both x and y axis) and cut corners by returning a point on a unit circle,
+         * multiplied by a random raidus outside the bounds. */
+
 		var margin = GameSettings.Instance.randomPointInside_MarginPercentage / 100.0f * bounds.size;
 
 		/* Since the bounds of the platform and the actual shape of the platform are identical, we can directly use bounds. */
@@ -29,6 +32,9 @@ public class Test_RectangularPlatform : Test_PlatformBase
 
 	public override Vector2 GetRandomPositionOutsidePlatform()
 	{
+        /* We could also abuse the symmetry of the square geometry (on both x and y axis) and cut corners by returning a point on a unit circle,
+         * multiplied by a random raidus inside the bounds. */
+        
 		/*
          *        0      1      2 
          *      __________________
@@ -70,14 +76,18 @@ public class Test_RectangularPlatform : Test_PlatformBase
 	{
 		var actorCount = GameSettings.actorCount;
 
-		Vector2 leftmostPos = bounds.min + new Vector3( 0, bounds.extents.y );
-		var delta = new Vector2( bounds.size.x / ( actorCount + 1 ), 0 );
+		/* Start from 0 degrees on the unit circle and go counter-clockwise from there. */
+		var     offsetFromCenter = bounds.extents.x * 2.0f / 3.0f;
+		Vector2 startingPos      = bounds.center;
+		var     deltaAngle       = 2.0f * Mathf.PI / ( actorCount );
+		var     randomOffset     = Random.Range( 0.1f, 1.0f ) * 2.0f * Mathf.PI;
 
 		resetSlots = new Vector2[ actorCount ];
 		resetSlotIndicesByID = new int[ actorCount ];
 		for( var i = 0; i < resetSlots.Length; i++ )
 		{
-			resetSlots[ i ] = leftmostPos + ( i + 1 ) * delta;
+			resetSlots[ i ] = startingPos + offsetFromCenter * new Vector2( Mathf.Cos( randomOffset + i * deltaAngle ),
+                                                                            Mathf.Sin( randomOffset + i * deltaAngle ) );
 			resetSlotIndicesByID[ i ] = i;
 		}
 
