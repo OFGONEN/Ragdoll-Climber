@@ -7,7 +7,7 @@ namespace FFStudio
 	{
 		public event ChangeEvent changeEvent;
 
-		public void SetValue(Vector2 value)
+		public void SetValue( Vector2 value )
 		{
 			if( sharedValue != value )
 			{
@@ -15,6 +15,12 @@ namespace FFStudio
 
 				changeEvent?.Invoke();
 			}
+		}
+
+		public void InvokeValue( Vector2 value )
+		{
+			sharedValue = value;
+			changeEvent?.Invoke();
 		}
 	}
 }

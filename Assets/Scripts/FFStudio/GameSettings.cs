@@ -7,6 +7,10 @@ namespace FFStudio
     {
 #region Fields
         public int maxLevelCount;
+
+        [ Foldout ( "Input Settings" ) ] public float input_threshold_DeadZone = 1;
+        [ Foldout ( "Input Settings" ) ] public float input_threshold_Rotation = 5;
+        [ Foldout ( "Input Settings" ) ] public float input_threshold_Stretch = 10;
         [ Foldout( "UI Settings" ), Tooltip( "Duration of the movement for ui element" ) ] public float ui_Entity_Move_TweenDuration;
         [ Foldout( "UI Settings" ), Tooltip( "Duration of the fading for ui element" ) ] public float ui_Entity_Fade_TweenDuration;
 		[ Foldout( "UI Settings" ), Tooltip( "Duration of the scaling for ui element" ) ] public float ui_Entity_Scale_TweenDuration;
