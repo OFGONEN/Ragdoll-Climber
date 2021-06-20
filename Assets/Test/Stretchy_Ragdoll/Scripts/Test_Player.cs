@@ -29,8 +29,8 @@ public class Test_Player : MonoBehaviour
 	[Foldout( "Arm" )] public Rigidbody[] arm_left_rbs;
 	[Foldout( "Arm" )] public Rigidbody[] arm_right_rbs;
 
-	[SerializeField, HideInInspector] private TransformData[] arm_holdPositions_Left;
-	[SerializeField, HideInInspector] private TransformData[] arm_holdPositions_Right;
+	[ SerializeField ] private TransformData[] arm_holdPositions_Left;
+	[ SerializeField ] private TransformData[] arm_holdPositions_Right;
 
 	private Rigidbody[] limbs;
 	private TransformData[] rotatingLimbsData;
@@ -81,7 +81,9 @@ public class Test_Player : MonoBehaviour
 		rotationOrigin = hand_optimal_left.position;
 		applyHandPosition = ApplyLeftArmPosition;
 
-		offset = hand_target_left.transform.position - new Vector3( -0.3f, 0.2f, 0 );
+		hand_target_left.transform.eulerAngles = new Vector3( 0, 90, -90 );
+
+		offset = hand_target_left.transform.position - new Vector3( -1.1f, 4f, 0 );
 	}
 
 	[ Button() ]
@@ -95,7 +97,9 @@ public class Test_Player : MonoBehaviour
 		rotationOrigin    = hand_optimal_right.position;
 		applyHandPosition = ApplyRightArmPosition;
 
-		offset = hand_target_right.transform.position - new Vector3( 0.3f, 0.2f, 0 );
+		hand_target_right.transform.eulerAngles = new Vector3( 0, -90, 90 );
+
+		offset = hand_target_right.transform.position - new Vector3( 1.1f, 4f, 0 );
 	}
 
 	private void ZeroVelocityRagdoll()
@@ -115,6 +119,9 @@ public class Test_Player : MonoBehaviour
 	{
 		hand_target_left.connectedBody 	= null;
 		hand_target_right.connectedBody = null;
+
+		hand_target_left.transform.eulerAngles  = Vector3.zero;
+		hand_target_right.transform.eulerAngles = Vector3.zero;
 	}
 
 	[ Button() ]
@@ -202,6 +209,12 @@ public class Test_Player : MonoBehaviour
 		}
 
 		ChangeKinematicRigidbody( arm_right_rbs, true );
+	}
+
+	[ Button() ]
+	private void LogDiff()
+	{
+		FFLogger.Log( "Diff: " + ( hand_target_left.transform.position - parentRigidbody.transform.position ) );
 	}
 #endregion
 }
