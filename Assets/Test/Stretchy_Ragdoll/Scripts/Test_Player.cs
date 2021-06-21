@@ -76,12 +76,11 @@ public class Test_Player : MonoBehaviour
 		ZeroVelocityRagdoll();
 		hand_target_left.transform.position = hand_optimal_left.position;
 		hand_left.transform.position 		= hand_optimal_left.position;
+		hand_left.transform.forward 		= Vector3.right; // rotate hand to face foward
 		hand_target_left.connectedBody 		= hand_left;
 
 		rotationOrigin = hand_optimal_left.position;
 		applyHandPosition = ApplyLeftArmPosition;
-
-		hand_target_left.transform.eulerAngles = new Vector3( 0, 90, -90 );
 
 		offset = hand_target_left.transform.position - new Vector3( -1.1f, 4f, 0 );
 	}
@@ -92,12 +91,13 @@ public class Test_Player : MonoBehaviour
 		ZeroVelocityRagdoll();
 		hand_target_right.transform.position = hand_optimal_right.position;
 		hand_right.transform.position        = hand_optimal_right.position;
+		hand_right.transform.forward 		 = Vector3.left; // rotate hand to face foward
 		hand_target_right.connectedBody      = hand_right;
 
 		rotationOrigin    = hand_optimal_right.position;
 		applyHandPosition = ApplyRightArmPosition;
 
-		hand_target_right.transform.eulerAngles = new Vector3( 0, -90, 90 );
+		// hand_target_right.transform.eulerAngles = new Vector3( 0, -90, 90 );
 
 		offset = hand_target_right.transform.position - new Vector3( 1.1f, 4f, 0 );
 	}
