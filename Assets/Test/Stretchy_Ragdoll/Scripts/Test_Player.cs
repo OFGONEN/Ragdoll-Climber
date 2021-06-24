@@ -130,7 +130,7 @@ public class Test_Player : MonoBehaviour
 		ReleaseInput();
 		ZeroVelocityRagdoll();
 		ReleaseHand();
-		parentRigidbody.AddForce( forceDirection * forceMagnitude );
+		parentRigidbody.AddForce( parentRigidbody.transform.up * forceMagnitude );
 	}
 
 	[ Button() ]

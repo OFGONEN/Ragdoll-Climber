@@ -211,6 +211,12 @@ namespace FFStudio
 			transform.localEulerAngles = data.rotation;
 			transform.localScale  	   = data.scale;
 		}
+
+		public static void MakeKinematic( this Rigidbody rigidbody, bool isTrue )
+		{
+			rigidbody.isKinematic = isTrue;
+			rigidbody.useGravity  = !isTrue;
+		}
 	}
 }
 

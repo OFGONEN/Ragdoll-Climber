@@ -16,12 +16,15 @@ MonoBehaviour:
   input_threshold_DeadZone: 1
   input_threshold_Rotation: 5
   input_threshold_Stretch: 10
-  ui_Entity_Move_TweenDuration: 0.5
-  ui_Entity_Fade_TweenDuration: 0.5
-  ui_Entity_Scale_TweenDuration: 0.5
-  ui_Entity_FloatingMove_TweenDuration: 0.5
-  swipeThreshold: 2
+  ui_Entity_Move_TweenDuration: 0
+  ui_Entity_Fade_TweenDuration: 0
+  ui_Entity_Scale_TweenDuration: 0
+  ui_Entity_FloatingMove_TweenDuration: 0
+  swipeThreshold: 0
+  launch_force: 10000
+  deStretchDuration: 0.1
+  attachPoint_Z: 0.85
   randomPointInside_MarginPercentage: 15
   randomPointOutside_MaxOffsetPercentage: 45
-  randomPointInside_betweenRadii: {x: 10, y: 80}
-  randomPointOutside_betweenRadii: {x: 110, y: 150}
+  randomPointInside_betweenRadii: {x: 10, y: 90}
+  randomPointOutside_betweenRadii: {x: 100, y: 150}

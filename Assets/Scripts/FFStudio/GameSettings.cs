@@ -8,14 +8,23 @@ namespace FFStudio
 #region Fields
         public int maxLevelCount;
 
+        // Input
         [ Foldout ( "Input Settings" ) ] public float input_threshold_DeadZone = 1;
         [ Foldout ( "Input Settings" ) ] public float input_threshold_Rotation = 5;
         [ Foldout ( "Input Settings" ) ] public float input_threshold_Stretch = 10;
+
+        // UI
         [ Foldout( "UI Settings" ), Tooltip( "Duration of the movement for ui element" ) ] public float ui_Entity_Move_TweenDuration;
         [ Foldout( "UI Settings" ), Tooltip( "Duration of the fading for ui element" ) ] public float ui_Entity_Fade_TweenDuration;
 		[ Foldout( "UI Settings" ), Tooltip( "Duration of the scaling for ui element" ) ] public float ui_Entity_Scale_TweenDuration;
 		[ Foldout( "UI Settings" ), Tooltip( "Duration of the movement for floating ui element" ) ] public float ui_Entity_FloatingMove_TweenDuration;
         [ Foldout( "UI Settings" ), Tooltip( "Percentage of the screen to register a swipe" ) ] public int swipeThreshold;
+
+        // Player
+        [ Foldout( "Actor" ) ] public float launch_force = 10000; // 10k
+        [ Foldout( "Actor" ) ] public float deStretchDuration = 0.1f; // 10k
+        [ Foldout( "Actor" ) ] public float attachPoint_Z = 0.85f; // 10k
+
 
 		[ ShowNonSerializedField ] public const int actorCount = 4;
         
