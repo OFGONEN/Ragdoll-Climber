@@ -13,6 +13,7 @@ public class Actor : MonoBehaviour
 
 	public int actor_Index;
 	public SkinnedMeshRenderer modelRenderer;
+	public PlatformSet platformSet;
 
 	// Body Related
 	[Foldout( "Body" ), SerializeField] private Rigidbody parentRigidbody;  // Most parent rigidbody. Has jointed to Spine of the ragdoll via FixedJoint.
@@ -38,6 +39,10 @@ public class Actor : MonoBehaviour
 
 	// Offset between rotation origin and parent rigidbody. Configured considering left hand, reverse the X value when applying to right hand attached rotation
 	[Foldout( "Configure" ), SerializeField ] private Vector3 rotationOffset;
+
+
+	// Protected Fields
+	protected int currentWayPoint = 0;
 
 	// Private Fields
 	private Rigidbody[] limbs_rigidbodies; // Every rigidbody in the ragdoll
@@ -279,13 +284,16 @@ public class Actor : MonoBehaviour
 	[ Button() ]
 	private void ResetActorToWayPoint()
 	{
-		//TODO get a vector3 from a platformset 
+		PlatformBase platform;
+		platformSet.itemDictionary.TryGetValue( currentWayPoint, out platform ); // Find a platform based on current way point index
+
+		var position = platform.GetResetSlot( actor_Index ); // Get a reset slot for our actor based on actor index
 
 		ReleaseHands(); // Release the hands from fixed joints, If any hand is attached
 		DefaultTheRagdoll(); // Zero out velocities and make every limb's rigidbody as dynamic
 		TPoseTheRagdoll(); // Return the limb's back to T-Pose rotation and position
 
-		parentRigidbody.transform.position = Vector3.zero; //TODO waypoint point
+		parentRigidbody.transform.position = position;  // Set the reset position
 		TryToAttachHands();
 	}
 
