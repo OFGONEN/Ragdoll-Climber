@@ -37,18 +37,14 @@ public class Actor : MonoBehaviour
 	[Foldout( "Configure" ), SerializeField ] private TransformData[] rotatingLimbs_holdingPositions; // Rotating limbs holding position and rotations
 	[Foldout( "Configure" ), SerializeField ] private TransformData[] limbs_holdPositions_TPose; // T-Pose position and rotation data of the ragdoll
 
-	// Offset between rotation origin and parent rigidbody. Configured considering left hand, reverse the X value when applying to right hand attached rotation
-	[Foldout( "Configure" ), SerializeField ] private Vector3 rotationOffset;
-
-
 	// Protected Fields
 	[ SerializeField, ReadOnly ] protected int currentWayPoint = 0;
 
 	// Private Fields
 	private Rigidbody[] limbs_rigidbodies; // Every rigidbody in the ragdoll
 
+	private Transform attachedHand; // Hand that is attached to a platform
 	private Vector3 handTargetPoint; // World point that hand will attached to
-	private Vector3 currentRotationOffset; // Offset can be change depending on which hand is attached
 	private UnityMessage attachHand; // Delegate for attaching hand, gets set by checking checking attach points in the space
 	private UnityMessage applyHandPosition; // Delegate for modifying attached hand's limbs rotation and position for rotating the ragdoll
 
@@ -59,7 +55,7 @@ public class Actor : MonoBehaviour
 #endregion
 
 #region Unity API
-	private void Awake()
+	protected virtual void Awake()
 	{
 		limbs_rigidbodies = parentRigidbody.GetComponentsInChildren< Rigidbody >(); // Get every rigidbody that ragdoll has
 
@@ -249,8 +245,11 @@ public class Actor : MonoBehaviour
 
 	protected void Rotate( float angle ) // Rotates the parent rigidbody around holding hand's position by angle
 	{
-		//! This is relative, i.e it rotates the object angle more around the point
-		parentRigidbody.transform.RotateAround( handTargetPoint, Vector3.forward, angle );
+		var currentAngle = parentRigidbody.transform.eulerAngles.z;
+		var rotateAmount = angle - currentAngle;
+
+		// //! This is relative, i.e it rotates the object angle more around the point
+		parentRigidbody.transform.RotateAround( handTargetPoint, Vector3.forward, rotateAmount );
 	}
 
 	protected void Stretch( float ratio ) // Modifies the **SkinnedMeshRenderer**'s blend shape key to make model look stretched
@@ -268,9 +267,9 @@ public class Actor : MonoBehaviour
 		hand_fixedJoint_left.connectedBody      = hand_rb_left; // Joint the hand to **FixedJoint**
 
 		applyHandPosition = ApplyArmPosition_Left; // Cache with arm to position when holding
+		attachedHand      = hand_rb_left.transform; // Cache the attached hand
 
-		currentRotationOffset = rotationOffset;
-		currentRotationOffset = handTargetPoint - currentRotationOffset; // Ragdolls position when in holding position
+		OnHandsAttached();
 
 		// Removes the actor from collision Layer to its own layer for its to be only interacting with itself
 		// So that a launched actor wouldn't collide with a holding actor
@@ -287,10 +286,9 @@ public class Actor : MonoBehaviour
 		hand_fixedJoint_right.connectedBody      = hand_rb_right;
 
 		applyHandPosition = ApplyArmPosition_Right;
+		attachedHand      = hand_rb_right.transform; 
 
-		currentRotationOffset    = rotationOffset;
-		currentRotationOffset.x *= -1f; // Since offset is configured considering left hand we need to reverse it to use with right hand
-		currentRotationOffset    = handTargetPoint - currentRotationOffset;
+		OnHandsAttached();
 
 		// Removes the actor from collision Layer to its own layer for its to be only interacting with itself
 		// So that a launched actor wouldn't collide with a holding actor
@@ -314,7 +312,7 @@ public class Actor : MonoBehaviour
 	}
 
 	[ Button() ]
-	private void StraightenUpRagdoll() // Straighten Ups the ragdoll for its to be stretched or launched
+	protected void StraightenUpRagdoll() // Straighten Ups the ragdoll for its to be stretched or launched
 	{
 		// Put arm limbs into holding position and rotation
 		applyHandPosition();
@@ -331,12 +329,16 @@ public class Actor : MonoBehaviour
 
 		var lastRotation_Z = parentRigidbody.transform.localEulerAngles.z; // cache parent rigidbody's rotation
 		parentRigidbody.transform.localEulerAngles = Vector3.zero; // zero out the rotation of the parent rigidbody
-		parentRigidbody.transform.position         = currentRotationOffset; // offset the parent rigidbody's position relative to hand
+
+		// Since the ragdoll is in a straight position, attached hand and torso has a fixed distance. If this distance is applied to 
+		// hand's attached point we will have the point where parent rigidbody should be
+		var parentRigidbody_Position       = handTargetPoint - ( attachedHand.position - parentRigidbody.transform.position );
+		parentRigidbody.transform.position = parentRigidbody_Position; 
 		Rotate( lastRotation_Z ); // Rotate the parent rigidbody back to its first rotation
 	}
 
 	// Make every rigidbody in the ragdoll dynamic and zero out every velocity 
-	private void DefaultTheRagdoll()
+	protected void DefaultTheRagdoll()
 	{
 		for( var i = 0; i < limbs_rigidbodies.Length; i++ )
 		{
@@ -359,10 +361,15 @@ public class Actor : MonoBehaviour
 	}
 
 	// Nulls the connected body of FixedJoints for hands to release hands rigidbodies to act freely 
-	private void ReleaseHands()
+	protected virtual void ReleaseHands()
 	{
 		hand_fixedJoint_left.connectedBody  = null;
 		hand_fixedJoint_right.connectedBody = null;
+	}
+
+	protected virtual void OnHandsAttached()
+	{
+
 	}
 
 	private void ApplyArmPosition_Left()
@@ -448,11 +455,6 @@ public class Actor : MonoBehaviour
 		{
 			limbs_holdPositions_TPose[ i ] = limbs_rigidbodies[ i ].transform.GetLocalTransformData();
 		}
-	}
-
-	private void SetRotationOffSet()
-	{
-		rotationOffset = handTargetPoint - parentRigidbody.transform.position;
 	}
 
 	private void ApplyArmPositions()
