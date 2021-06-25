@@ -42,7 +42,7 @@ public class Actor : MonoBehaviour
 
 
 	// Protected Fields
-	protected int currentWayPoint = 0;
+	[ SerializeField, ReadOnly ] protected int currentWayPoint = 0;
 
 	// Private Fields
 	private Rigidbody[] limbs_rigidbodies; // Every rigidbody in the ragdoll
@@ -117,11 +117,15 @@ public class Actor : MonoBehaviour
 			{
 				attachHand = AttachLeftHand;
 				handTargetPoint = raycastHit_Left.point;
+
+				UpdateWayPointIndex( raycastHit_Left.collider.gameObject );
 			}
 			else 
 			{
 				attachHand = AttachRightHand;
 				handTargetPoint = raycastHit_Right.point;
+				
+				UpdateWayPointIndex( raycastHit_Right.collider.gameObject );
 			}
 
 			hasOptimalPoint = true;
@@ -132,11 +136,15 @@ public class Actor : MonoBehaviour
 			{
 				attachHand = AttachLeftHand;
 				handTargetPoint = raycastHit_Left.point;
+
+				UpdateWayPointIndex( raycastHit_Left.collider.gameObject );
 			}
 			else 
 			{
 				attachHand = AttachRightHand;
 				handTargetPoint = raycastHit_Right.point;
+
+				UpdateWayPointIndex( raycastHit_Right.collider.gameObject );
 			}
 
 			hasOptimalPoint = true;
@@ -189,11 +197,15 @@ public class Actor : MonoBehaviour
 			{
 				attachHand = AttachLeftHand;
 				handTargetPoint = left_ShoulderPosition + (target_Left.position - left_ShoulderPosition).normalized * armReachDistance;
+
+				UpdateWayPointIndex( target_Left.gameObject );
 			}
 			else 
 			{
 				attachHand = AttachRightHand;
 				handTargetPoint = right_ShoulderPosition + (target_Right.position - right_ShoulderPosition).normalized * armReachDistance;
+
+				UpdateWayPointIndex( target_Right.gameObject );
 			}
 
 			hasPoint = true;
@@ -204,11 +216,15 @@ public class Actor : MonoBehaviour
 			{
 				attachHand = AttachLeftHand;
 				handTargetPoint = left_ShoulderPosition + (target_Left.position - left_ShoulderPosition).normalized * armReachDistance;
+
+				UpdateWayPointIndex( target_Left.gameObject );
 			}
 			else 
 			{
 				attachHand = AttachRightHand;
 				handTargetPoint = right_ShoulderPosition + (target_Right.position - right_ShoulderPosition).normalized * armReachDistance;
+
+				UpdateWayPointIndex( target_Right.gameObject );
 			}
 
 			hasPoint = true;
@@ -384,6 +400,14 @@ public class Actor : MonoBehaviour
 		{
 			limbs_rigidbodies[ i ].gameObject.layer = index;
 		}
+	}
+
+	private void UpdateWayPointIndex( GameObject platformObject )
+	{
+		PlatformBase platform;
+		platformSet.itemDictionary.TryGetValue( platformObject.GetInstanceID(), out platform );
+
+		currentWayPoint = platform.platformIndex;
 	}
 #endregion
 
