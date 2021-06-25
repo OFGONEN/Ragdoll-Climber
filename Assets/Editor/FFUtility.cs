@@ -8,6 +8,8 @@ using System.IO;
 using UnityEditor.Build;
 using UnityEngine.SceneManagement;
 using UnityEditor.Build.Reporting;
+using System.Linq;
+using UnityEditor.SceneManagement;
 
 namespace FFEditor
 {
@@ -336,6 +338,23 @@ namespace FFEditor
 
 			EditorUtility.SetDirty( gameSettings );
 			AssetDatabase.SaveAssets();
+		}
+
+        [MenuItem("FFGame/ Set Platform Indexes")]
+        public static void SetPlatformIndexes()
+        {
+			var platformObjects = Selection.gameObjects;
+			platformObjects = platformObjects.OrderBy( item => item.transform.position.y ).ToArray();
+
+			EditorSceneManager.MarkAllScenesDirty();
+
+			for( var i = 0; i < platformObjects.Length; i++ )
+            {
+				var platform = platformObjects[ i ].GetComponent< PlatformBase >();
+				Debug.Log( platform.name + "Pos: " + platform.transform.position.y, platform.gameObject  );
+				platform.platformIndex = i;
+				EditorSceneManager.SaveOpenScenes();
+			}
 		}
     }
 }
