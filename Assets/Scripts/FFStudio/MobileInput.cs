@@ -69,7 +69,7 @@ namespace FFStudio
 			fingerUpdate                    = FingerDown;
 
 			screenPressEvent.Raise();
-			inputDirection.InvokeValue( Vector2.zero );
+			// inputDirection.InvokeValue( Vector2.zero );
 		}
 #endregion
 
@@ -102,7 +102,7 @@ namespace FFStudio
 			}
 			else 
 			{
-				inputDirection.InvokeValue( Vector2.zero );
+				// inputDirection.InvokeValue( Vector2.zero );
 				stretchRatio.SetValue( 0 );
 			}
 		}
