@@ -88,6 +88,8 @@ namespace FFStudio
 		{
 			var input = finger.ScreenPosition - inputOrigin;
 
+			input *= -1f;
+
 			if( input.magnitude >= input_Rotation )
 			{
 				inputDirection.InvokeValue( input.normalized );
