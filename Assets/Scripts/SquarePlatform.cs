@@ -24,7 +24,7 @@ public class SquarePlatform : PlatformBase
 #endregion
 
 #region PlatformBase Overrides
-	public override Vector2 GetRandomPositionInsidePlatform()
+	public override Vector2 GetRandomPosition_InsidePlatform()
 	{
 		/* We could also abuse the symmetry of the square geometry (on both x and y axis) and cut corners by returning a point on a unit circle,
          * multiplied by a random raidus outside the bounds. */
@@ -36,7 +36,7 @@ public class SquarePlatform : PlatformBase
                             Random.Range( bounds.min.y + margin.y, bounds.max.y - margin.y ) );
 	}
 
-	public override Vector2 GetRandomPositionOutsidePlatform()
+	public override Vector2 GetRandomPosition_OutsidePlatform()
 	{
         /* We could also abuse the symmetry of the square geometry (on both x and y axis) and cut corners by returning a point on a unit circle,
          * multiplied by a random raidus inside the bounds. */

@@ -50,8 +50,8 @@ public abstract class PlatformBase : MonoBehaviour
 #endregion
 
 #region API
-	public abstract Vector2 GetRandomPositionInsidePlatform();
-	public abstract Vector2 GetRandomPositionOutsidePlatform();
+	public abstract Vector2 GetRandomPosition_InsidePlatform();
+	public abstract Vector2 GetRandomPosition_OutsidePlatform();
 
 
 
@@ -107,13 +107,13 @@ public abstract class PlatformBase : MonoBehaviour
     [ Button() ]
 	public void AddTestPoint_Inside()
     {
-		testPoints_Inside.Add( GetRandomPositionInsidePlatform() );
+		testPoints_Inside.Add( GetRandomPosition_InsidePlatform() );
 	}
     
     [ Button() ]
 	public void AddTestPoint_Outside()
     {
-		testPoints_Outside.Add( GetRandomPositionOutsidePlatform() );
+		testPoints_Outside.Add( GetRandomPosition_OutsidePlatform() );
 	}
 #endif
 #endregion

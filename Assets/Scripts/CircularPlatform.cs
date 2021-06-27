@@ -21,14 +21,14 @@ public class CircularPlatform : PlatformBase
 #endregion
 
 #region PlatformBase Overrides
-	public override Vector2 GetRandomPositionInsidePlatform()
+	public override Vector2 GetRandomPosition_InsidePlatform()
 	{
 		Vector3 randomPointInsideCircle = Random.insideUnitCircle;
 		randomPointInsideCircle.Scale( bounds.extents * GameSettings.Instance.RandomPointInside_Radius );
 		return randomPointInsideCircle + bounds.center;
 	}
 
-	public override Vector2 GetRandomPositionOutsidePlatform()
+	public override Vector2 GetRandomPosition_OutsidePlatform()
 	{
 		Vector3 randomPointOutsideCircle = Random.insideUnitCircle.normalized;
 		randomPointOutsideCircle.Scale( bounds.extents * GameSettings.Instance.RandomPointOutside_Radius );

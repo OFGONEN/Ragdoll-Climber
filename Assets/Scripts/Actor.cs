@@ -154,7 +154,7 @@ public class Actor : MonoBehaviour
 			hasOptimalPoint = true;
 		}
 
-		FFLogger.Log( "Found Optimal Point:" + hasOptimalPoint );
+		// FFLogger.Log( "Found Optimal Point:" + hasOptimalPoint );
 		// Since ragdoll can hold onto any point in space, we should manually set Z point of the point the hand is holding onto.
 		// This is because we may want ragdoll to have a little bit of distance with the obstacle to have it look properly hanging 
 		handTargetPoint.z = GameSettings.Instance.actor_attachPoint_Z; 
@@ -234,7 +234,7 @@ public class Actor : MonoBehaviour
 			hasPoint = true;
 		}
 
-		FFLogger.Log( "Found Closest Point:" + hasPoint );
+		// FFLogger.Log( "Found Closest Point:" + hasPoint );
 		handTargetPoint.z = GameSettings.Instance.actor_attachPoint_Z;
 		return hasPoint;
 	}

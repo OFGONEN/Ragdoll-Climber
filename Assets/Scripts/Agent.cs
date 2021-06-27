@@ -10,13 +10,15 @@ using UnityEditor;
 
 public class Agent : Actor
 {
-	#region Fields
+#region Fields
 
 	// Private Fields
 	PlatformBase nextPlatform;
 	Vector2 targetPoint;
 
 	UnityMessage update;
+	Sequence launchSequence;
+	Tween launchWaitTween;
 
 	float rotationNormal;
 	float rotationDirection;
@@ -25,6 +27,11 @@ public class Agent : Actor
 #endregion
 
 #region Unity API
+
+	private void OnDisable()
+	{
+		KillTweens();
+	}
 	protected override void Awake()
 	{
 		base.Awake();
@@ -41,6 +48,12 @@ public class Agent : Actor
 #endregion
 
 #region Implementation
+	private void LaunchNextPlatform()
+	{
+		if( FindNextPlatform() )
+			LaunchNextPlatformSequence();
+	}
+
 	private bool FindNextPlatform()
 	{
 		platformSet.itemDictionary.TryGetValue( currentWayPoint + 1, out nextPlatform );
@@ -51,7 +64,17 @@ public class Agent : Actor
 	{
 		StraightenUpRagdoll();
 
-		targetPoint = nextPlatform.GetRandomPositionInsidePlatform();
+		var failChance = Random.Range( 0, 1 );
+
+		if( failChance <= GameSettings.Instance.agent_failChance )
+		{
+			targetPoint = nextPlatform.GetRandomPosition_OutsidePlatform();
+			FFLogger.Log( "Agent Failed: " + gameObject.name, gameObject );
+		}
+		else
+			targetPoint = nextPlatform.GetRandomPosition_InsidePlatform();
+
+		targetPoint = nextPlatform.GetRandomPosition_InsidePlatform();
 
 		var direction   = ( targetPoint - ActorPosition.CastV2() ).normalized;
 		var rotateAmount = Vector2.SignedAngle( parentRigidbody.transform.up, direction );
@@ -70,10 +93,10 @@ public class Agent : Actor
 		stretchTween.OnUpdate( StretchActor );
 		// stretchTween.SetDelay(  )
 
-		var sequence = DOTween.Sequence();
-		sequence.Append( rotateTween );
-		sequence.Append( stretchTween );
-		sequence.OnComplete( ReadyToLaunch );
+		launchSequence = DOTween.Sequence();
+		launchSequence.Append( rotateTween );
+		launchSequence.Append( stretchTween );
+		launchSequence.OnComplete( OnLaunchSequenceComplete );
 	}
 
 	private void CheckDistanceToTargetPlatform()
@@ -107,6 +130,36 @@ public class Agent : Actor
 	protected override void OnHandsAttached()
 	{
 		update = ExtensionMethods.EmptyMethod;
+
+		var delay = Random.Range( GameSettings.Instance.agent_launchWaitDuration.x, GameSettings.Instance.agent_launchWaitDuration.y );
+		launchWaitTween = DOVirtual.DelayedCall( delay, LaunchNextPlatform );
+		launchWaitTween.OnComplete( OnLaunchWaitComplete );
+	}
+
+	private void OnLaunchSequenceComplete()
+	{
+		launchSequence = null;
+		ReadyToLaunch();
+	}
+
+	private void OnLaunchWaitComplete()
+	{
+		launchWaitTween = null;
+	}
+
+	private void KillTweens()
+	{
+		if( launchSequence != null )
+		{
+			launchSequence.Kill();
+			launchSequence = null;
+		}
+
+		if( launchWaitTween != null )
+		{
+			launchWaitTween.Kill();
+			launchSequence = null;
+		}
 	}
 
 #endregion

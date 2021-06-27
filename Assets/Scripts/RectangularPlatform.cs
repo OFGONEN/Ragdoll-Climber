@@ -25,7 +25,7 @@ public class RectangularPlatform : PlatformBase
 #endregion
 
 #region PlatformBase Overrides
-	public override Vector2 GetRandomPositionInsidePlatform()
+	public override Vector2 GetRandomPosition_InsidePlatform()
 	{
 		var margin = GameSettings.Instance.randomPointInside_MarginPercentage / 100.0f * bounds.size;
 
@@ -34,7 +34,7 @@ public class RectangularPlatform : PlatformBase
                             Random.Range( bounds.min.y + margin.y, bounds.max.y - margin.y ) );
 	}
 
-	public override Vector2 GetRandomPositionOutsidePlatform()
+	public override Vector2 GetRandomPosition_OutsidePlatform()
 	{
 		/*
          *        0      1      2 
