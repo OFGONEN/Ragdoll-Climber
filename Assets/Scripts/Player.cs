@@ -49,7 +49,7 @@ public class Player : Actor
 		var direction   = inputDirectionProperty.sharedValue;
 		var targetAngle = Vector2.SignedAngle( Vector2.up, direction );
 
-		Rotate( targetAngle );
+		RotateToTargetAngle( targetAngle );
 	}
 
 	private void OnStretchRationChange()
@@ -71,7 +71,7 @@ public class Player : Actor
 			inputDirectionProperty.changeEvent -= OnInputDirectionChange;
 			stretchRatioProperty.changeEvent   -= OnStretchRationChange;
 
-			Launch();
+			ReadyToLaunch();
 		}
 		else 
 		{

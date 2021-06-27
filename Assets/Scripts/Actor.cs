@@ -15,8 +15,16 @@ public class Actor : MonoBehaviour
 	public SkinnedMeshRenderer modelRenderer;
 	public PlatformSet platformSet;
 
+	// Properties
+	protected Vector3 ActorPosition => parentRigidbody.transform.position;
+	protected Vector3 ActorRotation => parentRigidbody.transform.eulerAngles;
+
+	protected Vector3 LeftShouldPos => arm_left_limbs[ 0 ].transform.position;
+	protected Vector3 RightShouldPos => arm_right_limbs[ 0 ].transform.position;
+	protected float ArmReachDistance => armReachDistance;
+
 	// Body Related
-	[Foldout( "Body" ), SerializeField] private Rigidbody parentRigidbody;  // Most parent rigidbody. Has jointed to Spine of the ragdoll via FixedJoint.
+	[Foldout( "Body" ), SerializeField] protected Rigidbody parentRigidbody;  // Most parent rigidbody. Has jointed to Spine of the ragdoll via FixedJoint.
 	[Foldout( "Body" ), SerializeField] private Rigidbody[] rotatingLimbs_rigidbodies; // Torso, hip and leg limbs
 
 	// Hand Related 
@@ -149,7 +157,7 @@ public class Actor : MonoBehaviour
 		FFLogger.Log( "Found Optimal Point:" + hasOptimalPoint );
 		// Since ragdoll can hold onto any point in space, we should manually set Z point of the point the hand is holding onto.
 		// This is because we may want ragdoll to have a little bit of distance with the obstacle to have it look properly hanging 
-		handTargetPoint.z = GameSettings.Instance.attachPoint_Z; 
+		handTargetPoint.z = GameSettings.Instance.actor_attachPoint_Z; 
 		return hasOptimalPoint;
 	}
 
@@ -227,28 +235,36 @@ public class Actor : MonoBehaviour
 		}
 
 		FFLogger.Log( "Found Closest Point:" + hasPoint );
-		handTargetPoint.z = GameSettings.Instance.attachPoint_Z;
+		handTargetPoint.z = GameSettings.Instance.actor_attachPoint_Z;
 		return hasPoint;
 	}
 
-	[ Button() ] // Launches the ragdoll in its rotated direction, by getting *transform.up* 
-	protected void Launch()
+	protected void ReadyToLaunch()
 	{
 		DefaultTheRagdoll();
 		ReleaseHands();
 
 		// DeStretches the model in a duration to make the model look like its been let go from stretching and launching with destretch momentum
-		DOTween.To( () => modelRenderer.GetBlendShapeWeight( 0 ), x => modelRenderer.SetBlendShapeWeight( 0, x ), 0, GameSettings.Instance.deStretchDuration );
-
-		parentRigidbody.AddForce( parentRigidbody.transform.up * GameSettings.Instance.launch_force );
+		var deStretchTween = DOTween.To( () => modelRenderer.GetBlendShapeWeight( 0 ), x => modelRenderer.SetBlendShapeWeight( 0, x ), 0, GameSettings.Instance.actor_deStretchDuration );
+		deStretchTween.OnComplete( Launch );
 	}
 
-	protected void Rotate( float angle ) // Rotates the parent rigidbody around holding hand's position by angle
+	protected virtual void Launch()
+	{
+		parentRigidbody.AddForce( parentRigidbody.transform.up * GameSettings.Instance.actor_launchForce );
+	}
+
+	protected void RotateToTargetAngle( float targetAngle ) // Rotates the parent rigidbody around holding hand's position by angle
 	{
 		var currentAngle = parentRigidbody.transform.eulerAngles.z;
-		var rotateAmount = angle - currentAngle;
+		var rotateAmount = targetAngle - currentAngle;
 
 		// //! This is relative, i.e it rotates the object angle more around the point
+		parentRigidbody.transform.RotateAround( handTargetPoint, Vector3.forward, rotateAmount );
+	}
+
+	protected void Rotate( float rotateAmount )
+	{
 		parentRigidbody.transform.RotateAround( handTargetPoint, Vector3.forward, rotateAmount );
 	}
 
@@ -334,7 +350,7 @@ public class Actor : MonoBehaviour
 		// hand's attached point we will have the point where parent rigidbody should be
 		var parentRigidbody_Position       = handTargetPoint - ( attachedHand.position - parentRigidbody.transform.position );
 		parentRigidbody.transform.position = parentRigidbody_Position; 
-		Rotate( lastRotation_Z ); // Rotate the parent rigidbody back to its first rotation
+		RotateToTargetAngle( lastRotation_Z ); // Rotate the parent rigidbody back to its first rotation
 	}
 
 	// Make every rigidbody in the ragdoll dynamic and zero out every velocity 

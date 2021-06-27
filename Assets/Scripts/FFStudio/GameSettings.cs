@@ -21,10 +21,12 @@ namespace FFStudio
         [ Foldout( "UI Settings" ), Tooltip( "Percentage of the screen to register a swipe" ) ] public int swipeThreshold;
 
         // Player
-        [ Foldout( "Actor" ) ] public float launch_force = 10000; // 10k
-        [ Foldout( "Actor" ) ] public float deStretchDuration = 0.1f; // 10k
-        [ Foldout( "Actor" ) ] public float attachPoint_Z = 0.85f; // 10k
+        [ Foldout( "Actor" ) ] public float actor_launchForce = 20000; // 10k
+        [ Foldout( "Actor" ) ] public float actor_deStretchDuration = 0.1f; // Destretch duration before launching
+        [ Foldout( "Actor" ) ] public float actor_attachPoint_Z = 0.85f; // Hand attach point Z Value
 
+        [ Foldout( "Agent" ) ] public float agent_rotationSpeed = 25f; // Rotate speed for agent to alinged with launch direction
+        [ Foldout( "Agent" ) ] public float agent_stretchDutation = 0.25f; // Stretch duration after Agent rotated to launch target point
 
 		[ ShowNonSerializedField ] public const int actorCount = 4;
         

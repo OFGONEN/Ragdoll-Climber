@@ -217,6 +217,11 @@ namespace FFStudio
 			rigidbody.isKinematic = isTrue;
 			rigidbody.useGravity  = !isTrue;
 		}
+
+		public static Vector2 CastV2( this Vector3 vector )
+		{
+			return new Vector2( vector.x, vector.y );
+		}
 	}
 }
 
