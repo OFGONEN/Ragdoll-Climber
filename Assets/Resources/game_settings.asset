@@ -31,6 +31,8 @@ MonoBehaviour:
   camera_LookAtAxis: {x: 0, y: 1, z: 0}
   camera_FollowDistance: {x: 10, y: 30}
   camera_horizontalLookClamp: {x: -5, y: 5}
+  camera_VerticalFollowSpeed: 10
+  camera_DepthFollowSpeed: 10
   randomPointInside_MarginPercentage: 15
   randomPointOutside_MaxOffsetPercentage: 45
   randomPointInside_betweenRadii: {x: 10, y: 90}

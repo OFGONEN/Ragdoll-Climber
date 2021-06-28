@@ -38,13 +38,18 @@ namespace FFStudio
 
 		private void Update()
 		{
+			var position       = transform.position;
 			var followPosition = followTarget_Transform.position;
+
 			transform.LookAtAxis( followPosition, GameSettings.Instance.camera_LookAtAxis );
 
-			followPosition.x = 0;
-			followPosition.z = -Mathf.Lerp( GameSettings.Instance.camera_FollowDistance.x, // Min Value
+			var distance = -Mathf.Lerp( GameSettings.Instance.camera_FollowDistance.x, // Min Value
 				GameSettings.Instance.camera_FollowDistance.y, // Max Value
 				playerStretchRatio.sharedValue /* Lerp Ratio */ );
+
+			followPosition.x = 0;
+			followPosition.y = Mathf.Lerp( position.y, followPosition.y, Time.deltaTime * GameSettings.Instance.camera_VerticalFollowSpeed );
+			followPosition.z = Mathf.Lerp( position.z, distance, Time.deltaTime * GameSettings.Instance.camera_DepthFollowSpeed );
 
 			transform.position = followPosition;
 
