@@ -30,6 +30,11 @@ namespace FFStudio
         [ Foldout( "Agent" ), Range( 0, 1 ) ] public float agent_failChance = 0.1f; // Fail change of a agent. Launches to wrong target on fail.
         [ Foldout( "Agent" ), MinMaxSlider( 0 , 5 ) ] public Vector2 agent_launchWaitDuration; // Duration between agent attached to platform and agent's next Launch sequence
 
+        [ Foldout( "Camera" ) ] public Vector3 camera_LookAtAxis; // Camera's available axises for looking at a target 
+		[ Foldout( "Camera" ), MinMaxSlider( 10, 30 ) ] public Vector2 camera_FollowDistance; // Clamp for camera angles to looking left and right
+		[ Foldout( "Camera" ) ] public Vector2 camera_horizontalLookClamp; // Clamp for camera angles to looking left and right
+
+
 		[ ShowNonSerializedField ] public const int actorCount = 4;
         
         [ Foldout( "Rectangular Platform Settings" ), Range( 1, 100 ), Label( "Rand. point inside: % Margin" ) ]

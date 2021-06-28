@@ -28,6 +28,9 @@ MonoBehaviour:
   agent_stretchDutation: 0.25
   agent_failChance: 0.1
   agent_launchWaitDuration: {x: 1, y: 2}
+  camera_LookAtAxis: {x: 0, y: 1, z: 0}
+  camera_FollowDistance: {x: 10, y: 30}
+  camera_horizontalLookClamp: {x: -5, y: 5}
   randomPointInside_MarginPercentage: 15
   randomPointOutside_MaxOffsetPercentage: 45
   randomPointInside_betweenRadii: {x: 10, y: 90}

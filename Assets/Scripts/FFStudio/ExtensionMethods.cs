@@ -75,6 +75,21 @@ namespace FFStudio
 			return first + Random.Range( 0, 1f ) * ( second - first );
 		}
 
+		public static void LookAtAxis( this Transform baseTransform, Vector3 targetPosition, Vector3 axis )
+		{
+			var direction = targetPosition - baseTransform.position;
+
+			var eulerAngles = baseTransform.eulerAngles;
+
+			var newRotationEuler = Quaternion.LookRotation( direction ).eulerAngles;
+
+			newRotationEuler.x = eulerAngles.x + ( newRotationEuler.x - eulerAngles.x ) * axis.x;
+			newRotationEuler.y = eulerAngles.y + ( newRotationEuler.y - eulerAngles.y ) * axis.y;
+			newRotationEuler.z = eulerAngles.z + ( newRotationEuler.z - eulerAngles.z ) * axis.z;
+
+			baseTransform.rotation = Quaternion.Euler( newRotationEuler );
+		}
+
 		public static void LookAtOverTime( this Transform baseTransform, Vector3 targetPosition, float speed )
 		{
 			var _directionVector = targetPosition - baseTransform.position;

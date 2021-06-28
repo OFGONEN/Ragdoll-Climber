@@ -31,6 +31,20 @@ FixedJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &2447190954373757798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5875587723835921303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8b9286af946534c832e5352b9db9e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedReferanceProperty: {fileID: 11400000, guid: feb396987f314e74a9276d39fbf1d19e, type: 2}
+  referanceComponent: {fileID: 9079745860079614209}
 --- !u!1 &9079745858920392356
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,7 +291,6 @@ MonoBehaviour:
   - position: {x: 3.8102238e-10, y: 0.0073176175, z: -8.3317526e-11}
     rotation: {x: 22.446733, y: -0.000029434716, z: -0.0000069252505}
     scale: {x: 1, y: 0.99999994, z: 0.99999994}
-  rotationOffset: {x: -0.6, y: 4.08, z: 0}
   currentWayPoint: 0
   screenPressListener:
     gameEvent: {fileID: 11400000, guid: 98cd820479cdebf4da9ba766d766c401, type: 2}

@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 19782230}
   - component: {fileID: 19782229}
   - component: {fileID: 19782228}
+  - component: {fileID: 19782231}
   m_Layer: 0
   m_Name: main_camera
   m_TagString: MainCamera
@@ -175,7 +176,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -200,12 +201,26 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 19782227}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &19782231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19782227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d95b92f00fb034c4ba7cda5d64d88fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followTarget_Rigidbody: {fileID: 11400000, guid: feb396987f314e74a9276d39fbf1d19e, type: 2}
+  playerStretchRatio: {fileID: 11400000, guid: 9b36a78d61a829c4a8a2d10b4fc22147, type: 2}
 --- !u!54 &73041200 stripped
 Rigidbody:
   m_CorrespondingSourceObject: {fileID: 4416407670660404186, guid: eca04933e7a31d5449fe14bc62e9865f, type: 3}
@@ -1659,7 +1674,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9079745859971959101, guid: 952d90bef0892b441b82529225d20a52, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9079745859971959102, guid: 952d90bef0892b441b82529225d20a52, type: 3}
       propertyPath: m_RootOrder
@@ -2007,7 +2022,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9079745859971959101, guid: cc8feecbda384694790701fc7121df96, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9079745859971959102, guid: cc8feecbda384694790701fc7121df96, type: 3}
       propertyPath: m_RootOrder
