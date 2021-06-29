@@ -7,7 +7,7 @@ using NaughtyAttributes;
 using UnityEngine;
 using DG.Tweening;
 
-public class Actor : MonoBehaviour
+public abstract class Actor : MonoBehaviour
 {
 	#region Fields
 	[ Header( "Event Listener" ) ]
@@ -425,15 +425,9 @@ public class Actor : MonoBehaviour
 		hand_fixedJoint_right.connectedBody = null;
 	}
 
-	protected virtual void LevelStartResponse()
-	{
+	protected abstract void LevelStartResponse();
 
-	}
-
-	protected virtual void OnHandsAttached()
-	{
-
-	}
+	protected abstract void OnHandsAttached();
 
 	private void ApplyArmPosition_Left()
 	{

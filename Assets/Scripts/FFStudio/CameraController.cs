@@ -16,11 +16,16 @@ namespace FFStudio
 
 		/* Private Fields */
 		private Transform followTarget_Transform;
-
 		private Vector3 originalDirection;
+
+		private UnityMessage update;
 #endregion
 
 #region Unity API
+		private void Awake()
+		{
+			update = ExtensionMethods.EmptyMethod;
+		}
 		private void Start()
 		{
 			originalDirection = transform.forward;
@@ -37,6 +42,18 @@ namespace FFStudio
 		}
 
 		private void Update()
+		{
+			update();
+		}
+
+
+#endregion
+
+#region API
+#endregion
+
+#region Implementation
+		private void CameraFollowPlayer()
 		{
 			var position       = transform.position;
 			var followPosition = followTarget_Transform.position;
@@ -55,7 +72,33 @@ namespace FFStudio
 
 			ClampHorizontally();
 		}
+		void OnTargetRigidbodyChange()
+		{
+			if( followTarget_Rigidbody.sharedValue == null )
+			{
+				update = ExtensionMethods.EmptyMethod;
+				followTarget_Transform = null;
+			}
+			else
+			{
+				update = CameraFollowPlayer;
+				followTarget_Transform = ( followTarget_Rigidbody.sharedValue as Rigidbody ).transform;
+			}
+		}
 
+		void ClampHorizontally()
+		{
+			/* Find delta angle with the original direction. */
+			var deltaAngle = Vector3.SignedAngle( originalDirection, transform.forward.SetY( 0 ), Vector3.up );
+
+			/* Clamp & set that as the new Y angle. */
+			var newY = Mathf.Clamp( deltaAngle,
+									GameSettings.Instance.camera_horizontalLookClamp.x, GameSettings.Instance.camera_horizontalLookClamp.y );
+			transform.eulerAngles = transform.eulerAngles.SetY( newY );
+		}
+#endregion
+
+#region EditorOnly
 #if UNITY_EDITOR
 		private void OnDrawGizmos()
 		{
@@ -69,30 +112,6 @@ namespace FFStudio
 			Handles.DrawSolidArc( transform.position, Vector3.up, rightLimit, arcTotalAngle, 2.0f );
 		}
 #endif
-#endregion
-
-#region API
-#endregion
-
-#region Implementation
-		void OnTargetRigidbodyChange()
-		{
-			if( followTarget_Rigidbody.sharedValue == null )
-				followTarget_Transform = null;
-			else
-				followTarget_Transform = ( followTarget_Rigidbody.sharedValue as Rigidbody ).transform;
-		}
-
-		void ClampHorizontally()
-		{
-			/* Find delta angle with the original direction. */
-			var deltaAngle = Vector3.SignedAngle( originalDirection, transform.forward.SetY( 0 ), Vector3.up );
-
-			/* Clamp & set that as the new Y angle. */
-			var newY = Mathf.Clamp( deltaAngle,
-									GameSettings.Instance.camera_horizontalLookClamp.x, GameSettings.Instance.camera_horizontalLookClamp.y );
-			transform.eulerAngles = transform.eulerAngles.SetY( newY );
-		}
 #endregion
 	}
 }
