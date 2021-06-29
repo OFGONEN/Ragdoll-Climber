@@ -10,6 +10,8 @@ using DG.Tweening;
 public class Actor : MonoBehaviour
 {
 	#region Fields
+	[ Header( "Event Listener" ) ]
+	public EventListenerDelegateResponse levelStartedListener;
 
 	public int actor_Index;
 	public SkinnedMeshRenderer modelRenderer;
@@ -64,15 +66,28 @@ public class Actor : MonoBehaviour
 #endregion
 
 #region Unity API
+	protected virtual void OnEnable()
+	{
+		levelStartedListener.OnEnable();
+	}
+
+	protected virtual void OnDisable()
+	{
+		levelStartedListener.OnDisable();
+		KillTweens();
+	}
+
 	protected virtual void Awake()
 	{
 		limbs_rigidbodies = parentRigidbody.GetComponentsInChildren< Rigidbody >(); // Get every rigidbody that ragdoll has
 
 		// Search distance for searching a point for a hand to attached to. Search origin is shoulder
 		armReachDistance  = Vector3.Distance( arm_left_limbs[ arm_left_limbs.Length - 1 ].transform.position, arm_left_limbs[ 0 ].transform.position );
+
+		levelStartedListener.response = LevelStartResponse;
 	}
 
-	private void Start()
+	protected virtual void Start()
 	{
 		ResetActorToWayPoint();
 	}
@@ -408,6 +423,11 @@ public class Actor : MonoBehaviour
 	{
 		hand_fixedJoint_left.connectedBody  = null;
 		hand_fixedJoint_right.connectedBody = null;
+	}
+
+	protected virtual void LevelStartResponse()
+	{
+
 	}
 
 	protected virtual void OnHandsAttached()

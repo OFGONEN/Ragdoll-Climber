@@ -24,21 +24,28 @@ public class Player : Actor
 
 #region Unity API
 
-	private void OnEnable()
+	protected override void OnEnable()
 	{
+		base.OnEnable();
 		screenPressListener.OnEnable();
 	}
 
-	private void OnDisable()
+	protected override void OnDisable()
 	{
+		base.OnDisable();
 		screenPressListener.OnDisable();
 	}
 
 	protected override void Awake()
 	{
 		base.Awake();
+	}
 
-		screenPressEvent = screenPressListener.gameEvent as ScreenPressEvent;
+	protected override void Start()
+	{
+		base.Start();
+		screenPressListener.OnDisable();
+		UnSubscribeProperties();
 	}
 #endregion
 
@@ -66,16 +73,16 @@ public class Player : Actor
 		{
 			StraightenUpRagdoll();
 
-			SubscribeInput();
+			SubscribeProperties();
 		}
 		else if ( stretchRatioProperty.sharedValue >= 0.1f )
 		{
-			UnSubscribeInput();
+			UnSubscribeProperties();
 			ReadyToLaunch();
 		}
 		else 
 		{
-			UnSubscribeInput();
+			UnSubscribeProperties();
 			DefaultTheRagdoll();
 		}
 	}
@@ -85,16 +92,23 @@ public class Player : Actor
 		screenPressListener.response = TryToAttachHands;
 	}
 
-	private void SubscribeInput()
+	private void SubscribeProperties()
 	{
 		inputDirectionProperty.changeEvent += OnInputDirectionChange;
 		stretchRatioProperty.changeEvent   += OnStretchRationChange;
 	}
 
-	private void UnSubscribeInput()
+	private void UnSubscribeProperties()
 	{
 		inputDirectionProperty.changeEvent -= OnInputDirectionChange;
 		stretchRatioProperty.changeEvent   -= OnStretchRationChange;
+	}
+
+	protected override void LevelStartResponse()
+	{
+		screenPressEvent = screenPressListener.gameEvent as ScreenPressEvent;
+		screenPressListener.OnEnable();
+		SubscribeProperties();
 	}
 
 	protected override void ReleaseHands()
@@ -110,7 +124,8 @@ public class Player : Actor
 
 		if( currentWayPoint + 1 == platformSet.itemDictionary.Count / 2 )
 		{
-			UnSubscribeInput();
+			screenPressListener.response = ExtensionMethods.EmptyMethod;
+			UnSubscribeProperties();
 			levelComplete.Raise();
 		}
 	}

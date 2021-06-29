@@ -171,6 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b7df4b752976bb4ba8829b844920463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelStartedListener:
+    gameEvent: {fileID: 11400000, guid: efef06bf257ee27438d6c2aab4936226, type: 2}
   actor_Index: 0
   modelRenderer: {fileID: 1361429592245994225}
   platformSet: {fileID: 11400000, guid: 6b052450fb56530448c7b6d0f085f01f, type: 2}

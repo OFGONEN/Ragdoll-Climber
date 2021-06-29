@@ -28,14 +28,17 @@ public class Agent : Actor
 
 #region Unity API
 
-	private void OnDisable()
-	{
-		KillTweens();
-	}
 	protected override void Awake()
 	{
 		base.Awake();
 		update = ExtensionMethods.EmptyMethod;
+	}
+
+	protected override void Start()
+	{
+		base.Start();
+
+		launchWaitTween.Kill();
 	}
 
 	private void Update()
@@ -83,7 +86,6 @@ public class Agent : Actor
 		rotationNormal = 0;
 		stretchNormal  = 0;
 
-		FFLogger.Log( "Agent :" + GameSettings.Instance.agent_rotationSpeed );
 		float rotationDuration = Mathf.Abs( rotateAmount / GameSettings.Instance.agent_rotationSpeed );
 
 		var rotateTween  = DOTween.To( () => rotationNormal, x => rotationNormal = x, 1, rotationDuration ); 
@@ -127,10 +129,19 @@ public class Agent : Actor
 		update = CheckDistanceToTargetPlatform;
 	}
 
+	protected override void LevelStartResponse()
+	{
+		StartLaunchSequence();
+	}
+
 	protected override void OnHandsAttached()
 	{
 		update = ExtensionMethods.EmptyMethod;
+		StartLaunchSequence();
+	}
 
+	private void StartLaunchSequence()
+	{
 		var delay = Random.Range( GameSettings.Instance.agent_launchWaitDuration.x, GameSettings.Instance.agent_launchWaitDuration.y );
 		launchWaitTween = DOVirtual.DelayedCall( delay, LaunchNextPlatform );
 		launchWaitTween.OnComplete( OnLaunchWaitComplete );
@@ -160,7 +171,7 @@ public class Agent : Actor
 		if( launchWaitTween != null )
 		{
 			launchWaitTween.Kill();
-			launchSequence = null;
+			launchWaitTween = null;
 		}
 	}
 
