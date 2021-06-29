@@ -281,6 +281,7 @@ MonoBehaviour:
   currentWayPoint: 0
   screenPressListener:
     gameEvent: {fileID: 11400000, guid: 98cd820479cdebf4da9ba766d766c401, type: 2}
+  levelComplete: {fileID: 11400000, guid: 28d976b368abc004a924d98b1751a17d, type: 2}
   inputDirectionProperty: {fileID: 11400000, guid: 3b4c4b2e2003a2c49837d7b29822db71, type: 2}
   stretchRatioProperty: {fileID: 11400000, guid: 9b36a78d61a829c4a8a2d10b4fc22147, type: 2}
 --- !u!114 &6180737848648119841

@@ -8,8 +8,11 @@ using UnityEngine;
 public class Player : Actor
 {
 	#region Fields
-	[Header( "Event Listener" )]
+	[ Header( "Event Listener" ) ]
 	public EventListenerDelegateResponse screenPressListener;
+
+	[ Header( "Event Listener" ) ]
+	public GameEvent levelComplete;
 
 	[ Header( "Shared Variables" ) ]
 	public SharedVector2Property inputDirectionProperty;
@@ -63,21 +66,16 @@ public class Player : Actor
 		{
 			StraightenUpRagdoll();
 
-			inputDirectionProperty.changeEvent += OnInputDirectionChange;
-			stretchRatioProperty.changeEvent   += OnStretchRationChange;
+			SubscribeInput();
 		}
 		else if ( stretchRatioProperty.sharedValue >= 0.1f )
 		{
-			inputDirectionProperty.changeEvent -= OnInputDirectionChange;
-			stretchRatioProperty.changeEvent   -= OnStretchRationChange;
-
+			UnSubscribeInput();
 			ReadyToLaunch();
 		}
 		else 
 		{
-			inputDirectionProperty.changeEvent -= OnInputDirectionChange;
-			stretchRatioProperty.changeEvent   -= OnStretchRationChange;
-
+			UnSubscribeInput();
 			DefaultTheRagdoll();
 		}
 	}
@@ -85,6 +83,18 @@ public class Player : Actor
 	private void ScreenPressResponse_HandsFree()
 	{
 		screenPressListener.response = TryToAttachHands;
+	}
+
+	private void SubscribeInput()
+	{
+		inputDirectionProperty.changeEvent += OnInputDirectionChange;
+		stretchRatioProperty.changeEvent   += OnStretchRationChange;
+	}
+
+	private void UnSubscribeInput()
+	{
+		inputDirectionProperty.changeEvent -= OnInputDirectionChange;
+		stretchRatioProperty.changeEvent   -= OnStretchRationChange;
 	}
 
 	protected override void ReleaseHands()
@@ -97,6 +107,12 @@ public class Player : Actor
 	protected override void OnHandsAttached()
 	{
 		screenPressListener.response = ScreenPressResponse_HandsAttached;
+
+		if( currentWayPoint + 1 == platformSet.itemDictionary.Count / 2 )
+		{
+			UnSubscribeInput();
+			levelComplete.Raise();
+		}
 	}
 #endregion
 }
