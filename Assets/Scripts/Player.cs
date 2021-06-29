@@ -79,6 +79,7 @@ public class Player : Actor
 		{
 			UnSubscribeProperties();
 			ReadyToLaunch();
+			stretchRatioProperty.SetValue( 1 );
 		}
 		else 
 		{
@@ -121,6 +122,7 @@ public class Player : Actor
 	protected override void OnHandsAttached()
 	{
 		screenPressListener.response = ScreenPressResponse_HandsAttached;
+		stretchRatioProperty.SetValue( 0 );
 
 		if( currentWayPoint + 1 == platformSet.itemDictionary.Count / 2 )
 		{
