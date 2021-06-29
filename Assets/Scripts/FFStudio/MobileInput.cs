@@ -9,6 +9,10 @@ namespace FFStudio
     public class MobileInput : MonoBehaviour
     {
 #region Fields
+		[ Header( "Event Listeners" ) ]
+		public MultipleEventListenerDelegateResponse levelUnloadsListener;
+		public EventListenerDelegateResponse levelLoadedListener;
+
 		[ Header( "Fired Events" ) ]
 		public SwipeInputEvent swipeInputEvent;
 		public IntGameEvent tapInputEvent;
@@ -18,6 +22,7 @@ namespace FFStudio
 		public SharedVector2Property inputDirection;
 		public SharedFloatProperty stretchRatio;
 
+		private LeanTouch leanTouch;
 		private int swipeThreshold;
 		private LeanFingerDelegate fingerUpdate;
 
@@ -32,6 +37,18 @@ namespace FFStudio
 #endregion
 
 #region UnityAPI
+		private void OnEnable()
+		{
+			levelUnloadsListener.OnEnable();
+			levelLoadedListener .OnEnable();
+		}
+
+		private void OnDisable()
+		{
+			levelUnloadsListener.OnDisable();
+			levelLoadedListener .OnDisable();
+		}
+
 		private void Awake()
 		{
 			swipeThreshold = Screen.width * GameSettings.Instance.swipeThreshold / 100;
@@ -41,6 +58,12 @@ namespace FFStudio
 			stretch        = input_Stretch - input_Rotation;
 
 			fingerUpdate   = FingerDown;
+
+			leanTouch = GetComponent< LeanTouch >();
+			leanTouch.enabled = false;
+
+			levelUnloadsListener.response = () => leanTouch.enabled = false;
+			levelLoadedListener.response  = () => leanTouch.enabled = true;
 		}
 #endregion
 

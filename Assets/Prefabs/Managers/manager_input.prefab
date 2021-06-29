@@ -47,6 +47,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 702ac59cd07692945a08dfba8421ea74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelUnloadsListener:
+    gameEvent: {fileID: 0}
+    gameEvents:
+    - {fileID: 11400000, guid: f21048912f45f4f4ba5088a96779eb2f, type: 2}
+    - {fileID: 11400000, guid: 0a3e52cd505ecfc4ba9ef153d4f3ba93, type: 2}
+  levelLoadedListener:
+    gameEvent: {fileID: 11400000, guid: 08b9079fb856230459ba418b28981185, type: 2}
   swipeInputEvent: {fileID: 11400000, guid: 098e32fbac85f404ba69e3d0dffc1fb1, type: 2}
   tapInputEvent: {fileID: 11400000, guid: 182cfa2632cfdba49bfaf3471d114d23, type: 2}
   screenPressEvent: {fileID: 11400000, guid: 98cd820479cdebf4da9ba766d766c401, type: 2}
@@ -59,7 +66,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 961601380926824724}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1fc98219a83dff145947365dc914d06e, type: 3}
   m_Name: 
