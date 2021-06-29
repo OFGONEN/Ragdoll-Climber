@@ -29,7 +29,8 @@ namespace FFStudio
 
         [Header("Fired Events")]
         public GameEvent levelRevealedEvent;
-        public GameEvent loadNewLevelEvent;
+		public GameEvent levelStartedEvent;
+		public GameEvent loadNewLevelEvent;
         public GameEvent resetLevelEvent;
         public ElephantLevelEvent elephantLevelEvent;
 
@@ -125,22 +126,27 @@ namespace FFStudio
 
             var sequence = DOTween.Sequence();
 
-            Tween tween = null;
+            // Tween tween = null;
 
             sequence.Append(foreGroundImage.DOFade(0, GameSettings.Instance.ui_Entity_Fade_TweenDuration));
-            sequence.Append(tween); //TODO: UIElements tween
-            sequence.AppendCallback(levelRevealedEvent.Raise);
+			// sequence.Append(tween); //TODO: UIElements tween
+			sequence.AppendCallback( levelRevealedEvent.Raise );
+			sequence.AppendCallback( levelStartedEvent.Raise );
 
-            elephantLevelEvent.level = CurrentLevelData.Instance.currentConsecutiveLevel;
+			elephantLevelEvent.level = CurrentLevelData.Instance.currentConsecutiveLevel;
             elephantLevelEvent.elephantEventType = ElephantEvent.LevelStarted;
             elephantLevelEvent.Raise();
         }
 
         void StartLevel()
         {
-            foreGroundImage.DOFade(0, GameSettings.Instance.ui_Entity_Fade_TweenDuration);
-            informationText.GoPopIn().OnComplete(levelRevealedEvent.Raise);
-            tutorialObjects.gameObject.SetActive(false);
+			var sequence = DOTween.Sequence();
+			sequence.Append( foreGroundImage.DOFade( 0, GameSettings.Instance.ui_Entity_Fade_TweenDuration ) );
+			sequence.Join( informationText.GoPopIn() );
+			sequence.AppendCallback( levelRevealedEvent.Raise );
+			sequence.AppendCallback( levelStartedEvent.Raise );
+
+			tutorialObjects.gameObject.SetActive(false);
 
             tapInputListener.response = ExtensionMethods.EmptyMethod;
 
