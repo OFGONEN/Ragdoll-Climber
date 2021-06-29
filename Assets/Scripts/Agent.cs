@@ -11,6 +11,8 @@ using UnityEditor;
 public class Agent : Actor
 {
 #region Fields
+	// Public Fields
+	public EntityInfoLibrary entityInfoLibrary;
 
 	// Private Fields
 	PlatformBase nextPlatform;
@@ -32,6 +34,9 @@ public class Agent : Actor
 	{
 		base.Awake();
 		update = ExtensionMethods.EmptyMethod;
+
+		actorName = entityInfoLibrary.GiveRandomInfo();
+		Rank = 0;
 	}
 
 	protected override void Start()

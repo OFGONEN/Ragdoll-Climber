@@ -14,10 +14,21 @@ public abstract class Actor : MonoBehaviour
 	public EventListenerDelegateResponse levelStartedListener;
 
 	public int actor_Index;
+	public UIWorldSpace actorNameDisplay;
 	public SkinnedMeshRenderer modelRenderer;
 	public PlatformSet platformSet;
 
-	// Properties
+	// Public Properties
+	public int Rank
+	{
+		set 
+		{
+			actorRank = value;
+			actorNameDisplay.entityName.text = actorName + " #" + value;
+		}
+	}
+
+	// Protected/Private Properties
 	protected Vector3 ActorPosition => parentRigidbody.transform.position;
 	protected Vector3 ActorRotation => parentRigidbody.transform.eulerAngles;
 
@@ -59,6 +70,8 @@ public abstract class Actor : MonoBehaviour
 	private UnityMessage applyHandPosition; // Delegate for modifying attached hand's limbs rotation and position for rotating the ragdoll
 	private Tween resetActorWaitTween;
 
+	protected string actorName; // Actor's name and rank
+	protected int actorRank; // Actor's rank in the race
 	private float armReachDistance; // An arm's reach distance from a shoulder
 	private const int collisionLayer = 27;
 	private Collider[] castTarget = new Collider[ 1 ]; // Used for OverlapSphereNonAlloc 
@@ -85,6 +98,7 @@ public abstract class Actor : MonoBehaviour
 		armReachDistance  = Vector3.Distance( arm_left_limbs[ arm_left_limbs.Length - 1 ].transform.position, arm_left_limbs[ 0 ].transform.position );
 
 		levelStartedListener.response = LevelStartResponse;
+		actorNameDisplay.followTarget = parentRigidbody.transform;
 	}
 
 	protected virtual void Start()
@@ -99,10 +113,12 @@ public abstract class Actor : MonoBehaviour
 		var waitRange = GameSettings.Instance.actor_resetWaitDuration;
 		var randomWaitDuration = Random.Range( waitRange.x, waitRange.y );
 
+
 		ReleaseHands();
 		DefaultTheRagdoll();
 		TPoseTheRagdoll();
 
+		actorNameDisplay.gameObject.SetActive( false );
 		parentRigidbody.gameObject.SetActive( false );
 
 		resetActorWaitTween = DOVirtual.DelayedCall( randomWaitDuration, ResetActorToWayPoint );
@@ -387,6 +403,7 @@ public abstract class Actor : MonoBehaviour
 	protected void DefaultTheRagdoll()
 	{
 		parentRigidbody.gameObject.SetActive( true );
+		actorNameDisplay.gameObject.SetActive( true );
 
 		for( var i = 0; i < limbs_rigidbodies.Length; i++ )
 		{

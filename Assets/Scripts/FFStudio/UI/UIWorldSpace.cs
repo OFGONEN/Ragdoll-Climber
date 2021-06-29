@@ -19,6 +19,9 @@ public class UIWorldSpace : MonoBehaviour
 	[Header( "UI Elements" )]
 	public TextMeshProUGUI entityName;
 
+	// Hidden Fields
+	[ HideInInspector ] public Transform followTarget;
+
 	// Private Fields
 	private Transform mainCamera;
 	private UnityMessage update;
@@ -51,8 +54,18 @@ public class UIWorldSpace : MonoBehaviour
 #endregion
 
 #region Implementation
-	void FaceCamera()
+	void FollowTarget()
 	{
+		// Follow Ragdoll Target
+		var targetPosition = followTarget.position;
+		var targetOffset   = GameSettings.Instance.worldUI_AgentName_Offset;
+
+		targetPosition.y += targetOffset.y;
+		targetPosition.z  = targetOffset.z;
+
+		transform.position = targetPosition;
+
+		// Look at Camera
 		var lookDirection = transform.position - mainCamera.position;
 		Vector3 newDirection = Vector3.RotateTowards( transform.forward, lookDirection, 6.3f, 0 ); // One complete circle is 6.28 radian. 
 		var eulerLookRotation = Quaternion.LookRotation( newDirection ).eulerAngles;
@@ -70,7 +83,7 @@ public class UIWorldSpace : MonoBehaviour
 		else 
 		{
 			mainCamera = mainCameraReference.sharedValue as Transform;
-			update     = FaceCamera;
+			update     = FollowTarget;
 		}
 	}
 #endregion

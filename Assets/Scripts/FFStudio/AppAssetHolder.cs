@@ -7,8 +7,31 @@ using FFStudio;
 public class AppAssetHolder : MonoBehaviour
 {
 
-	#region Fields
+#region Fields
+	[ Header( "Event Listeners" ) ]
+	public MultipleEventListenerDelegateResponse levelChangesListener;
+
 	public GameSettings gameSettings;
 	public CurrentLevelData currentLevelData;
-	#endregion
+	public EntityInfoLibrary entityInfoLibrary;
+#endregion
+
+#region UnityAPI 
+	private void OnEnable()
+	{
+		levelChangesListener.OnEnable();
+	}
+
+	private void OnDisable()
+	{
+		levelChangesListener.OnDisable();
+	}
+
+	private void Awake()
+	{
+		entityInfoLibrary.ResetRemainingInfo();
+
+		levelChangesListener.response = entityInfoLibrary.ResetRemainingInfo;
+	}
+#endregion
 }

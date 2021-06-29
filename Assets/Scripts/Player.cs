@@ -39,6 +39,9 @@ public class Player : Actor
 	protected override void Awake()
 	{
 		base.Awake();
+
+		actorName = "Player";
+		Rank = 0;
 	}
 
 	protected override void Start()
