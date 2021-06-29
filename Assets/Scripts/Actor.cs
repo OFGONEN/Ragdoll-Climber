@@ -84,6 +84,10 @@ public class Actor : MonoBehaviour
 		var waitRange = GameSettings.Instance.actor_resetWaitDuration;
 		var randomWaitDuration = Random.Range( waitRange.x, waitRange.y );
 
+		ReleaseHands();
+		DefaultTheRagdoll();
+		TPoseTheRagdoll();
+
 		parentRigidbody.gameObject.SetActive( false );
 
 		resetActorWaitTween = DOVirtual.DelayedCall( randomWaitDuration, ResetActorToWayPoint );
