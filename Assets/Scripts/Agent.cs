@@ -147,8 +147,10 @@ public class Agent : Actor
 		launchWaitTween = null;
 	}
 
-	private void KillTweens()
+	protected override void KillTweens()
 	{
+		base.KillTweens();
+
 		if( launchSequence != null )
 		{
 			launchSequence.Kill();

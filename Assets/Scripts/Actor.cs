@@ -55,6 +55,7 @@ public class Actor : MonoBehaviour
 	private Vector3 handTargetPoint; // World point that hand will attached to
 	private UnityMessage attachHand; // Delegate for attaching hand, gets set by checking checking attach points in the space
 	private UnityMessage applyHandPosition; // Delegate for modifying attached hand's limbs rotation and position for rotating the ragdoll
+	private Tween resetActorWaitTween;
 
 	private float armReachDistance; // An arm's reach distance from a shoulder
 	private const int collisionLayer = 27;
@@ -78,6 +79,16 @@ public class Actor : MonoBehaviour
 #endregion
 
 #region API
+	public void ResetActor()
+	{
+		var waitRange = GameSettings.Instance.actor_resetWaitDuration;
+		var randomWaitDuration = Random.Range( waitRange.x, waitRange.y );
+
+		parentRigidbody.gameObject.SetActive( false );
+
+		resetActorWaitTween = DOVirtual.DelayedCall( randomWaitDuration, ResetActorToWayPoint );
+		resetActorWaitTween.OnComplete( () => resetActorWaitTween = null );
+	}
 #endregion
 
 #region Implementation
@@ -356,6 +367,8 @@ public class Actor : MonoBehaviour
 	// Make every rigidbody in the ragdoll dynamic and zero out every velocity 
 	protected void DefaultTheRagdoll()
 	{
+		parentRigidbody.gameObject.SetActive( true );
+
 		for( var i = 0; i < limbs_rigidbodies.Length; i++ )
 		{
 			limbs_rigidbodies[ i ].velocity         = Vector3.zero;
@@ -375,6 +388,16 @@ public class Actor : MonoBehaviour
 			limbs_rigidbodies[ i ].transform.SetLocalTransformData( limbs_holdPositions_TPose[ i ] );
 		}
 	}
+
+	protected virtual void KillTweens()	
+	{
+		if( resetActorWaitTween != null )
+		{
+			resetActorWaitTween.Kill();
+			resetActorWaitTween = null;
+		}
+	}
+	
 
 	// Nulls the connected body of FixedJoints for hands to release hands rigidbodies to act freely 
 	protected virtual void ReleaseHands()

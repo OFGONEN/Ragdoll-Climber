@@ -86,7 +86,7 @@ public class Player : Actor
 	{
 		screenPressListener.response = TryToAttachHands;
 	}
-	
+
 	protected override void ReleaseHands()
 	{
 		base.ReleaseHands();
