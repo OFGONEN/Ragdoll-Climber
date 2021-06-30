@@ -13,6 +13,10 @@ public abstract class Actor : MonoBehaviour
 	[ Header( "Event Listener" ) ]
 	public EventListenerDelegateResponse levelStartedListener;
 
+	[ Header( "Fired Events" ) ]
+	public ReferenceGameEvent actor_Participate_Race;
+	public ReferenceGameEvent actor_Finished_Race;
+
 	public int actor_Index;
 	public UIWorldSpace actorNameDisplay;
 	public SkinnedMeshRenderer modelRenderer;
@@ -27,11 +31,10 @@ public abstract class Actor : MonoBehaviour
 			actorNameDisplay.entityName.text = actorName + " #" + value;
 		}
 	}
+	public Vector3 ActorPosition => parentRigidbody.transform.position;
 
 	// Protected/Private Properties
-	protected Vector3 ActorPosition => parentRigidbody.transform.position;
 	protected Vector3 ActorRotation => parentRigidbody.transform.eulerAngles;
-
 	protected Vector3 LeftShouldPos => arm_left_limbs[ 0 ].transform.position;
 	protected Vector3 RightShouldPos => arm_right_limbs[ 0 ].transform.position;
 	protected float ArmReachDistance => armReachDistance;
@@ -104,6 +107,9 @@ public abstract class Actor : MonoBehaviour
 	protected virtual void Start()
 	{
 		ResetActorToWayPoint();
+
+		actor_Participate_Race.eventValue = this;
+		actor_Participate_Race.Raise();
 	}
 #endregion
 
@@ -489,6 +495,12 @@ public abstract class Actor : MonoBehaviour
 		platformSet.itemDictionary.TryGetValue( platformObject.GetInstanceID(), out platform );
 
 		currentWayPoint = platform.platformIndex;
+
+		if( currentWayPoint + 1 == platformSet.itemDictionary.Count / 2 )
+		{
+			actor_Finished_Race.eventValue = this;
+			actor_Finished_Race.Raise();
+		}
 	}
 #endregion
 

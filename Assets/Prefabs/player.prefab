@@ -187,6 +187,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelStartedListener:
     gameEvent: {fileID: 11400000, guid: efef06bf257ee27438d6c2aab4936226, type: 2}
+  actor_Participate_Race: {fileID: 11400000, guid: 399666517f6af044cb14a731e3b42d57, type: 2}
+  actor_Finished_Race: {fileID: 11400000, guid: 03201d1ed0bed6f4abfb2fa380b7a9f0, type: 2}
   actor_Index: 0
   actorNameDisplay: {fileID: 1921030214234230737}
   modelRenderer: {fileID: 1361429592245994225}
