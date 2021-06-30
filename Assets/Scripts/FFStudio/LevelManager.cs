@@ -26,11 +26,13 @@ namespace FFStudio
         [ Header( "Level Releated" ) ]
         public PlatformSet platformSet;
         public SharedFloatProperty levelProgress;
+        public SharedReferenceProperty bottomFence_Property;
 
 		// Private Fields
 
 		// Level  
 		private PlatformBase lastPlatform;
+		private Transform bottomFence;
 
 		// Rank
 		[ReadOnly, SerializeField] private List< Actor > raceParticipants = new List< Actor >( GameSettings.actorCount );
@@ -110,6 +112,7 @@ namespace FFStudio
 			var platformCount = platformSet.itemDictionary.Count / 2;
 			platformSet.itemDictionary.TryGetValue( platformCount - 1, out lastPlatform );
 
+			bottomFence = bottomFence_Property.sharedValue as Transform;
 			actorsRankCheck = CheckActorRanks;
 		}
 
@@ -146,6 +149,14 @@ namespace FFStudio
 			for( var i = 0; i < currentRanks.Count; i++ )
 			{
 				currentRanks[ i ].Rank = finishedParticipants.Count + i + 1;
+			}
+
+			if( currentRanks.Count > 0 )
+			{
+				var position = bottomFence.position;
+
+				position.y = currentRanks[ currentRanks.Count - 1 ].ActorPosition.y - GameSettings.Instance.level_fenceBottomOffset;
+				bottomFence.position = position;
 			}
 		}
 

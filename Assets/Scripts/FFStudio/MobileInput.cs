@@ -9,16 +9,13 @@ namespace FFStudio
     public class MobileInput : MonoBehaviour
     {
 #region Fields
-		[ Header( "Event Listeners" ) ]
-		public MultipleEventListenerDelegateResponse levelUnloadsListener;
-		public EventListenerDelegateResponse levelLoadedListener;
-
 		[ Header( "Fired Events" ) ]
 		public SwipeInputEvent swipeInputEvent;
 		public IntGameEvent tapInputEvent;
 		public ScreenPressEvent screenPressEvent;
 
 		[ Header( "Shared Variables" ) ]
+		public SharedReferenceProperty cameraTransformProperty;
 		public SharedVector2Property inputDirection;
 		public SharedFloatProperty stretchRatio;
 
@@ -39,14 +36,12 @@ namespace FFStudio
 #region UnityAPI
 		private void OnEnable()
 		{
-			levelUnloadsListener.OnEnable();
-			levelLoadedListener .OnEnable();
+			cameraTransformProperty.changeEvent += OnCameraChange;
 		}
 
 		private void OnDisable()
 		{
-			levelUnloadsListener.OnDisable();
-			levelLoadedListener .OnDisable();
+			cameraTransformProperty.changeEvent -= OnCameraChange;
 		}
 
 		private void Awake()
@@ -62,8 +57,6 @@ namespace FFStudio
 			leanTouch = GetComponent< LeanTouch >();
 			leanTouch.enabled = false;
 
-			levelUnloadsListener.response = () => leanTouch.enabled = false;
-			levelLoadedListener.response  = () => leanTouch.enabled = true;
 		}
 #endregion
 
@@ -128,6 +121,11 @@ namespace FFStudio
 				// inputDirection.InvokeValue( Vector2.zero );
 				stretchRatio.SetValue( 0 );
 			}
+		}
+
+		private void OnCameraChange()
+		{
+			leanTouch.enabled = cameraTransformProperty.sharedValue != null;
 		}
 #endregion
 

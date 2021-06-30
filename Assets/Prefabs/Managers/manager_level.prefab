@@ -59,6 +59,7 @@ MonoBehaviour:
   levelCompleted: {fileID: 11400000, guid: 28d976b368abc004a924d98b1751a17d, type: 2}
   platformSet: {fileID: 11400000, guid: 6b052450fb56530448c7b6d0f085f01f, type: 2}
   levelProgress: {fileID: 11400000, guid: 43438d720c16f2e4aa5a19d520e1e15f, type: 2}
+  bottomFence_Property: {fileID: 11400000, guid: 64cb2eac2a2d2324ab8c12852d2ca62b, type: 2}
   raceParticipants: []
   currentRanks: []
   finishedParticipants: []
