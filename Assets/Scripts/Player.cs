@@ -17,6 +17,7 @@ public class Player : Actor
 	[ Header( "Shared Variables" ) ]
 	public SharedVector2Property inputDirectionProperty;
 	public SharedFloatProperty stretchRatioProperty;
+    public SharedFloatProperty levelProgress;
 
 	// Private Fields
 	private ScreenPressEvent screenPressEvent;
@@ -127,7 +128,11 @@ public class Player : Actor
 		screenPressListener.response = ScreenPressResponse_HandsAttached;
 		stretchRatioProperty.SetValue( 0 );
 
-		if( currentWayPoint + 1 == platformSet.itemDictionary.Count / 2 )
+		var platformCount = platformSet.itemDictionary.Count / 2;
+
+		levelProgress.SetValue( currentWayPoint / ( float )( platformCount - 1 ) );
+
+		if( currentWayPoint + 1 == platformCount  ) // Way points starts at 0
 		{
 			screenPressListener.response = ExtensionMethods.EmptyMethod;
 			UnSubscribeProperties();

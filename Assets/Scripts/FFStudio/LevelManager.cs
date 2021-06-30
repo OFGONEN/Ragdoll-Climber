@@ -7,48 +7,61 @@ namespace FFStudio
 {
     public class LevelManager : MonoBehaviour
     {
-        #region Fields
-        [Header("Event Listeners")]
+#region Fields
+        [ Header( "Event Listeners" ) ]
         public EventListenerDelegateResponse levelLoadedListener;
         public EventListenerDelegateResponse levelRevealedListener;
         public EventListenerDelegateResponse levelStartedListener;
 
-        [Header("Fired Events")]
+        [ Header( "Fired Events" ) ]
         public GameEvent levelFailedEvent;
         public GameEvent levelCompleted;
 
-        [Header("Level Releated")]
+        [ Header( "Level Releated" ) ]
+        public PlatformSet platformSet;
         public SharedFloatProperty levelProgress;
 
-        #endregion
+        // Private Fields
 
-        #region UnityAPI
+		// Level Releated Fields 
 
-        private void OnEnable()
+		// Unity Messages 
+		UnityMessage actorsRankCheck;
+
+#endregion
+
+#region UnityAPI
+
+		private void OnEnable()
         {
             levelLoadedListener  .OnEnable();
             levelRevealedListener.OnEnable();
             levelStartedListener .OnEnable();
-        }
+
+		}
 
         private void OnDisable()
         {
             levelLoadedListener  .OnDisable();
             levelRevealedListener.OnDisable();
             levelStartedListener .OnDisable();
+
         }
 
         private void Awake()
         {
-
             levelLoadedListener.response   = LevelLoadedResponse;
             levelRevealedListener.response = LevelRevealedResponse;
             levelStartedListener.response  = LevelStartedResponse;
-        }
+		}
 
-        #endregion
+        private void Update()
+        {
+		}
 
-        #region Implementation
+#endregion
+
+#region Implementation
         void LevelLoadedResponse()
         {
             levelProgress.SetValue(0);
@@ -61,9 +74,7 @@ namespace FFStudio
 
         void LevelStartedResponse()
         {
-
-        }
-
-        #endregion
+		}
+#endregion
     }
 }
