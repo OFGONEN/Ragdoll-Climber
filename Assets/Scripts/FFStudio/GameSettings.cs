@@ -43,17 +43,20 @@ namespace FFStudio
 
 		[ ShowNonSerializedField ] public const int actorCount = 4;
         
-        [ Foldout( "Rectangular Platform Settings" ), Range( 1, 100 ), Label( "Rand. point inside: % Margin" ) ]
+        [ Foldout( "Rectangular Platform Settings" ), Range( 1, 100 ), Label( "Rand. point inside: % of Margin" ) ]
 		public int randomPointInside_MarginPercentage = 15;
-        [ Foldout( "Rectangular Platform Settings" ), Range( 1, 100 ), Label( "Rand. point outside: % Max Offset" ) ]
+        [ Foldout( "Rectangular Platform Settings" ), Range( 1, 100 ), Label( "Rand. point outside: % of Max Offset" ) ]
 		public int randomPointOutside_MaxOffsetPercentage = 45;
         
-        [ Foldout( "Circular Platform Settings" ), MinMaxSlider( 1, 100 ), Label( "Rand. point inside is between (% Radius)" ) ]
+        [ Foldout( "Circular Platform Settings" ), MinMaxSlider( 1, 100 ), Label( "Rand. point inside is in this range (% of Radius)" ) ]
 		public Vector2 randomPointInside_betweenRadii = new Vector2( 10, 90 );
 		public float RandomPointInside_Radius => Random.Range( randomPointInside_betweenRadii.x / 100.0f, randomPointInside_betweenRadii.y / 100.0f );
-		[ Foldout( "Circular Platform Settings" ), MinMaxSlider( 100, 300 ), Label( "Rand. point outside is between (% Radius)" ) ]
+		[ Foldout( "Circular Platform Settings" ), MinMaxSlider( 100, 300 ), Label( "Rand. point outside is in this range (% of Radius)" ) ]
 		public Vector2 randomPointOutside_betweenRadii = new Vector2( 100, 150 );
 		public float RandomPointOutside_Radius => Random.Range( randomPointOutside_betweenRadii.x / 100.0f, randomPointOutside_betweenRadii.y / 100.0f );
+		[ Foldout( "Circular Platform Settings" ), MinMaxSlider( 10, 90 ), Label( "Reset slot is in this range (% of Extents)" ) ]
+		public Vector2 resetSlotOffsetRange = new Vector2( 30, 65 );
+		public float RandomRadialResetSlotOffset => Random.Range( resetSlotOffsetRange.x / 100.0f, resetSlotOffsetRange.y / 100.0f );
 #endregion
 
 #region Singleton Fields

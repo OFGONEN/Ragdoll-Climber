@@ -40,17 +40,17 @@ public class CircularPlatform : PlatformBase
 		var actorCount = GameSettings.actorCount;
 
 		/* Start from 0 degrees on the unit circle and go counter-clockwise from there. */
-		var     offsetFromCenter = bounds.extents.x * 2.0f / 3.0f;
-		Vector2 startingPos      = bounds.center;
-		var     deltaAngle       = 2.0f * Mathf.PI / ( actorCount );
-		var     randomOffset     = Random.Range( 0.1f, 1.0f ) * 2.0f * Mathf.PI;
+		var     offsetFromCenter  = bounds.extents.x * GameSettings.Instance.RandomRadialResetSlotOffset;
+		Vector2 startingPos       = bounds.center;
+		var     deltaAngle        = 2.0f * Mathf.PI / ( actorCount );
+		var     randomAngleOffset = Random.Range( 0.1f, 1.0f ) * 2.0f * Mathf.PI;
 
 		resetSlots = new Vector2[ actorCount ];
 		resetSlotIndicesByID = new int[ actorCount ];
 		for( var i = 0; i < resetSlots.Length; i++ )
 		{
-			resetSlots[ i ] = startingPos + offsetFromCenter * new Vector2( Mathf.Cos( randomOffset + i * deltaAngle ),
-                                                                            Mathf.Sin( randomOffset + i * deltaAngle ) );
+			resetSlots[ i ] = startingPos + offsetFromCenter * new Vector2( Mathf.Cos( randomAngleOffset + i * deltaAngle ),
+                                                                            Mathf.Sin( randomAngleOffset + i * deltaAngle ) );
 			resetSlotIndicesByID[ i ] = i;
 		}
 

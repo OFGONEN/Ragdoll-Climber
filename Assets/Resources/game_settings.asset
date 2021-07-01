@@ -40,3 +40,4 @@ MonoBehaviour:
   randomPointOutside_MaxOffsetPercentage: 45
   randomPointInside_betweenRadii: {x: 10, y: 90}
   randomPointOutside_betweenRadii: {x: 100, y: 150}
+  resetSlotOffsetRange: {x: 30, y: 45}
