@@ -32,6 +32,8 @@ public abstract class Actor : MonoBehaviour
 		}
 	}
 	public Vector3 ActorPosition => parentRigidbody.transform.position;
+	public int ActorWayPoint => currentWayPoint;
+	public PlatformBase ActorPlatform => currentPlatform;
 
 	// Protected/Private Properties
 	protected Vector3 ActorRotation => parentRigidbody.transform.eulerAngles;
@@ -61,8 +63,9 @@ public abstract class Actor : MonoBehaviour
 	[Foldout( "Configure" ), SerializeField ] private TransformData[] rotatingLimbs_holdingPositions; // Rotating limbs holding position and rotations
 	[Foldout( "Configure" ), SerializeField ] private TransformData[] limbs_holdPositions_TPose; // T-Pose position and rotation data of the ragdoll
 
-	// Protected Fields
+	// WayPoint
 	[ SerializeField, ReadOnly ] protected int currentWayPoint = 0;
+	private PlatformBase currentPlatform;
 
 	// Private Fields
 	private Rigidbody[] limbs_rigidbodies; // Every rigidbody in the ragdoll
@@ -97,19 +100,19 @@ public abstract class Actor : MonoBehaviour
 	{
 		parentRigidbody   = GetComponentInChildren< Rigidbody >();
 		limbs_rigidbodies = parentRigidbody.GetComponentsInChildren< Rigidbody >(); // Get every rigidbody that ragdoll has
+		
+		FFLogger.Log( "FirstLimb ", limbs_rigidbodies[0].gameObject );
 
 		// Search distance for searching a point for a hand to attached to. Search origin is shoulder
 		armReachDistance  = Vector3.Distance( arm_left_limbs[ arm_left_limbs.Length - 1 ].transform.position, arm_left_limbs[ 0 ].transform.position );
 
 		levelStartedListener.response = LevelStartResponse;
 		actorNameDisplay.followTarget = parentRigidbody.transform;
-
-		if( parentRigidbody == null )
-			Debug.Log( "RB IS NULL" );
 	}
 
 	protected virtual void Start()
 	{
+		platformSet.itemDictionary.TryGetValue( currentWayPoint, out currentPlatform );
 		ResetActorToWayPoint();
 
 		actor_Participate_Race.eventValue = this;
@@ -124,9 +127,9 @@ public abstract class Actor : MonoBehaviour
 		var randomWaitDuration = Random.Range( waitRange.x, waitRange.y );
 
 
-		ReleaseHands();
-		DefaultTheRagdoll();
-		TPoseTheRagdoll();
+		// ReleaseHands();
+		// DefaultTheRagdoll();
+		// TPoseTheRagdoll();
 
 		actorNameDisplay.gameObject.SetActive( false );
 		parentRigidbody.gameObject.SetActive( false );
@@ -312,9 +315,6 @@ public abstract class Actor : MonoBehaviour
 
 	protected void RotateToTargetAngle( float targetAngle ) // Rotates the parent rigidbody around holding hand's position by angle
 	{
-		if( parentRigidbody == null )
-			parentRigidbody   = GetComponentInChildren< Rigidbody >();
-
 		var currentAngle = parentRigidbody.transform.eulerAngles.z;
 		var rotateAmount = targetAngle - currentAngle;
 
@@ -373,10 +373,7 @@ public abstract class Actor : MonoBehaviour
 	[ Button() ]
 	private void ResetActorToWayPoint()
 	{
-		PlatformBase platform;
-		platformSet.itemDictionary.TryGetValue( currentWayPoint, out platform ); // Find a platform based on current way point index
-
-		var position = platform.GetResetSlot( actor_Index ); // Get a reset slot for our actor based on actor index
+		var position = currentPlatform.GetResetSlot( actor_Index ); // Get a reset slot for our actor based on actor index
 
 		ReleaseHands(); // Release the hands from fixed joints, If any hand is attached
 		DefaultTheRagdoll(); // Zero out velocities and make every limb's rigidbody as dynamic
@@ -498,10 +495,9 @@ public abstract class Actor : MonoBehaviour
 
 	private void UpdateWayPointIndex( GameObject platformObject )
 	{
-		PlatformBase platform;
-		platformSet.itemDictionary.TryGetValue( platformObject.GetInstanceID(), out platform );
+		platformSet.itemDictionary.TryGetValue( platformObject.GetInstanceID(), out currentPlatform );
 
-		currentWayPoint = platform.platformIndex;
+		currentWayPoint = currentPlatform.platformIndex;
 
 		if( currentWayPoint + 1 == platformSet.itemDictionary.Count / 2 )
 		{

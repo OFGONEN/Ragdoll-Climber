@@ -36,7 +36,8 @@ namespace FFStudio
 
 		// Rank
 		[ReadOnly, SerializeField] private List< Actor > raceParticipants = new List< Actor >( GameSettings.actorCount );
-		[ReadOnly, SerializeField] private List< Actor > currentRanks = new List< Actor >( GameSettings.actorCount );
+		[ReadOnly, SerializeField] private List< Actor > currentRanks_WorldPoint = new List< Actor >( GameSettings.actorCount );
+		[ReadOnly, SerializeField] private List< Actor > currentRanks_Waypoint = new List< Actor >( GameSettings.actorCount );
 		[ReadOnly, SerializeField] private List< Actor > finishedParticipants = new List< Actor >( GameSettings.actorCount );
 
 		// Unity Messages 
@@ -137,30 +138,33 @@ namespace FFStudio
 
 		void CheckActorRanks()
 		{
-			currentRanks.Clear();
+			currentRanks_WorldPoint.Clear();
+			currentRanks_Waypoint.Clear();
 
 			for( var i = 0; i < raceParticipants.Count; i++ )
 			{
-				currentRanks.Add( raceParticipants[ i ] );
+				currentRanks_WorldPoint.Add( raceParticipants[ i ] );
+				currentRanks_Waypoint.Add( raceParticipants[ i ] );
 			}
 
-			currentRanks.Sort( ( x, y ) => CompareActors( x, y ) );
+			currentRanks_WorldPoint.Sort( ( x, y ) => CompareActors_WorldPoint( x, y ) );
+			currentRanks_Waypoint.Sort( ( x, y ) => CompareActors_Waypoint( x, y ) );
 
-			for( var i = 0; i < currentRanks.Count; i++ )
+			for( var i = 0; i < currentRanks_WorldPoint.Count; i++ )
 			{
-				currentRanks[ i ].Rank = finishedParticipants.Count + i + 1;
+				currentRanks_WorldPoint[ i ].Rank = finishedParticipants.Count + i + 1;
 			}
 
-			if( currentRanks.Count > 0 )
+			if( currentRanks_Waypoint.Count > 0 )
 			{
 				var position = bottomFence.position;
 
-				position.y = currentRanks[ currentRanks.Count - 1 ].ActorPosition.y - GameSettings.Instance.level_fenceBottomOffset;
-				bottomFence.position = position;
+				position.y = currentRanks_Waypoint[ currentRanks_Waypoint.Count - 1 ].ActorPlatform.transform.position.y - GameSettings.Instance.level_fenceBottomOffset;
+				bottomFence.DOMove( position, 0.5f );
 			}
 		}
 
-        int CompareActors( Actor x, Actor y )
+        int CompareActors_WorldPoint( Actor x, Actor y )
         {
 			var x_Distance = lastPlatform.transform.position.y - x.ActorPosition.y;
 			var y_Distance = lastPlatform.transform.position.y - y.ActorPosition.y;
@@ -171,6 +175,16 @@ namespace FFStudio
 				return 0;
             else
 				return 1;
+		}
+
+        int CompareActors_Waypoint( Actor x, Actor y )
+        {
+            if( x.ActorWayPoint < y.ActorWayPoint  )
+				return 1;
+            else if( x.ActorWayPoint == y.ActorWayPoint )
+				return 0;
+            else
+				return -1;
 		}
 #endregion
     }
