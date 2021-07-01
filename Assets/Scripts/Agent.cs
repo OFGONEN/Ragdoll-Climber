@@ -187,9 +187,9 @@ public class Agent : Actor
 	private void OnDrawGizmos()
 	{
 		Gizmos.color = Color.red;
-		Gizmos.DrawLine( ActorPosition.CastV2(), targetPoint );
+		Gizmos.DrawLine( transform.GetChild( 0 ).position.CastV2(), targetPoint );
 
-		Handles.Label( ActorPosition, "Distance: " + Vector2.Distance( ActorPosition.CastV2(), targetPoint ) );
+		Handles.Label( transform.GetChild(0).position, "Distance: " + Vector2.Distance( transform.GetChild( 0 ).position.CastV2(), targetPoint ) );
 	}
 
 	[ Button() ]

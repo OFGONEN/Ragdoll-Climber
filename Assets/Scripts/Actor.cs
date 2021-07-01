@@ -40,7 +40,7 @@ public abstract class Actor : MonoBehaviour
 	protected float ArmReachDistance => armReachDistance;
 
 	// Body Related
-	[Foldout( "Body" ), SerializeField] protected Rigidbody parentRigidbody;  // Most parent rigidbody. Has jointed to Spine of the ragdoll via FixedJoint.
+	[Foldout( "Body" )] protected Rigidbody parentRigidbody;  // Most parent rigidbody. Has jointed to Spine of the ragdoll via FixedJoint.
 	[Foldout( "Body" ), SerializeField] private Rigidbody[] rotatingLimbs_rigidbodies; // Torso, hip and leg limbs
 
 	// Hand Related 
@@ -95,6 +95,7 @@ public abstract class Actor : MonoBehaviour
 
 	protected virtual void Awake()
 	{
+		parentRigidbody   = GetComponentInChildren< Rigidbody >();
 		limbs_rigidbodies = parentRigidbody.GetComponentsInChildren< Rigidbody >(); // Get every rigidbody that ragdoll has
 
 		// Search distance for searching a point for a hand to attached to. Search origin is shoulder
@@ -102,6 +103,9 @@ public abstract class Actor : MonoBehaviour
 
 		levelStartedListener.response = LevelStartResponse;
 		actorNameDisplay.followTarget = parentRigidbody.transform;
+
+		if( parentRigidbody == null )
+			Debug.Log( "RB IS NULL" );
 	}
 
 	protected virtual void Start()
@@ -308,6 +312,9 @@ public abstract class Actor : MonoBehaviour
 
 	protected void RotateToTargetAngle( float targetAngle ) // Rotates the parent rigidbody around holding hand's position by angle
 	{
+		if( parentRigidbody == null )
+			parentRigidbody   = GetComponentInChildren< Rigidbody >();
+
 		var currentAngle = parentRigidbody.transform.eulerAngles.z;
 		var rotateAmount = targetAngle - currentAngle;
 
