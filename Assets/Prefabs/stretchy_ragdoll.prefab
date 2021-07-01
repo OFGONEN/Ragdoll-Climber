@@ -226,7 +226,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 425074467869838940}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 78f40435efffe4a41b1489aa1edde5ea, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.0021218874
@@ -428,7 +428,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 732631985308274470}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 78f40435efffe4a41b1489aa1edde5ea, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.0016976614
@@ -660,7 +660,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1306186538856512188}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 78f40435efffe4a41b1489aa1edde5ea, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -861,7 +861,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1836914766197493663}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 78f40435efffe4a41b1489aa1edde5ea, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -1004,7 +1004,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2393441317745324126}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 78f40435efffe4a41b1489aa1edde5ea, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -1377,7 +1377,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3943357207663609614}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 78f40435efffe4a41b1489aa1edde5ea, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.0016976614
@@ -1674,7 +1674,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4203425976923990852}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 78f40435efffe4a41b1489aa1edde5ea, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.0015944749
@@ -1971,7 +1971,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5327420718568903738}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 78f40435efffe4a41b1489aa1edde5ea, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.002121887
@@ -2203,7 +2203,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6276111725386165624}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 78f40435efffe4a41b1489aa1edde5ea, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.0014
@@ -2672,7 +2672,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7626935676414083072}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 78f40435efffe4a41b1489aa1edde5ea, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.0021952866
@@ -2846,7 +2846,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7698099190637962052}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 78f40435efffe4a41b1489aa1edde5ea, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.0015944749
@@ -2894,7 +2894,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7827892829865561761}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 78f40435efffe4a41b1489aa1edde5ea, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.0021952868
@@ -3158,7 +3158,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8499874496693117722}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 78f40435efffe4a41b1489aa1edde5ea, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.0014
