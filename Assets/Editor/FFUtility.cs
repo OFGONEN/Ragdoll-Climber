@@ -351,10 +351,18 @@ namespace FFEditor
 			for( var i = 0; i < platformObjects.Length; i++ )
             {
 				var platform = platformObjects[ i ].GetComponent< PlatformBase >();
-				Debug.Log( platform.name + "Pos: " + platform.transform.position.y, platform.gameObject  );
 				platform.platformIndex = i;
-				EditorSceneManager.SaveOpenScenes();
+
+                var bounds = platform.GetComponent< MeshRenderer >().bounds;
+
+				var position = platform.transform.position;
+				position.z = GameSettings.Instance.actor_attachPoint_Z / 2 + bounds.extents.z / 2;
+
+				platform.transform.position = position;
+
 			}
+
+			EditorSceneManager.SaveOpenScenes();
 		}
     }
 }
