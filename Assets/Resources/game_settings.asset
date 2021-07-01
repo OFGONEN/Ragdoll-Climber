@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a385bd3b4416492409284c9a366cb52a, type: 3}
   m_Name: game_settings
   m_EditorClassIdentifier: 
-  maxLevelCount: 1
+  maxLevelCount: 5
   input_threshold_DeadZone: 1
   input_threshold_Rotation: 5
   input_threshold_Stretch: 10
