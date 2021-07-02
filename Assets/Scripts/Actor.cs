@@ -124,10 +124,9 @@ public abstract class Actor : MonoBehaviour
 		var waitRange = GameSettings.Instance.actor_resetWaitDuration;
 		var randomWaitDuration = Random.Range( waitRange.x, waitRange.y );
 
-
 		// ReleaseHands();
-		// DefaultTheRagdoll();
-		// TPoseTheRagdoll();
+		DefaultTheRagdoll();
+		TPoseTheRagdoll();
 
 		actorNameDisplay.gameObject.SetActive( false );
 		parentRigidbody.gameObject.SetActive( false );
