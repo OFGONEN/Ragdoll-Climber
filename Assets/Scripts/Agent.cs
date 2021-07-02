@@ -77,7 +77,6 @@ public class Agent : Actor
 		if( failChance <= GameSettings.Instance.agent_failChance )
 		{
 			targetPoint = nextPlatform.GetRandomPosition_OutsidePlatform();
-			FFLogger.Log( "Agent Failed: " + gameObject.name, gameObject );
 		}
 		else
 			targetPoint = nextPlatform.GetRandomPosition_InsidePlatform();

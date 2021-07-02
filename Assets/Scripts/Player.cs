@@ -49,7 +49,6 @@ public class Player : Actor
 	{
 		base.Start();
 		screenPressListener.OnDisable();
-		UnSubscribeProperties();
 	}
 #endregion
 
@@ -99,12 +98,14 @@ public class Player : Actor
 
 	private void SubscribeProperties()
 	{
+		FFLogger.Log( "Subscribe" );
 		inputDirectionProperty.changeEvent += OnInputDirectionChange;
 		stretchRatioProperty.changeEvent   += OnStretchRationChange;
 	}
 
 	private void UnSubscribeProperties()
 	{
+		FFLogger.Log( "UnSubscribe" );
 		inputDirectionProperty.changeEvent -= OnInputDirectionChange;
 		stretchRatioProperty.changeEvent   -= OnStretchRationChange;
 	}
@@ -113,7 +114,6 @@ public class Player : Actor
 	{
 		screenPressEvent = screenPressListener.gameEvent as ScreenPressEvent;
 		screenPressListener.OnEnable();
-		SubscribeProperties();
 	}
 
 	protected override void ReleaseHands()

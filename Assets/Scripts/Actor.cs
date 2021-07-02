@@ -101,8 +101,6 @@ public abstract class Actor : MonoBehaviour
 		parentRigidbody   = GetComponentInChildren< Rigidbody >();
 		limbs_rigidbodies = parentRigidbody.GetComponentsInChildren< Rigidbody >(); // Get every rigidbody that ragdoll has
 		
-		FFLogger.Log( "FirstLimb ", limbs_rigidbodies[0].gameObject );
-
 		// Search distance for searching a point for a hand to attached to. Search origin is shoulder
 		armReachDistance  = Vector3.Distance( arm_left_limbs[ arm_left_limbs.Length - 1 ].transform.position, arm_left_limbs[ 0 ].transform.position );
 
