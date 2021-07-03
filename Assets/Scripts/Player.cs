@@ -82,13 +82,40 @@ public class Player : Actor
 		RotateToTargetAngle( targetAngle );
 	}
 
+	private void OnInputDirectionChange_WithoutFingerUp()
+	{
+		inputDirectionProperty.changeEvent -= OnInputDirectionChange_WithoutFingerUp;
+
+		StraightenUpRagdoll();
+		SubscribeProperties();
+		screenPressListener.response = ScreenPressResponse_HandsAlreadyAttached;
+	}
+
 	private void OnStretchRationChange()
 	{
 		Stretch( stretchRatioProperty.sharedValue );
 		cameraDepthRatio.sharedValue = stretchRatioProperty.sharedValue;
 	}
 
-	private void ScreenPressResponse_HandsAttached()
+	private void ScreenPressResponse_HandsFree()
+	{
+		if( screenPressEvent.isPressedDown )
+			TryToAttachHands();
+	}
+
+	private void ScreenPressResponse_HandsFirstAttached()
+	{
+		if( screenPressEvent.isPressedDown )
+		{
+			inputDirectionProperty.changeEvent -= OnInputDirectionChange_WithoutFingerUp;
+
+			StraightenUpRagdoll();
+			SubscribeProperties();
+			screenPressListener.response = ScreenPressResponse_HandsAlreadyAttached;
+		}
+	}
+
+	private void ScreenPressResponse_HandsAlreadyAttached()
 	{
 		if( screenPressEvent.isPressedDown )
 		{
@@ -132,14 +159,13 @@ public class Player : Actor
 	protected override void ReleaseHands()
 	{
 		base.ReleaseHands();
-		screenPressListener.response = TryToAttachHands;
+		screenPressListener.response = ScreenPressResponse_HandsFree;
 	}
 
 	protected override void OnHandsAttached()
 	{
-		screenPressListener.response = ScreenPressResponse_HandsAttached;
-		stretchRatioProperty.SetValue( 0 );
 		cameraDepthRatio.sharedValue = 0;
+		stretchRatioProperty.SetValue( 0 );
 
 		var platformCount = platformSet.itemDictionary.Count / 2;
 
@@ -150,6 +176,11 @@ public class Player : Actor
 			screenPressListener.response = ExtensionMethods.EmptyMethod;
 			UnSubscribeProperties();
 			levelComplete.Raise();
+		}
+		else 
+		{
+			screenPressListener.response = ScreenPressResponse_HandsFirstAttached;
+			inputDirectionProperty.changeEvent += OnInputDirectionChange_WithoutFingerUp;
 		}
 	}
 #endregion
