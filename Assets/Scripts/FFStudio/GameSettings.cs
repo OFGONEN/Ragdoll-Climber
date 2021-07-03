@@ -34,12 +34,10 @@ namespace FFStudio
 
         [ Foldout( "Level" ) ] public float level_fenceBottomOffset = 7.5f; // Follow offset of bottom fence object for following the last ranking actor
 
-        [ Foldout( "Camera" ) ] public Vector3 camera_LookAtAxis; // Camera's available axises for looking at a target 
-		[ Foldout( "Camera" ), MinMaxSlider( 10, 30 ) ] public Vector2 camera_FollowDistance; // Clamp for camera angles to looking left and right
-		[ Foldout( "Camera" ) ] public Vector2 camera_horizontalLookClamp; // Clamp for camera angles to looking left and right
-		[ Foldout( "Camera" ) ] public float camera_VerticalFollowSpeed = 10f; // Distance for camera to follow target in Y axis
-		[ Foldout( "Camera" ) ] public float camera_DepthFollowSpeed = 10f; // Distance for camera to follow target in Y axis
-		[ Foldout( "Camera" ) ] public float camera_FollowZoneRadius = 1f; // Radius of the follow zone for the camera
+		[ Foldout( "Camera" ), MinMaxSlider( 10, 50 ) ] public Vector2 camera_Depth_FollowDistance; // Min and max distance for camera to follow player in depth( Z axis )
+		[ Foldout( "Camera" ) ] public float camera_FollowSpeed = 10f; // Distance for camera to follow target in X-Y axis
+		[ Foldout( "Camera" ) ] public float camera_Depth_FollowSpeed = 10f; // Distance for camera to follow target in Z axis
+		[ Foldout( "Camera" ) ] public float camera_FollowZoneRadius = 2.5f; // Radius of the follow zone for the camera
 
 
 		[ ShowNonSerializedField ] public const int actorCount = 4;

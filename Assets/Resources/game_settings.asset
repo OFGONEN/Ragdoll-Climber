@@ -31,11 +31,9 @@ MonoBehaviour:
   agent_failChance: 0.1
   agent_launchWaitDuration: {x: 1, y: 2}
   level_fenceBottomOffset: 7.5
-  camera_LookAtAxis: {x: 0, y: 1, z: 0}
-  camera_FollowDistance: {x: 10, y: 30}
-  camera_horizontalLookClamp: {x: -20, y: 20}
-  camera_VerticalFollowSpeed: 10
-  camera_DepthFollowSpeed: 10
+  camera_Depth_FollowDistance: {x: 15, y: 40}
+  camera_FollowSpeed: 50
+  camera_Depth_FollowSpeed: 40
   camera_FollowZoneRadius: 2.5
   randomPointInside_MarginPercentage: 15
   randomPointOutside_MaxOffsetPercentage: 45
