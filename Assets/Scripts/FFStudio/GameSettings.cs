@@ -39,6 +39,7 @@ namespace FFStudio
 		[ Foldout( "Camera" ) ] public Vector2 camera_horizontalLookClamp; // Clamp for camera angles to looking left and right
 		[ Foldout( "Camera" ) ] public float camera_VerticalFollowSpeed = 10f; // Distance for camera to follow target in Y axis
 		[ Foldout( "Camera" ) ] public float camera_DepthFollowSpeed = 10f; // Distance for camera to follow target in Y axis
+		[ Foldout( "Camera" ) ] public float camera_FollowZoneRadius = 1f; // Radius of the follow zone for the camera
 
 
 		[ ShowNonSerializedField ] public const int actorCount = 4;

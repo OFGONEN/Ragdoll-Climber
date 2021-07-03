@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d95b92f00fb034c4ba7cda5d64d88fb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followTarget_Rigidbody: {fileID: 11400000, guid: feb396987f314e74a9276d39fbf1d19e, type: 2}
+  followZoneProperty: {fileID: 11400000, guid: 814da10ace227bb49b364d815fac1dba, type: 2}
   playerStretchRatio: {fileID: 11400000, guid: 9b36a78d61a829c4a8a2d10b4fc22147, type: 2}
 --- !u!114 &2932408346599366168
 MonoBehaviour:

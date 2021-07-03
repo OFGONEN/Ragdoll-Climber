@@ -36,6 +36,7 @@ MonoBehaviour:
   camera_horizontalLookClamp: {x: -20, y: 20}
   camera_VerticalFollowSpeed: 10
   camera_DepthFollowSpeed: 10
+  camera_FollowZoneRadius: 2.5
   randomPointInside_MarginPercentage: 15
   randomPointOutside_MaxOffsetPercentage: 45
   randomPointInside_betweenRadii: {x: 10, y: 90}

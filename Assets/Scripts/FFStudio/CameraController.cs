@@ -11,7 +11,7 @@ namespace FFStudio
     {
 #region Fields
 		[Header( "Shared Variables" )]
-		public SharedReferenceProperty followTarget_Rigidbody;
+		public SharedReferenceProperty followZoneProperty;
 		public SharedFloatProperty playerStretchRatio;
 
 		/* Private Fields */
@@ -33,12 +33,12 @@ namespace FFStudio
 
 		private void OnEnable()
 		{
-			followTarget_Rigidbody.changeEvent += OnTargetRigidbodyChange;
+			followZoneProperty.changeEvent += OnTargetRigidbodyChange;
 		}
 
 		private void OnDisable()
 		{
-			followTarget_Rigidbody.changeEvent -= OnTargetRigidbodyChange;
+			followZoneProperty.changeEvent -= OnTargetRigidbodyChange;
 		}
 
 		private void Update()
@@ -74,7 +74,7 @@ namespace FFStudio
 		}
 		void OnTargetRigidbodyChange()
 		{
-			if( followTarget_Rigidbody.sharedValue == null )
+			if( followZoneProperty.sharedValue == null )
 			{
 				update = ExtensionMethods.EmptyMethod;
 				followTarget_Transform = null;
@@ -82,7 +82,7 @@ namespace FFStudio
 			else
 			{
 				update = CameraFollowPlayer;
-				followTarget_Transform = ( followTarget_Rigidbody.sharedValue as Rigidbody ).transform;
+				followTarget_Transform = followZoneProperty.sharedValue as Transform;
 			}
 		}
 
