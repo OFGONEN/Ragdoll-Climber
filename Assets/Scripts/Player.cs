@@ -18,8 +18,8 @@ public class Player : Actor
 	[ Header( "Shared Variables" ) ]
 	public SharedVector2Property inputDirectionProperty;
 	public SharedFloatProperty stretchRatioProperty;
+	public SharedFloat cameraDepthRatio;
     public SharedFloatProperty levelProgress;
-	public SharedBool isPlayerSoaring;
 
 	[ HorizontalLine ]
 	public CameraFollowZone cameraFollowZone;
@@ -68,7 +68,6 @@ public class Player : Actor
 	protected override void ResetActorToWayPoint()
 	{
 		base.ResetActorToWayPoint();
-		isPlayerSoaring.sharedValue = false;
 		cameraFollowZone.enabled = true;
 	}
 #endregion
@@ -86,6 +85,7 @@ public class Player : Actor
 	private void OnStretchRationChange()
 	{
 		Stretch( stretchRatioProperty.sharedValue );
+		cameraDepthRatio.sharedValue = stretchRatioProperty.sharedValue;
 	}
 
 	private void ScreenPressResponse_HandsAttached()
@@ -107,11 +107,6 @@ public class Player : Actor
 			UnSubscribeProperties();
 			DefaultTheRagdoll();
 		}
-	}
-
-	private void ScreenPressResponse_HandsFree()
-	{
-		screenPressListener.response = TryToAttachHands;
 	}
 
 	private void SubscribeProperties()
@@ -137,15 +132,14 @@ public class Player : Actor
 	protected override void ReleaseHands()
 	{
 		base.ReleaseHands();
-		screenPressListener.response = ScreenPressResponse_HandsFree;
-		isPlayerSoaring.sharedValue  = true;
+		screenPressListener.response = TryToAttachHands;
 	}
 
 	protected override void OnHandsAttached()
 	{
-		isPlayerSoaring.sharedValue  = false;
 		screenPressListener.response = ScreenPressResponse_HandsAttached;
 		stretchRatioProperty.SetValue( 0 );
+		cameraDepthRatio.sharedValue = 0;
 
 		var platformCount = platformSet.itemDictionary.Count / 2;
 

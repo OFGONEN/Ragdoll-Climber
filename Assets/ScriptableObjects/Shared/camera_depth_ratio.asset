@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f4af542c8c9ce34a96f56caab633056, type: 3}
-  m_Name: player_isSoaring
+  m_Script: {fileID: 11500000, guid: e25f6d602a235ff408eabaf21e4a147e, type: 3}
+  m_Name: camera_depth_ratio
   m_EditorClassIdentifier: 
   sharedValue: 0
