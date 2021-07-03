@@ -54,7 +54,9 @@ public class Player : Actor
 	protected override void Start()
 	{
 		base.Start();
+		
 		screenPressListener.OnDisable();
+		inputDirectionProperty.changeEvent -= OnInputDirectionChange_WithoutFingerUp;
 	}
 #endregion
 
