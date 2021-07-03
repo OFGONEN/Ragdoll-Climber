@@ -33,7 +33,7 @@ MonoBehaviour:
   level_fenceBottomOffset: 7.5
   camera_Depth_FollowDistance: {x: 15, y: 40}
   camera_FollowSpeed: 50
-  camera_Depth_FollowSpeed: 40
+  camera_Depth_FollowSpeed: 30
   camera_FollowZoneRadius: 2.5
   randomPointInside_MarginPercentage: 15
   randomPointOutside_MaxOffsetPercentage: 45

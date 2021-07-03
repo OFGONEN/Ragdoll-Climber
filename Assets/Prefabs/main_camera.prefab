@@ -99,6 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followZoneProperty: {fileID: 11400000, guid: 814da10ace227bb49b364d815fac1dba, type: 2}
   playerStretchRatio: {fileID: 11400000, guid: 9b36a78d61a829c4a8a2d10b4fc22147, type: 2}
+  isPlayerSoaring: {fileID: 11400000, guid: 2d2d4d9074bc75c4d95f81dc5cd8da84, type: 2}
 --- !u!114 &2932408346599366168
 MonoBehaviour:
   m_ObjectHideFlags: 0

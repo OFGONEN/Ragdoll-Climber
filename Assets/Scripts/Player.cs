@@ -3,6 +3,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using FFStudio;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class Player : Actor
@@ -18,6 +19,11 @@ public class Player : Actor
 	public SharedVector2Property inputDirectionProperty;
 	public SharedFloatProperty stretchRatioProperty;
     public SharedFloatProperty levelProgress;
+	public SharedBool isPlayerSoaring;
+
+	[ HorizontalLine ]
+	public CameraFollowZone cameraFollowZone;
+
 
 	// Private Fields
 	private ScreenPressEvent screenPressEvent;
@@ -53,6 +59,18 @@ public class Player : Actor
 #endregion
 
 #region API
+	public override void ResetActor()
+	{
+		cameraFollowZone.enabled = false;
+		base.ResetActor();
+	}
+
+	protected override void ResetActorToWayPoint()
+	{
+		base.ResetActorToWayPoint();
+		isPlayerSoaring.sharedValue = false;
+		cameraFollowZone.enabled = true;
+	}
 #endregion
 
 #region Implementation
@@ -119,12 +137,13 @@ public class Player : Actor
 	protected override void ReleaseHands()
 	{
 		base.ReleaseHands();
-
 		screenPressListener.response = ScreenPressResponse_HandsFree;
+		isPlayerSoaring.sharedValue  = true;
 	}
 
 	protected override void OnHandsAttached()
 	{
+		isPlayerSoaring.sharedValue  = false;
 		screenPressListener.response = ScreenPressResponse_HandsAttached;
 		stretchRatioProperty.SetValue( 0 );
 

@@ -13,6 +13,7 @@ namespace FFStudio
 		[Header( "Shared Variables" )]
 		public SharedReferenceProperty followZoneProperty;
 		public SharedFloatProperty playerStretchRatio;
+		public SharedBool isPlayerSoaring;
 
 		/* Private Fields */
 		private Transform followTarget_Transform;
@@ -57,7 +58,12 @@ namespace FFStudio
 				GameSettings.Instance.camera_Depth_FollowDistance.y, // Max Value
 				playerStretchRatio.sharedValue /* Lerp Ratio */ );
 
-			followPosition.z   = Mathf.Lerp( position.z, depthDistance, Time.deltaTime * GameSettings.Instance.camera_Depth_FollowSpeed ); // Target Z position
+			float depthFollowCofactor = 1;
+
+			if( isPlayerSoaring.sharedValue )
+				depthFollowCofactor = 0;
+
+			followPosition.z   = Mathf.Lerp( position.z, depthDistance, Time.deltaTime * GameSettings.Instance.camera_Depth_FollowSpeed * depthFollowCofactor ); // Target Z position
 			// var newPosition        = Vector3.Lerp( position, followPosition, Time.deltaTime * GameSettings.Instance.camera_FollowSpeed ); // New position obtained by lerping
 			// transform.position = newPosition; // Set new position 
 			transform.position = followPosition;

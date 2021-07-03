@@ -116,11 +116,6 @@ namespace FFStudio
 				inputDirection.InvokeValue( input.normalized );
 				stretchRatio.SetValue( 0 );
 			}
-			else 
-			{
-				// inputDirection.InvokeValue( Vector2.zero );
-				stretchRatio.SetValue( 0 );
-			}
 		}
 
 		private void OnCameraChange()

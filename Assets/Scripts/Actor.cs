@@ -119,7 +119,7 @@ public abstract class Actor : MonoBehaviour
 #endregion
 
 #region API
-	public void ResetActor()
+	public virtual void ResetActor()
 	{
 		var waitRange = GameSettings.Instance.actor_resetWaitDuration;
 		var randomWaitDuration = Random.Range( waitRange.x, waitRange.y );
@@ -367,8 +367,7 @@ public abstract class Actor : MonoBehaviour
 		ChangeActorCollisionLayer( 31 - actor_Index );
 	}
 
-	[ Button() ]
-	private void ResetActorToWayPoint()
+	protected virtual void ResetActorToWayPoint()
 	{
 		var position = currentPlatform.GetResetSlot( actor_Index ); // Get a reset slot for our actor based on actor index
 
