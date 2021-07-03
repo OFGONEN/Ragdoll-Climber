@@ -175,11 +175,11 @@ MonoBehaviour:
     gameEvent: {fileID: 11400000, guid: efef06bf257ee27438d6c2aab4936226, type: 2}
   actor_Participate_Race: {fileID: 11400000, guid: 399666517f6af044cb14a731e3b42d57, type: 2}
   actor_Finished_Race: {fileID: 11400000, guid: 03201d1ed0bed6f4abfb2fa380b7a9f0, type: 2}
+  particleSpawnEvent: {fileID: 11400000, guid: fe240f220ab36cc44923227184f9c2a7, type: 2}
   actor_Index: 0
   actorNameDisplay: {fileID: 584981050909729297}
   modelRenderer: {fileID: 1361429592245994225}
   platformSet: {fileID: 11400000, guid: 6b052450fb56530448c7b6d0f085f01f, type: 2}
-  parentRigidbody: {fileID: 9079745860079614209}
   rotatingLimbs_rigidbodies:
   - {fileID: 7579092853428863914}
   - {fileID: 6016059521323815821}

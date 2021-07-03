@@ -12,7 +12,7 @@ public class Player : Actor
 	[ Header( "Event Listener" ) ]
 	public EventListenerDelegateResponse screenPressListener;
 
-	[ Header( "Event Listener" ) ]
+	[ Header( "Fired Events" ) ]
 	public GameEvent levelComplete;
 
 	[ Header( "Shared Variables" ) ]

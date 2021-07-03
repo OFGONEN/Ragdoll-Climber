@@ -16,6 +16,7 @@ public abstract class Actor : MonoBehaviour
 	[ Header( "Fired Events" ) ]
 	public ReferenceGameEvent actor_Participate_Race;
 	public ReferenceGameEvent actor_Finished_Race;
+	public ParticleSpawnEvent particleSpawnEvent;
 
 	public int actor_Index;
 	public UIWorldSpace actorNameDisplay;
@@ -450,7 +451,13 @@ public abstract class Actor : MonoBehaviour
 
 	protected abstract void LevelStartResponse();
 
-	protected abstract void OnHandsAttached();
+	protected virtual void OnHandsAttached()
+	{
+		particleSpawnEvent.changePosition = true;
+		particleSpawnEvent.spawnPoint     = handTargetPoint;
+		particleSpawnEvent.particleAlias  = "actor_attached";
+		// particleSpawnEvent.Raise();
+	}
 
 	private void ApplyArmPosition_Left()
 	{
