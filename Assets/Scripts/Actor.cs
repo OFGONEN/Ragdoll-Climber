@@ -51,8 +51,8 @@ public abstract class Actor : MonoBehaviour
 	[Foldout( "Hand" ), SerializeField] private Rigidbody hand_rb_right; // Right hand Rigidbody
 	[Foldout( "Hand" ), SerializeField] private Transform hand_optimalPos_left;  // left hand optimal position
 	[Foldout( "Hand" ), SerializeField] private Transform hand_optimalPos_right; // right hand optimal position
-	[Foldout( "Hand" ), SerializeField] private FixedJoint hand_fixedJoint_left; // Fixed joint for fixing position and rotation of left hand
-	[Foldout( "Hand" ), SerializeField] private FixedJoint hand_fixedJoint_right; // Fixed joint for fixing position and rotation of left hand
+	[Foldout( "Hand" ), SerializeField] private HandJoint handJoint_Left; // Fixed joint for fixing position and rotation of left hand
+	[Foldout( "Hand" ), SerializeField] private HandJoint handJoint_Right; // Fixed joint for fixing position and rotation of left hand
 
 	// Arm Related
 	[Foldout( "Arm" ), SerializeField] private Rigidbody[] arm_left_limbs; // Left arm rigidbodies
@@ -72,6 +72,7 @@ public abstract class Actor : MonoBehaviour
 	private Rigidbody[] limbs_rigidbodies; // Every rigidbody in the ragdoll
 
 	private Transform attachedHand; // Hand that is attached to a platform
+	private GameObject handTargetObject; // World point that hand will attached to
 	private Vector3 handTargetPoint; // World point that hand will attached to
 	private UnityMessage attachHand; // Delegate for attaching hand, gets set by checking checking attach points in the space
 	private UnityMessage applyHandPosition; // Delegate for modifying attached hand's limbs rotation and position for rotating the ragdoll
@@ -334,10 +335,9 @@ public abstract class Actor : MonoBehaviour
 	{
 		DefaultTheRagdoll(); // Make ragdoll dynamic and zero out velocities 
 
-		hand_fixedJoint_left.transform.position = handTargetPoint; // Move **FixedJoint** into target position
 		hand_rb_left.transform.position         = handTargetPoint; // Move ragdoll's hand into target position
 		hand_rb_left.transform.forward          = Vector3.right; // Rotate the hand into a holding rotation
-		hand_fixedJoint_left.connectedBody      = hand_rb_left; // Joint the hand to **FixedJoint**
+		handJoint_Left.Attach( handTargetPoint, handTargetObject, hand_rb_left ); // Attach hand to joint
 
 		applyHandPosition = ApplyArmPosition_Left; // Cache with arm to position when holding
 		attachedHand      = hand_rb_left.transform; // Cache the attached hand
@@ -353,10 +353,9 @@ public abstract class Actor : MonoBehaviour
 	{
 		DefaultTheRagdoll();
 
-		hand_fixedJoint_right.transform.position = handTargetPoint;
 		hand_rb_right.transform.position         = handTargetPoint;
 		hand_rb_right.transform.forward          = Vector3.left;
-		hand_fixedJoint_right.connectedBody      = hand_rb_right;
+		handJoint_Right.Attach( handTargetPoint, handTargetObject, hand_rb_right );
 
 		applyHandPosition = ApplyArmPosition_Right;
 		attachedHand      = hand_rb_right.transform; 
@@ -441,12 +440,11 @@ public abstract class Actor : MonoBehaviour
 		}
 	}
 	
-
 	// Nulls the connected body of FixedJoints for hands to release hands rigidbodies to act freely 
 	protected virtual void ReleaseHands()
 	{
-		hand_fixedJoint_left.connectedBody  = null;
-		hand_fixedJoint_right.connectedBody = null;
+		handJoint_Left.Release();
+		handJoint_Right.Release();
 	}
 
 	protected abstract void LevelStartResponse();
@@ -498,6 +496,8 @@ public abstract class Actor : MonoBehaviour
 
 	private void UpdateWayPointIndex( GameObject platformObject )
 	{
+		handTargetObject = platformObject;
+
 		platformSet.itemDictionary.TryGetValue( platformObject.GetInstanceID(), out currentPlatform );
 
 		currentWayPoint = currentPlatform.platformIndex;
