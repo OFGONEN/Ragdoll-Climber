@@ -14,15 +14,38 @@ public class CameraFollowZone : MonoBehaviour
 	private Vector3 target_CurrentPosition;
 
 	private float Radius => GameSettings.Instance.camera_FollowZoneRadius;
+	private UnityMessage update;
 
 	#endregion
 
 	#region Unity API
+
 	private void Start()
 	{
 		target_CurrentPosition = target.position;
 	}
 	private void Update()
+	{
+		update();
+	}
+
+#endregion
+
+#region API
+	public void StartFollow(Vector3 position)
+	{
+		transform.position = position;
+		update             = Follow;
+	}
+
+	public void StopFollow()
+	{
+		update = ExtensionMethods.EmptyMethod;
+	}
+#endregion
+
+#region Implementation
+	private void Follow()
 	{
 		var position = target.position;
 		var distance = Vector3.Distance( transform.position, position );
@@ -37,12 +60,6 @@ public class CameraFollowZone : MonoBehaviour
 
 		target_CurrentPosition = target.position;
 	}
-#endregion
-
-#region API
-#endregion
-
-#region Implementation
 #endregion
 
 #region EditorOnly

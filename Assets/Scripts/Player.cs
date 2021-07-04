@@ -63,14 +63,14 @@ public class Player : Actor
 #region API
 	public override void ResetActor()
 	{
-		cameraFollowZone.enabled = false;
+		cameraFollowZone.StopFollow();
 		base.ResetActor();
 	}
 
 	protected override void ResetActorToWayPoint()
 	{
 		base.ResetActorToWayPoint();
-		cameraFollowZone.enabled = true;
+		cameraFollowZone.StartFollow( ActorPosition );
 	}
 #endregion
 
