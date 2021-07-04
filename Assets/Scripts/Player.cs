@@ -78,6 +78,8 @@ public class Player : Actor
 
 	private void OnInputDirectionChange()
 	{
+		OffsetTheRagdoll();
+
 		var direction   = inputDirectionProperty.sharedValue;
 		var targetAngle = Vector2.SignedAngle( Vector2.up, direction );
 
@@ -140,14 +142,12 @@ public class Player : Actor
 
 	private void SubscribeProperties()
 	{
-		FFLogger.Log( "Subscribe" );
 		inputDirectionProperty.changeEvent += OnInputDirectionChange;
 		stretchRatioProperty.changeEvent   += OnStretchRationChange;
 	}
 
 	private void UnSubscribeProperties()
 	{
-		FFLogger.Log( "UnSubscribe" );
 		inputDirectionProperty.changeEvent -= OnInputDirectionChange;
 		stretchRatioProperty.changeEvent   -= OnStretchRationChange;
 	}

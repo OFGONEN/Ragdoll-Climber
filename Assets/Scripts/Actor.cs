@@ -71,11 +71,13 @@ public abstract class Actor : MonoBehaviour
 	// Private Fields
 	private Rigidbody[] limbs_rigidbodies; // Every rigidbody in the ragdoll
 
-	private Transform attachedHand; // Hand that is attached to a platform
+	private Transform attached_Hand; // Hand that is attached to a platform
+	private HandJoint attached_HandJoint; // Hand Joint that hand attached to
 	private GameObject handTargetObject; // World point that hand will attached to
 	private Vector3 handTargetPoint; // World point that hand will attached to
 	private UnityMessage attachHand; // Delegate for attaching hand, gets set by checking checking attach points in the space
 	private UnityMessage applyHandPosition; // Delegate for modifying attached hand's limbs rotation and position for rotating the ragdoll
+	private UnityMessage update; 
 	private Tween resetActorWaitTween;
 
 	protected string actorName; // Actor's name and rank
@@ -108,6 +110,8 @@ public abstract class Actor : MonoBehaviour
 
 		levelStartedListener.response = LevelStartResponse;
 		actorNameDisplay.followTarget = parentRigidbody.transform;
+
+		update = ExtensionMethods.EmptyMethod;
 	}
 
 	protected virtual void Start()
@@ -118,6 +122,12 @@ public abstract class Actor : MonoBehaviour
 		actor_Participate_Race.eventValue = this;
 		actor_Participate_Race.Raise();
 	}
+
+	private void Update()
+	{
+		update();
+	}
+
 #endregion
 
 #region API
@@ -318,12 +328,13 @@ public abstract class Actor : MonoBehaviour
 		var rotateAmount = targetAngle - currentAngle;
 
 		// //! This is relative, i.e it rotates the object angle more around the point
-		parentRigidbody.transform.RotateAround( handTargetPoint, Vector3.forward, rotateAmount );
+		parentRigidbody.transform.RotateAround( attached_HandJoint.transform.position, Vector3.forward, rotateAmount );
 	}
 
 	protected void Rotate( float rotateAmount )
 	{
-		parentRigidbody.transform.RotateAround( handTargetPoint, Vector3.forward, rotateAmount );
+		parentRigidbody.transform.RotateAround( attached_HandJoint.transform.position, Vector3.forward, rotateAmount );
+		OffsetTheRagdoll();
 	}
 
 	protected void Stretch( float ratio ) // Modifies the **SkinnedMeshRenderer**'s blend shape key to make model look stretched
@@ -339,8 +350,9 @@ public abstract class Actor : MonoBehaviour
 		hand_rb_left.transform.forward          = Vector3.right; // Rotate the hand into a holding rotation
 		handJoint_Left.Attach( handTargetPoint, handTargetObject, hand_rb_left ); // Attach hand to joint
 
-		applyHandPosition = ApplyArmPosition_Left; // Cache with arm to position when holding
-		attachedHand      = hand_rb_left.transform; // Cache the attached hand
+		applyHandPosition  = ApplyArmPosition_Left; // Cache with arm to position when holding
+		attached_Hand      = hand_rb_left.transform; // Cache the attached hand
+		attached_HandJoint = handJoint_Left;
 
 		OnHandsAttached();
 
@@ -357,8 +369,9 @@ public abstract class Actor : MonoBehaviour
 		hand_rb_right.transform.forward          = Vector3.left;
 		handJoint_Right.Attach( handTargetPoint, handTargetObject, hand_rb_right );
 
-		applyHandPosition = ApplyArmPosition_Right;
-		attachedHand      = hand_rb_right.transform; 
+		applyHandPosition  = ApplyArmPosition_Right;
+		attached_Hand      = hand_rb_right.transform; 
+		attached_HandJoint = handJoint_Right;
 
 		OnHandsAttached();
 
@@ -395,12 +408,20 @@ public abstract class Actor : MonoBehaviour
 			rotatingLimbs_rigidbodies[ i ].transform.SetLocalTransformData( rotatingLimbs_holdingPositions[ i ] );
 		}
 
+		update = OffsetTheRagdoll; // Since every limb is kinematic we need to correctly offset the ragdoll every frame
+
+		OffsetTheRagdoll();
+	}
+
+	// Correctly positions the ragdoll and rotates around hand joint
+	protected void OffsetTheRagdoll()
+	{
 		var lastRotation_Z = parentRigidbody.transform.localEulerAngles.z; // cache parent rigidbody's rotation
 		parentRigidbody.transform.localEulerAngles = Vector3.zero; // zero out the rotation of the parent rigidbody
 
 		// Since the ragdoll is in a straight position, attached hand and torso has a fixed distance. If this distance is applied to 
 		// hand's attached point we will have the point where parent rigidbody should be
-		var parentRigidbody_Position       = handTargetPoint - ( attachedHand.position - parentRigidbody.transform.position );
+		var parentRigidbody_Position       = attached_HandJoint.transform.position - ( attached_Hand.position - parentRigidbody.transform.position );
 		parentRigidbody.transform.position = parentRigidbody_Position; 
 		RotateToTargetAngle( lastRotation_Z ); // Rotate the parent rigidbody back to its first rotation
 	}
@@ -408,6 +429,8 @@ public abstract class Actor : MonoBehaviour
 	// Make every rigidbody in the ragdoll dynamic and zero out every velocity 
 	protected void DefaultTheRagdoll()
 	{
+		update = ExtensionMethods.EmptyMethod; // Since every limb is back to being dynamic there is no need to offset the ragdoll anymore 
+
 		parentRigidbody.gameObject.SetActive( true );
 		actorNameDisplay.gameObject.SetActive( true );
 
@@ -470,9 +493,11 @@ public abstract class Actor : MonoBehaviour
 	// Make arm limbs kinematic and put them into holding position and rotation
 	private void ApplyArmPosition( Rigidbody[] armLimbs, TransformData[] armPositions )
 	{
-		for( var i = 0; i < armLimbs.Length; i++ )
+		// for( var i = 0; i < armLimbs.Length - 1; i++ )
+		for( var i = 0; i < armLimbs.Length ; i++ )
 		{
 			armLimbs[ i ].transform.SetLocalTransformData( armPositions[ i ] );
+			// armLimbs[ i ].MakeKinematic( true );
 		}
 
 		ChangeKinematicRigidbody( armLimbs, true );
