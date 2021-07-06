@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4667667877674674431}
   - component: {fileID: 4667667877674674428}
-  m_Layer: 0
-  m_Name: rotating_obstacle
+  - component: {fileID: 2132450869839954634}
+  m_Layer: 26
+  m_Name: rotating_obstacle_RtL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,6 +74,20 @@ MonoBehaviour:
     m_RotationOrder: 4
   fireTheseOnComplete: []
   <IsPlaying>k__BackingField: 0
+--- !u!136 &2132450869839954634
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4667667877674674430}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.406414
+  m_Height: 3.6160178
+  m_Direction: 0
+  m_Center: {x: -0.02749896, y: 11.021465, z: 0.0063533783}
 --- !u!1 &5478500190971072212
 GameObject:
   m_ObjectHideFlags: 0
@@ -84,7 +99,7 @@ GameObject:
   - component: {fileID: 5137580545073337454}
   - component: {fileID: 8134488135531944907}
   - component: {fileID: 6271111390842466049}
-  m_Layer: 0
+  m_Layer: 26
   m_Name: gfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
