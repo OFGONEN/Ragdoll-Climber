@@ -391,8 +391,27 @@ namespace FFEditor
 					verticalAdd += 12.5f / 2;
 			}
 
-			EditorSceneManager.SaveOpenScenes();
+			// var saved = EditorSceneManager.SaveOpenScenes();
+            // FFLogger.Log( "Set Platform Indexes saved correctly: " + saved );
 		}
+
+        [MenuItem("FFGame/ Set Platform Parent")]
+        public static void SetPlatformParents()
+        {
+			var platformObjects = Selection.gameObjects;
+
+			EditorSceneManager.MarkAllScenesDirty();
+
+			for( var i = 0; i < platformObjects.Length; i++ )
+            {
+				var parent   = platformObjects[ i ].transform;
+				var platform = parent.GetChild( 0 );
+
+				var position               = platform.position;
+				    platform.localPosition = Vector3.zero;
+				    parent.position        = position;
+			}
+        }
     }
 }
 
