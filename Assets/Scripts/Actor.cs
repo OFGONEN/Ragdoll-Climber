@@ -551,7 +551,8 @@ public abstract class Actor : MonoBehaviour
 	}
 
 	// Gets called in the editor. Serializes current position and rotation of **ROTATION LIMBS** into arrays to use it in run time. Serialization saved into scene data which is .unity file
-	private void SerializeRotatingLimbsPosition()
+	[ Button() ]
+	protected void SerializeRotatingLimbsPosition()
 	{
 		rotatingLimbs_holdingPositions = new TransformData[ rotatingLimbs_rigidbodies.Length ];
 
