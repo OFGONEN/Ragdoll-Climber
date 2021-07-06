@@ -348,6 +348,8 @@ namespace FFEditor
 
 			EditorSceneManager.MarkAllScenesDirty();
 
+			float verticalAdd = 0;
+
 			for( var i = 0; i < platformObjects.Length; i++ )
             {
 				var platform = platformObjects[ i ].GetComponent< PlatformBase >();
@@ -356,10 +358,22 @@ namespace FFEditor
                 var bounds = platform.GetComponent< MeshRenderer >().bounds;
 
 				var position = platform.transform.position;
-				position.z = GameSettings.Instance.actor_attachPoint_Z / 2 + bounds.extents.z / 2;
+                
+                if( platform is CircularPlatform )
+					verticalAdd += 12.5f / 2;
+                    
+				position.x = 0;
+				position.y = i * 12.5f + verticalAdd;
 
+                if( platform is CircularPlatform )
+					position.z = 1.1f;
+                else 
+				    position.z = GameSettings.Instance.actor_attachPoint_Z + bounds.size.z ;
+                
 				platform.transform.position = position;
 
+                if( platform is CircularPlatform )
+					verticalAdd += 12.5f / 2;
 			}
 
 			EditorSceneManager.SaveOpenScenes();
