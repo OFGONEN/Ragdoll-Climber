@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4667667877674674431}
   - component: {fileID: 4667667877674674428}
   - component: {fileID: 2132450869839954634}
-  m_Layer: 26
+  m_Layer: 0
   m_Name: rotating_obstacle_RtL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 5137580545073337454}
   - component: {fileID: 8134488135531944907}
   - component: {fileID: 6271111390842466049}
-  m_Layer: 26
+  m_Layer: 0
   m_Name: gfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}

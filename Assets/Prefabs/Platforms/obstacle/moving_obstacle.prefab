@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6354922386361043596}
   - component: {fileID: 9211496712062549574}
   - component: {fileID: 2148773810607557332}
-  m_Layer: 26
+  m_Layer: 0
   m_Name: gfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7499719152833767727}
   - component: {fileID: 7499719152833767726}
-  m_Layer: 26
+  m_Layer: 0
   m_Name: moving_obstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
