@@ -16,9 +16,9 @@ MonoBehaviour:
   clientTokens:
   - 
   appIds:
-  - 0
+  - 337212211298848
   appLabels:
-  - App Name
+  - Ragdoll Climber
   cookie: 1
   logging: 1
   status: 1
