@@ -26,6 +26,7 @@ MonoBehaviour:
   actor_deStretchDuration: 0.1
   actor_attachPoint_Z: 0.85
   actor_resetWaitDuration: {x: 0.75, y: 1.5}
+  agent_launchForce: 35000
   agent_rotationSpeed: 50
   agent_stretchDutation: 0.25
   agent_armReach_Cofactor: 2

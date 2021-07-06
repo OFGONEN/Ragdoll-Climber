@@ -22,12 +22,13 @@ namespace FFStudio
         [ Foldout( "UI Settings" ), Tooltip( "Percentage of the screen to register a swipe" ) ] public int swipeThreshold;
 
         // Actor
-        [ Foldout( "Actor" ) ] public float actor_launchForce = 20000; // 10k
+        [ Foldout( "Actor" ) ] public float actor_launchForce = 20000; // Actor's launch force 
         [ Foldout( "Actor" ) ] public float actor_deStretchDuration = 0.1f; // Destretch duration before launching
         [ Foldout( "Actor" ) ] public float actor_attachPoint_Z = 0.85f; // Hand attach point Z Value
         [ Foldout( "Actor" ), MinMaxSlider( 0, 2 ) ] public Vector2 actor_resetWaitDuration; // Duration for an actor to reset itself to a waypoint
 
         // Agent
+        [ Foldout( "Agent" ) ] public float agent_launchForce = 35000; // Agents launch force 
         [ Foldout( "Agent" ) ] public float agent_rotationSpeed = 25f; // Rotate speed for agent to alinged with launch direction
         [ Foldout( "Agent" ) ] public float agent_stretchDutation = 0.25f; // Stretch duration after Agent rotated to launch target point
         [ Foldout( "Agent" ) ] public float agent_armReach_Cofactor = 1f; // 
