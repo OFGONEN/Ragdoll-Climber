@@ -55,8 +55,8 @@ namespace FFStudio
 
 		// Private Fields
 		private float deltaAngle;
-		private float DurationForward => Mathf.Abs( deltaAngle / angularSpeed_Forward / 2f );
-		private float DurationBackward => Mathf.Abs( deltaAngle / angularSpeed_Backward / 2f );
+		private float DurationForward => Mathf.Abs( deltaAngle / angularSpeed_Forward  );
+		private float DurationBackward => Mathf.Abs( deltaAngle / angularSpeed_Backward  );
 
 		Sequence sequence;
 #endregion
@@ -74,7 +74,6 @@ namespace FFStudio
 
 		private void Start()
 		{
-			deltaAngle = Quaternion.Angle( Quaternion.Euler( startAngle ), Quaternion.Euler( endAngle ) );
 
 			if( !enabled )
 				return;
@@ -150,6 +149,8 @@ namespace FFStudio
 		private void CreateAndStartTween()
 		{
 			sequence = DOTween.Sequence();
+
+			deltaAngle = Quaternion.Angle( Quaternion.Euler( startAngle ), Quaternion.Euler( endAngle ) );
 
 			var downTween = transform.DOLocalRotate( endAngle, DurationForward );
 			var upTween   = transform.DOLocalRotate( startAngle, DurationBackward );
