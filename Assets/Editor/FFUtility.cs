@@ -374,9 +374,11 @@ namespace FFEditor
 
 				var position = platform.transform.position;
                 
-                if( platform is CircularPlatform )
+                if( platform is CircularPlatform   )
 					verticalAdd += 12.5f / 2;
-                    
+                else if( platform.tag == "Tall" )
+					verticalAdd += 12.5f / 4;
+
 				position.x = 0;
 				position.y = i * 12.5f + verticalAdd;
 
@@ -389,6 +391,9 @@ namespace FFEditor
 
                 if( platform is CircularPlatform )
 					verticalAdd += 12.5f / 2;
+                else if( platform.tag == "Tall" )
+					verticalAdd += 12.5f / 4;
+
 			}
 
 			// var saved = EditorSceneManager.SaveOpenScenes();
