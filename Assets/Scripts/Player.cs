@@ -166,6 +166,9 @@ public class Player : Actor
 
 	protected override void OnHandsAttached()
 	{
+		base.OnHandsAttached();
+		particleSpawnEvent.Raise();
+
 		cameraDepthRatio.sharedValue = 0;
 		stretchRatioProperty.SetValue( 0 );
 
@@ -184,6 +187,7 @@ public class Player : Actor
 			screenPressListener.response = ScreenPressResponse_HandsFirstAttached;
 			inputDirectionProperty.changeEvent += OnInputDirectionChange_WithoutFingerUp;
 		}
+
 	}
 #endregion
 }

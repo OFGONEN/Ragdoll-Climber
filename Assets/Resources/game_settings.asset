@@ -31,6 +31,7 @@ MonoBehaviour:
   agent_armReach_Cofactor: 2
   agent_failChance: 0.1
   agent_launchWaitDuration: {x: 1, y: 2}
+  particle_spawnPosition_Z: -1
   level_fenceBottomOffset: 12.5
   camera_Depth_FollowDistance: {x: 20, y: 40}
   camera_FollowSpeed: 50

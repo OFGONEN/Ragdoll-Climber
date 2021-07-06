@@ -474,8 +474,11 @@ public abstract class Actor : MonoBehaviour
 
 	protected virtual void OnHandsAttached()
 	{
+		var spawnPosition = handTargetPoint;
+		spawnPosition.z   = GameSettings.Instance.particle_spawnPosition_Z;
+
 		particleSpawnEvent.changePosition = true;
-		particleSpawnEvent.spawnPoint     = handTargetPoint;
+		particleSpawnEvent.spawnPoint     = spawnPosition;
 		particleSpawnEvent.particleAlias  = "actor_attached";
 		// particleSpawnEvent.Raise();
 	}

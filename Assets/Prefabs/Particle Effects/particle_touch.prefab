@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5215132795342668030}
   - component: {fileID: 5215132795342668031}
   - component: {fileID: 5215132795342668024}
+  - component: {fileID: 8427165207221736653}
   m_Layer: 0
   m_Name: particle_touch
   m_TagString: Untagged
@@ -42,14 +43,14 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 0.5
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 3
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  emitterVelocityMode: 1
+  emitterVelocityMode: 0
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -4806,3 +4807,17 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &8427165207221736653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5215132795342668025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1090ffb03725f44c818ff2a3358ee68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleStoppedEvent: {fileID: 11400000, guid: 42aba7da9cf1d5f41b139570685a84c6, type: 2}
+  alias: actor_attached
