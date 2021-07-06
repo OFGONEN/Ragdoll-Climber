@@ -111,7 +111,7 @@ public class Agent : Actor
 		var left_ShoulderDistance  = Vector2.Distance( LeftShouldPos, targetPoint );
 		var right_ShoulderDistance = Vector2.Distance( RightShouldPos, targetPoint );
 
-		var reachDistance = ArmReachDistance * 1.5f;
+		var reachDistance = ArmReachDistance * GameSettings.Instance.agent_armReach_Cofactor;
 
 		if( left_ShoulderDistance <= reachDistance || right_ShoulderDistance <= reachDistance )
 			TryToAttachHands();

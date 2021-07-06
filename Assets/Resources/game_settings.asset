@@ -22,12 +22,13 @@ MonoBehaviour:
   ui_Entity_FloatingMove_TweenDuration: 0.75
   worldUI_AgentName_Offset: {x: 0, y: 1.5, z: -1}
   swipeThreshold: 0
-  actor_launchForce: 30000
+  actor_launchForce: 35000
   actor_deStretchDuration: 0.1
   actor_attachPoint_Z: 0.85
   actor_resetWaitDuration: {x: 0.75, y: 1.5}
   agent_rotationSpeed: 50
   agent_stretchDutation: 0.25
+  agent_armReach_Cofactor: 2
   agent_failChance: 0.1
   agent_launchWaitDuration: {x: 1, y: 2}
   level_fenceBottomOffset: 12.5

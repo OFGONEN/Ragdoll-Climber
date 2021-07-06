@@ -29,6 +29,7 @@ namespace FFStudio
 
         [ Foldout( "Agent" ) ] public float agent_rotationSpeed = 25f; // Rotate speed for agent to alinged with launch direction
         [ Foldout( "Agent" ) ] public float agent_stretchDutation = 0.25f; // Stretch duration after Agent rotated to launch target point
+        [ Foldout( "Agent" ) ] public float agent_armReach_Cofactor = 1f; // 
         [ Foldout( "Agent" ), Range( 0, 1 ) ] public float agent_failChance = 0.1f; // Fail change of a agent. Launches to wrong target on fail.
         [ Foldout( "Agent" ), MinMaxSlider( 0 , 5 ) ] public Vector2 agent_launchWaitDuration; // Duration between agent attached to platform and agent's next Launch sequence
 
