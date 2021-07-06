@@ -35,8 +35,8 @@ MonoBehaviour:
   particle_spawnPosition_Z: -1
   level_fenceBottomOffset: 12.5
   camera_Depth_FollowDistance: {x: 20, y: 40}
-  camera_FollowSpeed: 50
-  camera_Depth_FollowSpeed: 30
+  camera_FollowSpeed: 6
+  camera_Depth_FollowSpeed: 10
   camera_FollowZoneRadius: 2.5
   randomPointInside_MarginPercentage: 15
   randomPointOutside_MaxOffsetPercentage: 45

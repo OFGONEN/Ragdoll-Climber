@@ -35,7 +35,7 @@ namespace FFStudio
 			followZoneProperty.changeEvent -= OnTargetRigidbodyChange;
 		}
 
-		private void Update()
+		private void FixedUpdate()
 		{
 			update();
 		}
@@ -57,10 +57,13 @@ namespace FFStudio
 				GameSettings.Instance.camera_Depth_FollowDistance.y, // Max Value
 				cameraDepthRatio.sharedValue /* Lerp Ratio */ );
 
-			followPosition.z   = Mathf.Lerp( position.z, depthDistance, Time.deltaTime * GameSettings.Instance.camera_Depth_FollowSpeed ); // Target Z position
-			// var newPosition        = Vector3.Lerp( position, followPosition, Time.deltaTime * GameSettings.Instance.camera_FollowSpeed ); // New position obtained by lerping
-			// transform.position = newPosition; // Set new position 
-			transform.position = followPosition;
+			var newDepthDistance = Mathf.Lerp( position.z, depthDistance, Time.fixedDeltaTime * GameSettings.Instance.camera_Depth_FollowSpeed );  // Target Z position
+
+			position.z = 0;
+			var newPosition   = Vector3.Lerp( position, followPosition, Time.fixedDeltaTime * GameSettings.Instance.camera_FollowSpeed );       // New position obtained by lerping
+			newPosition.z = newDepthDistance;
+			transform.position = newPosition; // Set new position 
+			// transform.position = followPosition;
 		}
 
 		void OnTargetRigidbodyChange()
