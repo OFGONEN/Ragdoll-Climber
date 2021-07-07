@@ -129,7 +129,7 @@ public class Agent : Actor
 
 	protected override void Launch()
 	{
-		parentRigidbody.AddForce( ( targetPoint - ActorPosition.CastV2()).normalized * GameSettings.Instance.actor_launchForce );
+		parentRigidbody.AddForce( ( targetPoint - ActorPosition.CastV2()).normalized * GameSettings.Instance.agent_launchForce );
 		update = CheckDistanceToTargetPlatform;
 	}
 
