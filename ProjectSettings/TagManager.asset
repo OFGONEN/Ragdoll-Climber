@@ -32,7 +32,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - NoCollision
   - Obstacle
   - Actor
   - Actor_3

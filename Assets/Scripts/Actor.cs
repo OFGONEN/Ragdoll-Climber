@@ -45,6 +45,7 @@ public abstract class Actor : MonoBehaviour
 	// Body Related
 	[Foldout( "Body" )] protected Rigidbody parentRigidbody;  // Most parent rigidbody. Has jointed to Spine of the ragdoll via FixedJoint.
 	[Foldout( "Body" ), SerializeField] private Rigidbody[] rotatingLimbs_rigidbodies; // Torso, hip and leg limbs
+	[Foldout( "Body" ), SerializeField] private Rigidbody[] leg_rigidbodies; // leg limbs
 
 	// Hand Related 
 	[Foldout( "Hand" ), SerializeField] private Rigidbody hand_rb_left; // Left Hand Rigidbody
@@ -83,6 +84,7 @@ public abstract class Actor : MonoBehaviour
 	protected string actorName; // Actor's name and rank
 	protected int actorRank; // Actor's rank in the race
 	private float armReachDistance; // An arm's reach distance from a shoulder
+	private const int no_collisionLayer = 25;
 	private const int collisionLayer = 27;
 	private Collider[] castTarget = new Collider[ 1 ]; // Used for OverlapSphereNonAlloc 
 
@@ -442,7 +444,9 @@ public abstract class Actor : MonoBehaviour
 		}
 
 		// Returns the actor back to collision layer for it to collide with other actors in the air etc.
-		DOVirtual.DelayedCall( GameSettings.Instance.actor_changeCollisionLayer_WaitDuration, () => ChangeActorCollisionLayer( collisionLayer ) );
+		ChangeActorCollisionLayer( collisionLayer );
+		ChangeActorCollisionLayer( leg_rigidbodies, no_collisionLayer );
+		DOVirtual.DelayedCall( GameSettings.Instance.actor_changeCollisionLayer_WaitDuration, () => ChangeActorCollisionLayer( leg_rigidbodies, collisionLayer ) );
 	}
 
 	// Returns the ragdoll limbs to its T-Pose position and rotation
@@ -519,6 +523,14 @@ public abstract class Actor : MonoBehaviour
 		for( var i = 0; i < limbs_rigidbodies.Length; i++ )
 		{
 			limbs_rigidbodies[ i ].gameObject.layer = index;
+		}
+	}
+
+	private void ChangeActorCollisionLayer(Rigidbody[] rigidbodies, int index)
+	{
+		for( var i = 0; i < rigidbodies.Length; i++ )
+		{
+			rigidbodies[ i ].gameObject.layer = index;
 		}
 	}
 

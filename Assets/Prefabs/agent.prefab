@@ -202,6 +202,11 @@ MonoBehaviour:
   - {fileID: 2990139375595871368}
   - {fileID: 7190750730011399544}
   - {fileID: 3669590996213459513}
+  leg_rigidbodies:
+  - {fileID: 4766573989246866535}
+  - {fileID: 8854689024966784150}
+  - {fileID: 2990139375595871368}
+  - {fileID: 7190750730011399544}
   hand_rb_left: {fileID: 6100384724893342817}
   hand_rb_right: {fileID: 7018126238106419571}
   hand_optimalPos_left: {fileID: 9079745859687152532}
