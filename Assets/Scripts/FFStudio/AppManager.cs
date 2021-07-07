@@ -18,6 +18,9 @@ namespace FFStudio
 		public GameEvent levelLoaded;
 		public GameEvent cleanUpEvent;
 
+		[Header( "Fired Events" )]
+		public SharedFloatProperty levelProgress;
+
 		#endregion
 
 		#region Unity API
@@ -40,7 +43,7 @@ namespace FFStudio
 
 		private void Start()
 		{
-			LoadLevel();
+			StartCoroutine( LoadLevel() );
 		}
 		#endregion
 
@@ -59,16 +62,13 @@ namespace FFStudio
 		#endregion
 
 		#region Implementation
-		/// <summary>
-		/// Same as ResetScene method but raises level loaded event
-		/// </summary>
-		public void ResetLevel()
+		private void ResetLevel()
 		{
 			ResetScene();
 
 			levelLoaded.Raise();
 		}
-		private void LoadLevel()
+		private IEnumerator LoadLevel()
 		{
 			CurrentLevelData.Instance.currentLevel = PlayerPrefs.GetInt( "Level", 1 );
 			CurrentLevelData.Instance.currentConsecutiveLevel = PlayerPrefs.GetInt( "Consecutive Level", 1 );
@@ -76,7 +76,17 @@ namespace FFStudio
 			CurrentLevelData.Instance.LoadCurrentLevelData();
 
 			cleanUpEvent.Raise();
-			SceneManager.LoadScene( CurrentLevelData.Instance.levelData.sceneIndex, LoadSceneMode.Additive );
+			// SceneManager.LoadScene( CurrentLevelData.Instance.levelData.sceneIndex, LoadSceneMode.Additive );
+			var operation = SceneManager.LoadSceneAsync( CurrentLevelData.Instance.levelData.sceneIndex, LoadSceneMode.Additive );
+
+			levelProgress.SetValue( 0 );
+
+			while( !operation.isDone )
+			{
+				yield return null;
+
+				levelProgress.SetValue( operation.progress );
+			}
 
 			levelLoaded.Raise();
 		}
@@ -89,7 +99,7 @@ namespace FFStudio
 
 
 			var _operation = SceneManager.UnloadSceneAsync( CurrentLevelData.Instance.levelData.sceneIndex );
-			_operation.completed += ( AsyncOperation operation ) => LoadLevel();
+			_operation.completed += ( AsyncOperation operation ) => StartCoroutine( LoadLevel() );
 		}
 		#endregion
 	}
