@@ -9,7 +9,7 @@ namespace FFStudio
 {
 	public class AppManager : MonoBehaviour
 	{
-		#region Fields
+#region Fields
 		[Header( "Event Listeners" )]
 		public EventListenerDelegateResponse loadNewLevelListener;
 		public EventListenerDelegateResponse resetLevelListener;
@@ -21,9 +21,9 @@ namespace FFStudio
 		[Header( "Fired Events" )]
 		public SharedFloatProperty levelProgress;
 
-		#endregion
+#endregion
 
-		#region Unity API
+#region Unity API
 		private void OnEnable()
 		{
 			loadNewLevelListener.OnEnable();
@@ -45,9 +45,9 @@ namespace FFStudio
 		{
 			StartCoroutine( LoadLevel() );
 		}
-		#endregion
+#endregion
 
-		#region API
+#region API
 		public void ResetScene()
 		{
 			var operation = SceneManager.UnloadSceneAsync( CurrentLevelData.Instance.levelData.sceneIndex ); // Unload current scene
@@ -59,9 +59,9 @@ namespace FFStudio
 			SceneManager.LoadScene( CurrentLevelData.Instance.levelData.sceneIndex, LoadSceneMode.Additive );
 
 		}
-		#endregion
+#endregion
 
-		#region Implementation
+#region Implementation
 		private void ResetLevel()
 		{
 			ResetScene();
@@ -101,6 +101,6 @@ namespace FFStudio
 			var _operation = SceneManager.UnloadSceneAsync( CurrentLevelData.Instance.levelData.sceneIndex );
 			_operation.completed += ( AsyncOperation operation ) => StartCoroutine( LoadLevel() );
 		}
-		#endregion
+#endregion
 	}
 }

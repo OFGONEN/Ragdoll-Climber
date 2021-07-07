@@ -20,7 +20,8 @@ public class Player : Actor
 	public SharedFloatProperty stretchRatioProperty;
 	public SharedFloat cameraDepthRatio;
 	public SharedFloat camera_CurrentDepthRatio;
-    public SharedFloatProperty levelProgress;
+	public SharedBool playerOnAir;
+	public SharedFloatProperty levelProgress;
 
 	[ HorizontalLine ]
 	public CameraFollowZone cameraFollowZone;
@@ -187,6 +188,7 @@ public class Player : Actor
 	{
 		base.ReleaseHands();
 		screenPressListener.response = ScreenPressResponse_HandsFree;
+		playerOnAir.sharedValue      = true;
 	}
 
 	protected override void OnHandsAttached()
@@ -194,6 +196,7 @@ public class Player : Actor
 		base.OnHandsAttached();
 		particleSpawnEvent.Raise();
 
+		playerOnAir.sharedValue      = false;
 		cameraDepthRatio.sharedValue = 0;
 		stretchRatioProperty.SetValue( 0 );
 
@@ -212,7 +215,6 @@ public class Player : Actor
 			screenPressListener.response = ScreenPressResponse_HandsFirstAttached;
 			inputDirectionProperty.changeEvent += OnInputDirectionChange_WithoutFingerUp;
 		}
-
 	}
 #endregion
 }

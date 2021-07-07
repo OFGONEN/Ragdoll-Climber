@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputDirectionProperty: {fileID: 11400000, guid: 3b4c4b2e2003a2c49837d7b29822db71, type: 2}
   stretchRatioProperty: {fileID: 11400000, guid: 9b36a78d61a829c4a8a2d10b4fc22147, type: 2}
+  playerOnAir: {fileID: 11400000, guid: bb936a78efe1c6841a2b0780f982da86, type: 2}
   target: {fileID: 6539674482554079533}
   trajectoryImage: {fileID: 2478494004413378928}
 --- !u!1 &3201716252322173587
@@ -613,6 +614,7 @@ MonoBehaviour:
   stretchRatioProperty: {fileID: 11400000, guid: 9b36a78d61a829c4a8a2d10b4fc22147, type: 2}
   cameraDepthRatio: {fileID: 11400000, guid: dcaf6151666421b409bcab27aacbecfb, type: 2}
   camera_CurrentDepthRatio: {fileID: 11400000, guid: f13103c5bff7c1f42a62591b35978fdc, type: 2}
+  playerOnAir: {fileID: 11400000, guid: bb936a78efe1c6841a2b0780f982da86, type: 2}
   levelProgress: {fileID: 11400000, guid: 43438d720c16f2e4aa5a19d520e1e15f, type: 2}
   cameraFollowZone: {fileID: 7837712757694341021}
 --- !u!1 &9079745860433961508

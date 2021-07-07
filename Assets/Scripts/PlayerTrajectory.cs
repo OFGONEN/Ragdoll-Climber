@@ -13,6 +13,7 @@ public class PlayerTrajectory : MonoBehaviour
 	[ Header( "Shared Variables" ) ]
 	public SharedVector2Property inputDirectionProperty;
 	public SharedFloatProperty stretchRatioProperty;
+	public SharedBool playerOnAir;
 
 	[ HorizontalLine ]
 	public Transform target;
@@ -24,7 +25,7 @@ public class PlayerTrajectory : MonoBehaviour
 	private void Update()
 	{
 
-		if( stretchRatioProperty.sharedValue > 0.1f )
+		if( !playerOnAir.sharedValue & stretchRatioProperty.sharedValue > 0.1f )
 		{
 			trajectoryImage.enabled = true;
 			transform.eulerAngles = target.eulerAngles;
