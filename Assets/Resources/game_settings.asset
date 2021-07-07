@@ -24,7 +24,7 @@ MonoBehaviour:
   worldUI_Trajectory_Offset: -0.5
   worldUI_Trajectory_Depth: 0
   swipeThreshold: 0
-  actor_launchForce: 35000
+  actor_launchForce: 27500
   actor_deStretchDuration: 0.1
   actor_attachPoint_Z: 0.85
   actor_resetWaitDuration: {x: 0.75, y: 1.5}
@@ -33,7 +33,7 @@ MonoBehaviour:
   agent_stretchDutation: 0.25
   agent_armReach_Cofactor: 2
   agent_failChance: 0.1
-  agent_launchWaitDuration: {x: 0.25, y: 1}
+  agent_launchWaitDuration: {x: 0.1, y: 0.75}
   particle_spawnPosition_Z: -1
   level_fenceBottomOffset: 12.5
   camera_Depth_FollowDistance: {x: 20, y: 40}
