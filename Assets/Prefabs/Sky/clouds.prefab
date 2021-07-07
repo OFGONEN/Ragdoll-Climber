@@ -2962,7 +2962,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetReference: {fileID: 11400000, guid: feb396987f314e74a9276d39fbf1d19e, type: 2}
-  parallaxRatio: {x: 0, y: 0.1, z: 0}
+  parallaxRatio: {x: 0, y: 0.8, z: 0}
 --- !u!1 &1755850201191924
 GameObject:
   m_ObjectHideFlags: 0
