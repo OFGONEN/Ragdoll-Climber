@@ -27,6 +27,7 @@ namespace FFStudio
         [ Foldout( "Actor" ) ] public float actor_launchForce = 20000; // Actor's launch force 
         [ Foldout( "Actor" ) ] public float actor_deStretchDuration = 0.1f; // Destretch duration before launching
         [ Foldout( "Actor" ) ] public float actor_attachPoint_Z = 0.85f; // Hand attach point Z Value
+        [ Foldout( "Actor" ) ] public float actor_changeCollisionLayer_WaitDuration = 0.1f; // Wait duration for changing collision layer after launch
         [ Foldout( "Actor" ), MinMaxSlider( 0, 2 ) ] public Vector2 actor_resetWaitDuration; // Duration for an actor to reset itself to a waypoint
 
         // Agent
