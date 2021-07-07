@@ -99,6 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followZoneProperty: {fileID: 11400000, guid: 814da10ace227bb49b364d815fac1dba, type: 2}
   cameraDepthRatio: {fileID: 11400000, guid: dcaf6151666421b409bcab27aacbecfb, type: 2}
+  camera_CurrentDepthRatio: {fileID: 11400000, guid: f13103c5bff7c1f42a62591b35978fdc, type: 2}
 --- !u!114 &2932408346599366168
 MonoBehaviour:
   m_ObjectHideFlags: 0

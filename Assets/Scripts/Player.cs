@@ -19,6 +19,7 @@ public class Player : Actor
 	public SharedVector2Property inputDirectionProperty;
 	public SharedFloatProperty stretchRatioProperty;
 	public SharedFloat cameraDepthRatio;
+	public SharedFloat camera_CurrentDepthRatio;
     public SharedFloatProperty levelProgress;
 
 	[ HorizontalLine ]
@@ -27,6 +28,8 @@ public class Player : Actor
 
 	// Private Fields
 	private ScreenPressEvent screenPressEvent;
+
+	private bool freezeCameraRatio;
 #endregion
 
 #region Unity API
@@ -90,6 +93,12 @@ public class Player : Actor
 	{
 		inputDirectionProperty.changeEvent -= OnInputDirectionChange_WithoutFingerUp;
 
+		if( !Mathf.Approximately( camera_CurrentDepthRatio.sharedValue, 0 ) )
+		{
+			cameraDepthRatio.sharedValue = camera_CurrentDepthRatio.sharedValue;
+			freezeCameraRatio = true;
+		}
+
 		StraightenUpRagdoll();
 		SubscribeProperties();
 		screenPressListener.response = ScreenPressResponse_HandsAlreadyAttached;
@@ -98,7 +107,14 @@ public class Player : Actor
 	private void OnStretchRationChange()
 	{
 		Stretch( stretchRatioProperty.sharedValue );
-		cameraDepthRatio.sharedValue = stretchRatioProperty.sharedValue;
+		
+		if( freezeCameraRatio && stretchRatioProperty.sharedValue > cameraDepthRatio.sharedValue )
+		{
+			freezeCameraRatio = false;
+			cameraDepthRatio.sharedValue = stretchRatioProperty.sharedValue;
+		}
+		else 
+			cameraDepthRatio.sharedValue = stretchRatioProperty.sharedValue;
 	}
 
 	private void ScreenPressResponse_HandsFree()
@@ -116,6 +132,12 @@ public class Player : Actor
 			StraightenUpRagdoll();
 			SubscribeProperties();
 			screenPressListener.response = ScreenPressResponse_HandsAlreadyAttached;
+
+			if( !Mathf.Approximately( camera_CurrentDepthRatio.sharedValue, 0 ) )
+			{
+				cameraDepthRatio.sharedValue = camera_CurrentDepthRatio.sharedValue;
+				freezeCameraRatio = true;
+			}
 		}
 	}
 
@@ -137,6 +159,9 @@ public class Player : Actor
 		{
 			UnSubscribeProperties();
 			DefaultTheRagdoll();
+
+			freezeCameraRatio = false;
+			cameraDepthRatio.sharedValue = 0;
 		}
 	}
 

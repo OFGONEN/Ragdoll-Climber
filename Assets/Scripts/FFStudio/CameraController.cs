@@ -13,6 +13,7 @@ namespace FFStudio
 		[Header( "Shared Variables" )]
 		public SharedReferenceProperty followZoneProperty;
 		public SharedFloat cameraDepthRatio;
+		public SharedFloat camera_CurrentDepthRatio;
 
 		/* Private Fields */
 		private Transform followTarget_Transform;
@@ -58,6 +59,10 @@ namespace FFStudio
 				cameraDepthRatio.sharedValue /* Lerp Ratio */ );
 
 			var newDepthDistance = Mathf.Lerp( position.z, depthDistance, Time.fixedDeltaTime * GameSettings.Instance.camera_Depth_FollowSpeed );  // Target Z position
+
+			var diff = GameSettings.Instance.camera_Depth_FollowDistance.y - GameSettings.Instance.camera_Depth_FollowDistance.x;
+			var min = Mathf.Abs( newDepthDistance ) - GameSettings.Instance.camera_Depth_FollowDistance.x;
+			camera_CurrentDepthRatio.sharedValue = min / diff;
 
 			position.z = 0;
 			var newPosition   = Vector3.Lerp( position, followPosition, Time.fixedDeltaTime * GameSettings.Instance.camera_FollowSpeed );       // New position obtained by lerping
