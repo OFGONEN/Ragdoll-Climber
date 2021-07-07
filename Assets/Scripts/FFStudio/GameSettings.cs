@@ -41,6 +41,7 @@ namespace FFStudio
         [ Foldout( "Particle" ) ] public float particle_spawnPosition_Z = -1f; // Particle effect spawn position in Z axis
         [ Foldout( "Level" ) ] public float level_fenceBottomOffset = 7.5f; // Follow offset of bottom fence object for following the last ranking actor
 
+		[ Foldout( "Camera" ) ] public Vector2 camera_HorizontalClamp; // Camera horizontal clamp
 		[ Foldout( "Camera" ), MinMaxSlider( 10, 50 ) ] public Vector2 camera_Depth_FollowDistance; // Min and max distance for camera to follow player in depth( Z axis )
 		[ Foldout( "Camera" ) ] public float camera_FollowSpeed = 10f; // Distance for camera to follow target in X-Y axis
 		[ Foldout( "Camera" ) ] public float camera_Depth_FollowSpeed = 10f; // Distance for camera to follow target in Z axis

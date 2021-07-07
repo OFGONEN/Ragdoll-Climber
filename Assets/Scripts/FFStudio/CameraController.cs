@@ -67,8 +67,9 @@ namespace FFStudio
 			position.z = 0;
 			var newPosition   = Vector3.Lerp( position, followPosition, Time.fixedDeltaTime * GameSettings.Instance.camera_FollowSpeed );       // New position obtained by lerping
 			newPosition.z = newDepthDistance;
+
+			newPosition.x = Mathf.Clamp( newPosition.x, GameSettings.Instance.camera_HorizontalClamp.x, GameSettings.Instance.camera_HorizontalClamp.y );
 			transform.position = newPosition; // Set new position 
-			// transform.position = followPosition;
 		}
 
 		void OnTargetRigidbodyChange()
