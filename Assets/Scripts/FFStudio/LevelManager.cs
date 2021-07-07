@@ -130,7 +130,7 @@ namespace FFStudio
 
         void Actor_Finished_RaceResponse()
         {
-			var actor = (actor_Parcipated_RaceListener.gameEvent as ReferenceGameEvent).eventValue as Actor;
+			var actor = (actor_Finished_RaceListener.gameEvent as ReferenceGameEvent).eventValue as Actor;
 
 			raceParticipants.Remove( actor );
 			finishedParticipants.Add( actor );
