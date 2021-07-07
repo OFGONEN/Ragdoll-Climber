@@ -131,7 +131,7 @@ public class Player : Actor
 		{
 			UnSubscribeProperties();
 			ReadyToLaunch();
-			stretchRatioProperty.SetValue( 1 );
+			stretchRatioProperty.SetValue( 0 );
 		}
 		else 
 		{

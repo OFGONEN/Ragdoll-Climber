@@ -19,6 +19,8 @@ namespace FFStudio
 		[ Foldout( "UI Settings" ), Tooltip( "Duration of the scaling for ui element" ) ] public float ui_Entity_Scale_TweenDuration;
 		[ Foldout( "UI Settings" ), Tooltip( "Duration of the movement for floating ui element" ) ] public float ui_Entity_FloatingMove_TweenDuration;
         [ Foldout( "UI Settings" ), Tooltip( "Agent WorldUI name Offset from Ragdoll " ) ] public Vector3 worldUI_AgentName_Offset;
+        [ Foldout( "UI Settings" ), Tooltip( "Player Trajectory Offset from Ragdoll " ) ] public float worldUI_Trajectory_Offset;
+        [ Foldout( "UI Settings" ), Tooltip( "Player Trajectory Depth position" ) ] public float worldUI_Trajectory_Depth;
         [ Foldout( "UI Settings" ), Tooltip( "Percentage of the screen to register a swipe" ) ] public int swipeThreshold;
 
         // Actor

@@ -237,6 +237,11 @@ namespace FFStudio
 		{
 			return new Vector2( vector.x, vector.y );
 		}
+
+		public static Vector3 CastV3( this Vector2 vector )
+		{
+			return new Vector3( vector.x, vector.y );
+		}
 	}
 }
 
