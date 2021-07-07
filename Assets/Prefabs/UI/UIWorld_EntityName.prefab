@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Omer
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: dc5aeca0ef5ea8144867556a500e3d0a, type: 2}
+  m_sharedMaterial: {fileID: 6376544216581357010, guid: dc5aeca0ef5ea8144867556a500e3d0a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -231,3 +231,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCameraReference: {fileID: 11400000, guid: c95c49152764fb14a837b52e7cb04e1f, type: 2}
   entityName: {fileID: 9060229824899657700}
+  followTarget: {fileID: 0}
