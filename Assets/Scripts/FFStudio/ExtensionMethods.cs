@@ -75,6 +75,21 @@ namespace FFStudio
 			return first + Random.Range( 0, 1f ) * ( second - first );
 		}
 
+		public static void LookAtAxis( this Transform baseTransform, Vector3 targetPosition, Vector3 axis )
+		{
+			var direction = targetPosition - baseTransform.position;
+
+			var eulerAngles = baseTransform.eulerAngles;
+
+			var newRotationEuler = Quaternion.LookRotation( direction ).eulerAngles;
+
+			newRotationEuler.x = eulerAngles.x + ( newRotationEuler.x - eulerAngles.x ) * axis.x;
+			newRotationEuler.y = eulerAngles.y + ( newRotationEuler.y - eulerAngles.y ) * axis.y;
+			newRotationEuler.z = eulerAngles.z + ( newRotationEuler.z - eulerAngles.z ) * axis.z;
+
+			baseTransform.rotation = Quaternion.Euler( newRotationEuler );
+		}
+
 		public static void LookAtOverTime( this Transform baseTransform, Vector3 targetPosition, float speed )
 		{
 			var _directionVector = targetPosition - baseTransform.position;
@@ -189,8 +204,43 @@ namespace FFStudio
 		public static void SetTransformData( this Transform transform, TransformData data ) // Global values
 		{
 			transform.position    = data.position;
-			transform.eulerAngles = data.position;
+			transform.eulerAngles = data.rotation;
 			transform.localScale  = data.scale;
+		}
+
+
+		public static TransformData GetLocalTransformData( this Transform transform ) // Local values
+		{
+			TransformData data;
+
+			data.position = transform.localPosition;
+			data.rotation = transform.localEulerAngles;
+			data.scale    = transform.localScale;
+
+			return data;
+		}
+
+		public static void SetLocalTransformData( this Transform transform, TransformData data ) // Global values
+		{
+			transform.localPosition    = data.position;
+			transform.localEulerAngles = data.rotation;
+			transform.localScale  	   = data.scale;
+		}
+
+		public static void MakeKinematic( this Rigidbody rigidbody, bool isTrue )
+		{
+			rigidbody.isKinematic = isTrue;
+			rigidbody.useGravity  = !isTrue;
+		}
+
+		public static Vector2 CastV2( this Vector3 vector )
+		{
+			return new Vector2( vector.x, vector.y );
+		}
+
+		public static Vector3 CastV3( this Vector2 vector )
+		{
+			return new Vector3( vector.x, vector.y );
 		}
 	}
 }

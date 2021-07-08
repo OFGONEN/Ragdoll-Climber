@@ -9,7 +9,7 @@ namespace FFStudio
 {
 	public class AppManager : MonoBehaviour
 	{
-		#region Fields
+#region Fields
 		[Header( "Event Listeners" )]
 		public EventListenerDelegateResponse loadNewLevelListener;
 		public EventListenerDelegateResponse resetLevelListener;
@@ -18,9 +18,12 @@ namespace FFStudio
 		public GameEvent levelLoaded;
 		public GameEvent cleanUpEvent;
 
-		#endregion
+		[Header( "Fired Events" )]
+		public SharedFloatProperty levelProgress;
 
-		#region Unity API
+#endregion
+
+#region Unity API
 		private void OnEnable()
 		{
 			loadNewLevelListener.OnEnable();
@@ -40,11 +43,11 @@ namespace FFStudio
 
 		private void Start()
 		{
-			LoadLevel();
+			StartCoroutine( LoadLevel() );
 		}
-		#endregion
+#endregion
 
-		#region API
+#region API
 		public void ResetScene()
 		{
 			var operation = SceneManager.UnloadSceneAsync( CurrentLevelData.Instance.levelData.sceneIndex ); // Unload current scene
@@ -56,19 +59,16 @@ namespace FFStudio
 			SceneManager.LoadScene( CurrentLevelData.Instance.levelData.sceneIndex, LoadSceneMode.Additive );
 
 		}
-		#endregion
+#endregion
 
-		#region Implementation
-		/// <summary>
-		/// Same as ResetScene method but raises level loaded event
-		/// </summary>
-		public void ResetLevel()
+#region Implementation
+		private void ResetLevel()
 		{
 			ResetScene();
 
 			levelLoaded.Raise();
 		}
-		private void LoadLevel()
+		private IEnumerator LoadLevel()
 		{
 			CurrentLevelData.Instance.currentLevel = PlayerPrefs.GetInt( "Level", 1 );
 			CurrentLevelData.Instance.currentConsecutiveLevel = PlayerPrefs.GetInt( "Consecutive Level", 1 );
@@ -76,7 +76,17 @@ namespace FFStudio
 			CurrentLevelData.Instance.LoadCurrentLevelData();
 
 			cleanUpEvent.Raise();
-			SceneManager.LoadScene( CurrentLevelData.Instance.levelData.sceneIndex, LoadSceneMode.Additive );
+			// SceneManager.LoadScene( CurrentLevelData.Instance.levelData.sceneIndex, LoadSceneMode.Additive );
+			var operation = SceneManager.LoadSceneAsync( CurrentLevelData.Instance.levelData.sceneIndex, LoadSceneMode.Additive );
+
+			levelProgress.SetValue( 0 );
+
+			while( !operation.isDone )
+			{
+				yield return null;
+
+				levelProgress.SetValue( operation.progress );
+			}
 
 			levelLoaded.Raise();
 		}
@@ -89,8 +99,8 @@ namespace FFStudio
 
 
 			var _operation = SceneManager.UnloadSceneAsync( CurrentLevelData.Instance.levelData.sceneIndex );
-			_operation.completed += ( AsyncOperation operation ) => LoadLevel();
+			_operation.completed += ( AsyncOperation operation ) => StartCoroutine( LoadLevel() );
 		}
-		#endregion
+#endregion
 	}
 }

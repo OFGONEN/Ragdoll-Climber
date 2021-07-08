@@ -20,17 +20,17 @@ public class UILoadingBar : UIEntity
 	#endregion
 
 	#region Unity API
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
 		progressProperty.changeEvent += OnValueChange;
 	}
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
 		progressProperty.changeEvent -= OnValueChange;
     }
 
-	private void Awake()
+	protected virtual void Awake()
 	{
 		OnValueChange(); // Set filling amount to value at the start 
 	}

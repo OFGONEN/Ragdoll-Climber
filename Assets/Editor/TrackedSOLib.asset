@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 597fc86d3274eb84fb71b4245f065c18, type: 3}
   m_Name: TrackedSOLib
   m_EditorClassIdentifier: 
-  trackedSO: []
-  trackedSOCount: 0
+  trackedSO:
+  - {fileID: 11400000, guid: 9b36a78d61a829c4a8a2d10b4fc22147, type: 2}
+  trackedSOCount: 1

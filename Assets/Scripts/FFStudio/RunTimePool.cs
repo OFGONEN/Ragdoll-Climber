@@ -25,6 +25,8 @@ namespace FFStudio
 				var entity = GameObject.Instantiate( poolEntity );
 				entity.transform.SetParent( parent );
 				entity.gameObject.SetActive( active );
+
+				stack.Push( entity );
 			}
 		}
 

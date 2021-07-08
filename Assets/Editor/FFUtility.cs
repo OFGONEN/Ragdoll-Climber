@@ -8,6 +8,8 @@ using System.IO;
 using UnityEditor.Build;
 using UnityEngine.SceneManagement;
 using UnityEditor.Build.Reporting;
+using System.Linq;
+using UnityEditor.SceneManagement;
 
 namespace FFEditor
 {
@@ -59,6 +61,21 @@ namespace FFEditor
 			{
 				var levelData = Resources.Load<LevelData>( "LevelData_" + i );
 				levelData.sceneIndex = i + 1;
+				EditorUtility.SetDirty( levelData );
+			}
+
+			AssetDatabase.SaveAssets();
+		}
+
+		[MenuItem( "FFStudios/Set LevelDatas" )]
+		public static void SetLevelDatas()
+		{
+			var maxLevelCount = GameSettings.Instance.maxLevelCount;
+
+			for( var i = 1; i <= maxLevelCount; i++ )
+			{
+				var levelData = Resources.Load<LevelData>( "LevelData_" + i );
+				levelData.sceneIndex = i;
 				EditorUtility.SetDirty( levelData );
 			}
 
@@ -336,9 +353,70 @@ namespace FFEditor
 
 			EditorUtility.SetDirty( gameSettings );
 			AssetDatabase.SaveAssets();
-
-            Debug.Log( "Game Settings max level count: " + gameSettings.maxLevelCount );
 		}
+
+        [MenuItem("FFGame/ Set Platform Indexes")]
+        public static void SetPlatformIndexes()
+        {
+			var platformObjects = Selection.gameObjects;
+			platformObjects = platformObjects.OrderBy( item => item.transform.position.y ).ToArray();
+
+			EditorSceneManager.MarkAllScenesDirty();
+
+			float verticalAdd = 0;
+
+			for( var i = 0; i < platformObjects.Length; i++ )
+            {
+				var platform = platformObjects[ i ].GetComponent< PlatformBase >();
+				platform.platformIndex = i;
+
+                var bounds = platform.GetComponent< MeshRenderer >().bounds;
+
+				var position = platform.transform.position;
+                
+                if( platform is CircularPlatform   )
+					verticalAdd += 12.5f / 2;
+                else if( platform.tag == "Tall" )
+					verticalAdd += 12.5f / 4;
+
+				position.x = 0;
+				position.y = i * 12.5f + verticalAdd;
+
+                if( platform is CircularPlatform )
+					position.z = 1.1f;
+                else 
+				    position.z = GameSettings.Instance.actor_attachPoint_Z + bounds.size.z ;
+                
+				platform.transform.position = position;
+
+                if( platform is CircularPlatform )
+					verticalAdd += 12.5f / 2;
+                else if( platform.tag == "Tall" )
+					verticalAdd += 12.5f / 4;
+
+			}
+
+			// var saved = EditorSceneManager.SaveOpenScenes();
+            // FFLogger.Log( "Set Platform Indexes saved correctly: " + saved );
+		}
+
+        [MenuItem("FFGame/ Set Platform Parent")]
+        public static void SetPlatformParents()
+        {
+			var platformObjects = Selection.gameObjects;
+
+			EditorSceneManager.MarkAllScenesDirty();
+
+			for( var i = 0; i < platformObjects.Length; i++ )
+            {
+				var parent   = platformObjects[ i ].transform;
+				var platform = parent.GetChild( 0 );
+
+				var position               = platform.position;
+				    platform.localPosition = Vector3.zero;
+				    parent.position        = position;
+			}
+        }
     }
 }
 

@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - DebugOnly
+  - Tall
   layers:
   - Default
   - TransparentFX
@@ -31,13 +32,13 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - NoCollision
+  - Obstacle
+  - Actor
+  - Actor_3
+  - Actor_2
+  - Actor_1
+  - Actor_0
   m_SortingLayers:
   - name: Default
     uniqueID: 0

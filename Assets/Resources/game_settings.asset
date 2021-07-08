@@ -12,9 +12,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a385bd3b4416492409284c9a366cb52a, type: 3}
   m_Name: game_settings
   m_EditorClassIdentifier: 
-  maxLevelCount: 1
-  ui_Entity_Move_TweenDuration: 0.5
-  ui_Entity_Fade_TweenDuration: 0.5
-  ui_Entity_Scale_TweenDuration: 0.5
-  ui_Entity_FloatingMove_TweenDuration: 0.5
-  swipeThreshold: 2
+  maxLevelCount: 5
+  input_threshold_DeadZone: 1
+  input_threshold_Rotation: 5
+  input_threshold_Stretch: 10
+  ui_Entity_Move_TweenDuration: 0.75
+  ui_Entity_Fade_TweenDuration: 0.75
+  ui_Entity_Scale_TweenDuration: 0.75
+  ui_Entity_FloatingMove_TweenDuration: 0.75
+  worldUI_AgentName_Offset: {x: 0, y: 1.5, z: -1}
+  worldUI_Trajectory_Offset: 0
+  worldUI_Trajectory_Depth: 0
+  swipeThreshold: 0
+  actor_launchForce: 27500
+  actor_deStretchDuration: 0.1
+  actor_attachPoint_Z: 0.85
+  actor_changeCollisionLayer_WaitDuration: 0.5
+  actor_resetWaitDuration: {x: 0.75, y: 1.5}
+  agent_launchForce: 35000
+  agent_rotationSpeed: 150
+  agent_stretchDutation: 0.25
+  agent_armReach_Cofactor: 2
+  agent_failChance: 0.1
+  agent_launchWaitDuration: {x: 0.1, y: 0.75}
+  particle_spawnPosition_Z: -1
+  level_fenceBottomOffset: 12.5
+  camera_HorizontalClamp: {x: -3, y: 3}
+  camera_Depth_FollowDistance: {x: 20, y: 40}
+  camera_FollowSpeed: 6
+  camera_Depth_FollowSpeed: 2
+  camera_FollowZoneRadius: 2.5
+  randomPointInside_MarginPercentage: 15
+  randomPointOutside_MaxOffsetPercentage: 45
+  randomPointInside_betweenRadii: {x: 10, y: 90}
+  randomPointOutside_betweenRadii: {x: 100, y: 150}
+  resetSlotOffsetRange: {x: 30, y: 45}

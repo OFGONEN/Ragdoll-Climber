@@ -10,177 +10,87 @@ namespace FFStudio
     public class CameraController : MonoBehaviour
     {
 #region Fields
-        [ Header( "Event Listeners" ) ]
-        public EventListenerDelegateResponse levelStartEventListener;
+		[Header( "Shared Variables" )]
+		public SharedReferenceProperty followZoneProperty;
+		public SharedFloat cameraDepthRatio;
+		public SharedFloat camera_CurrentDepthRatio;
 
-        [ Header( "Zoom Correction By Aspect Ratio" ) ]
-        public CameraZoomCalculator zoomCalculator;
-
-        [ Header( "Transition" ) ]
-        public Transform outsideTransform;
-        public Transform inCabinTransform_MinimumResolution;
-        public Transform inCabinTransform_MaximumResolution;
-
-        [ InfoBox( "You might want to move this duration field into GameSettings.cs" ) ]
-        public float duration = 1.0f;
-
-        public enum Status
-        {
-            Outside, Inside, Free
-        }
-        [ ReadOnly ] public Status status;
-
-		private bool InPlayMode => Application.isPlaying;
-		private bool Inside  => status == Status.Inside;
-		private bool Outside => status == Status.Outside;
+		/* Private Fields */
+		private Transform followTarget_Transform;
+		private UnityMessage update;
 #endregion
 
 #region Unity API
 		private void Awake()
-        {
-            levelStartEventListener.response = OnLevelStart;
-        }
-
-        private void OnEnable()
-        {
-            levelStartEventListener.OnEnable();
-        }
-
-        private void OnDisable()
-        {
-            levelStartEventListener.OnDisable();
-        }
-
-        private void Start()
-        {
-            ShowOutsideView();
-        }
-
-        private void Reset()
-        {
-            if( outsideTransform == null )
-                ( outsideTransform = new GameObject().transform ).name = "Camera-Outside-Position";
-            if( inCabinTransform_MinimumResolution == null )
-                ( inCabinTransform_MinimumResolution = new GameObject().transform ).name =  
-                                                            "Camera-In-Cabin-Position-Min-Resolution";
-            if( inCabinTransform_MaximumResolution == null )
-				( inCabinTransform_MaximumResolution = new GameObject().transform ).name =
-															"Camera-In-Cabin-Position-Max-Resolution";
-
-            if( zoomCalculator == null )
-                zoomCalculator = gameObject.AddComponent< CameraZoomCalculator >();
+		{
+			update = ExtensionMethods.EmptyMethod;
 		}
-#if UNITY_EDITOR
-        private void OnDrawGizmosSelected()
-        {
-            Camera mainCamera = Camera.main;
-            FFGizmos.DrawCamera( outsideTransform, Color.red,   mainCamera );
-            FFGizmos.DrawCamera( inCabinTransform_MaximumResolution, Color.green, mainCamera );
-        }
-#endif
+
+		private void OnEnable()
+		{
+			followZoneProperty.changeEvent += OnTargetRigidbodyChange;
+		}
+
+		private void OnDisable()
+		{
+			followZoneProperty.changeEvent -= OnTargetRigidbodyChange;
+		}
+
+		private void FixedUpdate()
+		{
+			update();
+		}
+
+
 #endregion
 
+#region API
+#endregion
 #region Implementation
-        private void OnLevelStart()
-        {
-            if( status != Status.Inside )
-                TransitionIntoCabin();
-        }
 
-        [ Button( "Transition (Tween)" ) ]
-        [ ShowIf( EConditionOperator.And, "InPlayMode", "Outside" ) ]
-        private void TransitionIntoCabin()
-        {
-            var inCabinPosition = zoomCalculator.Calculate( inCabinTransform_MinimumResolution.position,
-                                                            inCabinTransform_MaximumResolution.position );
-            transform.DOMove( inCabinPosition, duration );
-            transform.DORotate( inCabinTransform_MaximumResolution.rotation.eulerAngles, duration )
-                     .OnComplete( () => status = Status.Inside );
-        }
+		private void CameraFollowPlayer()
+		{
+			var position       = transform.position; // Current Position
+			var followPosition = followTarget_Transform.position; // Target Position
 
-        [ Button( "Reverse Transition (Tween)" ) ]
-        [ ShowIf( EConditionOperator.And, "InPlayMode", "Inside" ) ]
-        private void TransitionBackIntoOutside()
-        {
-            transform.DOMove( outsideTransform.position, duration );
-            transform.DORotate( outsideTransform.rotation.eulerAngles, duration )
-                     .OnComplete( () => status = Status.Outside );
-        }
+			// Lerp depth distance using player's stretch raito
+			var depthDistance = -Mathf.Lerp( GameSettings.Instance.camera_Depth_FollowDistance.x, // Min Value
+				GameSettings.Instance.camera_Depth_FollowDistance.y, // Max Value
+				cameraDepthRatio.sharedValue /* Lerp Ratio */ );
+
+			var newDepthDistance = Mathf.Lerp( position.z, depthDistance, Time.fixedDeltaTime * GameSettings.Instance.camera_Depth_FollowSpeed );  // Target Z position
+
+			var diff = GameSettings.Instance.camera_Depth_FollowDistance.y - GameSettings.Instance.camera_Depth_FollowDistance.x;
+			var min = Mathf.Abs( newDepthDistance ) - GameSettings.Instance.camera_Depth_FollowDistance.x;
+			camera_CurrentDepthRatio.sharedValue = min / diff;
+
+			position.z = 0;
+			var newPosition   = Vector3.Lerp( position, followPosition, Time.fixedDeltaTime * GameSettings.Instance.camera_FollowSpeed );       // New position obtained by lerping
+			newPosition.z = newDepthDistance;
+
+			newPosition.x = Mathf.Clamp( newPosition.x, GameSettings.Instance.camera_HorizontalClamp.x, GameSettings.Instance.camera_HorizontalClamp.y );
+			transform.position = newPosition; // Set new position 
+		}
+
+		void OnTargetRigidbodyChange()
+		{
+			if( followZoneProperty.sharedValue == null )
+			{
+				update = ExtensionMethods.EmptyMethod;
+				followTarget_Transform = null;
+			}
+			else
+			{
+				update = CameraFollowPlayer;
+				followTarget_Transform = followZoneProperty.sharedValue as Transform;
+			}
+		}
+
+#endregion
+
+#region EditorOnly
 #if UNITY_EDITOR
-        [ Button() ]
-        private void ResetCameraTransform()
-        {
-            transform.position = Vector3.zero;
-            transform.rotation = Quaternion.identity;
-            status = Status.Free;
-        }
 
-        [ Button( "Show Cabin View (Min Resolution)" ) ]
-        private void ShowCabinView_MinimumResolution()
-        {
-            transform.position = inCabinTransform_MinimumResolution.position;
-            transform.rotation = inCabinTransform_MinimumResolution.rotation;
-            status = Status.Inside;
-        }
-
-        [ Button( "Show Cabin View ( Max Resolution)" ) ]
-        private void ShowCabinView_MaximumResolution()
-        {
-            transform.position = inCabinTransform_MaximumResolution.position;
-            transform.rotation = inCabinTransform_MaximumResolution.rotation;
-            status = Status.Inside;
-        }
-
-        [ Button() ]
-#endif
-        private void ShowOutsideView()
-        {
-            transform.position = outsideTransform.position;
-            transform.rotation = outsideTransform.rotation;
-            status = Status.Outside;
-        }
-#if UNITY_EDITOR
-        [ Button( "A S S I G N   Current View To In-Cabin Transform (Min Resolution)" ) ]
-        private void AssignThisViewToInCabinTransform_MinimumResolution()
-        {
-			if( EditorUtility.DisplayDialog( /* Title: */ "Assigning Current View to a Transform",
-                                             "Assigning current view into in-cabin transform (MINIMUM resolution).\nAre you sure?",
-				    		                 "Yes", "Cancel" ) == false )
-				return;
-
-			Camera sceneViewCam = SceneView.lastActiveSceneView.camera;
-
-			inCabinTransform_MinimumResolution.position = sceneViewCam.transform.position;
-            inCabinTransform_MinimumResolution.rotation = sceneViewCam.transform.rotation;
-        }
-
-        [ Button( "A S S I G N   Current View To In-Cabin Transform (Max Resolution)" ) ]
-        private void AssignThisViewToInCabinTransform_MaximumResolution()
-        {
-            if( EditorUtility.DisplayDialog( /* Title: */ "Assigning Current View to a Transform",
-                                             "Assigning current view into in-cabin transform (MAXIMUM resolution).\nAre you sure?",
-											 "Yes", "Cancel!" ) == false )
-				return;
-
-			Camera sceneViewCam = SceneView.lastActiveSceneView.camera;
-
-            inCabinTransform_MaximumResolution.position = transform.position;
-            inCabinTransform_MaximumResolution.rotation = transform.rotation;
-        }
-
-        [ Button( "A S S I G N   Current View To Outside Transform" ) ]
-        private void AssignThisViewToOutsideTransform()
-        {
-			if( EditorUtility.DisplayDialog( /* Title: */ "Assigning Current View to a Transform",
-                                             "Assigning current view into outside transform.\nAre you sure?",
-											 "Yes", "Cancel!" ) == false )
-				return;
-
-			Camera sceneViewCam = SceneView.lastActiveSceneView.camera;
-
-			outsideTransform.position = transform.position;
-            outsideTransform.rotation = transform.rotation;
-        }
 #endif
 #endregion
 	}
