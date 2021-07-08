@@ -135,6 +135,9 @@ public class Agent : Actor
 
 	protected override void LevelStartResponse()
 	{
+		actor_Participate_Race.eventValue = this;
+		actor_Participate_Race.Raise();
+
 		StartLaunchSequence();
 	}
 
