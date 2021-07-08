@@ -121,8 +121,6 @@ public abstract class Actor : MonoBehaviour
 		platformSet.itemDictionary.TryGetValue( currentWayPoint, out currentPlatform );
 		ResetActorToWayPoint();
 
-		actor_Participate_Race.eventValue = this;
-		actor_Participate_Race.Raise();
 	}
 
 	private void Update()

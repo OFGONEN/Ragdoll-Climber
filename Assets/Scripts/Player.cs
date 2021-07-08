@@ -180,6 +180,9 @@ public class Player : Actor
 
 	protected override void LevelStartResponse()
 	{
+		actor_Participate_Race.eventValue = this;
+		actor_Participate_Race.Raise();
+
 		screenPressEvent = screenPressListener.gameEvent as ScreenPressEvent;
 		screenPressListener.OnEnable();
 	}
