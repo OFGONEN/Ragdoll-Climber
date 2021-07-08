@@ -443,8 +443,8 @@ public abstract class Actor : MonoBehaviour
 
 		// Returns the actor back to collision layer for it to collide with other actors in the air etc.
 		ChangeActorCollisionLayer( collisionLayer );
-		ChangeActorCollisionLayer( leg_rigidbodies, no_collisionLayer );
-		DOVirtual.DelayedCall( GameSettings.Instance.actor_changeCollisionLayer_WaitDuration, () => ChangeActorCollisionLayer( leg_rigidbodies, collisionLayer ) );
+		// ChangeActorCollisionLayer( leg_rigidbodies, no_collisionLayer );
+		// DOVirtual.DelayedCall( GameSettings.Instance.actor_changeCollisionLayer_WaitDuration, () => ChangeActorCollisionLayer( leg_rigidbodies, collisionLayer ) );
 	}
 
 	// Returns the ragdoll limbs to its T-Pose position and rotation
